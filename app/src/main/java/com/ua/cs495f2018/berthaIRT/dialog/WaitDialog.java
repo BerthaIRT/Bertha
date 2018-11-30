@@ -16,6 +16,7 @@ public class WaitDialog extends AlertDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         setContentView(R.layout.dialog_wait);
+        setCanceledOnTouchOutside(false);
     }
 
     public WaitDialog setMessage(String message){

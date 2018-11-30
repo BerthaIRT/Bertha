@@ -13,7 +13,6 @@ import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ public class Client extends AppCompatActivity {
     //Class for secure and insecure network functions, AWS Cognito functionality
     public static BerthaNet net;
     public static CognitoNet cogNet;
-    public static FirebaseNet fireNet;
 
     //Encrypter/Decrypters for secure HTTP
     //Valid for this session only and expires on application exit
@@ -66,10 +64,6 @@ public class Client extends AppCompatActivity {
         reportMap = new HashMap<>();
         net = new BerthaNet(this);
 
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( Client.this, instanceIdResult -> {
-            String token = instanceIdResult.getToken();
-            System.out.println(token);
-        });
         displayWidth = getResources().getDisplayMetrics().widthPixels;
         displayHeight = getResources().getDisplayMetrics().heightPixels;
         dpiDensity = getResources().getDisplayMetrics().densityDpi;
@@ -99,7 +93,6 @@ public class Client extends AppCompatActivity {
         if(cogNet == null) cogNet = new CognitoNet(ctx);
 
        WaitDialog dialog = new WaitDialog(ctx);
-       dialog.setCanceledOnTouchOutside(false);
        dialog.show();
        dialog.setMessage("Signing in...");
 
@@ -125,11 +118,11 @@ public class Client extends AppCompatActivity {
                         userAttributes = (Map<String, String>) a;
                         cogNet.updateCognitoAttribute("custom:rsaPublicKey", Util.asHex(keys.getPublic().getEncoded()), ()->{
                             //now RSA is all set so we can send our firebase token and grab an AES key
-                            net.recieveAESKey(ctx, (c)->{
+                            net.exchangeKeys(ctx, (c)->{
                                 aesEncrypter = ((Cipher[])c)[0];
                                 aesDecrypter = ((Cipher[])c)[1];
                                 dialog.setMessage("Pulling data...");
-                                net.lookupGroup(ctx, userAttributes.get("custom:groupID"), ()->{
+                                net.lookupGroup(ctx, userAttributes.get("custom:groupID"), ()->
                                     net.pullAll(ctx, ()->{
                                         if(isAdmin) net.pullAlerts(ctx, ()->{
                                             dialog.dismiss();
@@ -139,13 +132,13 @@ public class Client extends AppCompatActivity {
                                             dialog.dismiss();
                                             loginResult.onEvent("SECURE");
                                         }
-                                    });
-                                });
+                                    })
+                                );
                             });
                         });
                     });
 
-                }catch (Exception e){e.printStackTrace();}
+                    }catch (Exception e){e.printStackTrace();}
             }
         });
    }

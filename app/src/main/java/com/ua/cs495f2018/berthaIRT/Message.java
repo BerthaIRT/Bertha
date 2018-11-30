@@ -3,7 +3,6 @@ package com.ua.cs495f2018.berthaIRT;
 
 //Message class used for messaging, alerts and logs.
 public class Message {
-
     private Integer messageID; //to keep track of who has read it
     private Long messageTimestamp;
     private Integer reportID; //used only for Alerts to link to relevant report

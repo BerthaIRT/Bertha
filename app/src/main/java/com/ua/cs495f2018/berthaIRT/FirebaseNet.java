@@ -51,7 +51,7 @@ public class FirebaseNet extends FirebaseMessagingService {
         }
 
         //display that notification
-        sendNotification(title, body, action, extra0, extra1);
+        doNotification(title, body, action, extra0, extra1);
 
     }
 
@@ -65,7 +65,7 @@ public class FirebaseNet extends FirebaseMessagingService {
         // TODO: Implement this method to send token to your app server.
     }
 
-    private void sendNotification(String messageTitle, String messageBody, String action, String extra0, String extra1) {
+    private void doNotification(String messageTitle, String messageBody, String action, String extra0, String extra1) {
         //force the user to login by default
         Intent intent = new Intent(this, AdminLoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

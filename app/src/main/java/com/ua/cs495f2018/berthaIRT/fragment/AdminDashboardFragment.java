@@ -1,6 +1,8 @@
 package com.ua.cs495f2018.berthaIRT.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -9,19 +11,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.ua.cs495f2018.berthaIRT.AdminLoginActivity;
+import com.ua.cs495f2018.berthaIRT.BerthaNet;
 import com.ua.cs495f2018.berthaIRT.Client;
 import com.ua.cs495f2018.berthaIRT.Interface;
 import com.ua.cs495f2018.berthaIRT.MetricsActivity;
 import com.ua.cs495f2018.berthaIRT.R;
+import com.ua.cs495f2018.berthaIRT.Util;
 import com.ua.cs495f2018.berthaIRT.adapter.AddRemoveAdapter;
 import com.ua.cs495f2018.berthaIRT.dialog.AddRemoveDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.InputDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.YesNoDialog;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -45,7 +52,11 @@ public class AdminDashboardFragment extends Fragment {
 //        view.findViewById(R.id.dashboard_button_editinstitutionname).setOnClickListener(v1 ->
 //                Util.showInputDialog(getContext(),"Your Institution Name", null, Client.currentUserGroupID,"Update", x-> actionUpdateAttribute("institution", x)) );
 
-//        view.findViewById(R.id.dashboard_button_editemblem).setOnClickListener(v1 -> actionEditEmblem());
+        view.findViewById(R.id.dashboard_button_editemblem).setOnClickListener(v1 ->{
+            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+            i.setType("image/*");
+            getActivity().startActivityForResult(Intent.createChooser(i, "Select File"), 1);
+        });
 //
         //sets the text for registration
         if(Client.userGroupStatus.equals("Closed"))
@@ -84,6 +95,8 @@ public class AdminDashboardFragment extends Fragment {
         ((TextView) view.findViewById(R.id.dashboard_alt_name)).setText(Client.userAttributes.get("name"));
         ((TextView) view.findViewById(R.id.dashboard_alt_institution)).setText(Client.userGroupName);
         ((TextView) view.findViewById(R.id.dashboard_alt_accesscode)).setText(Client.userAttributes.get("custom:groupID"));
+        ImageView emblem = view.findViewById(R.id.dashboard_img_emblem);
+        Picasso.get().load(BerthaNet.ip + "/emblem/" + Client.userAttributes.get("custom:groupID") + ".png").placeholder(R.drawable.emblem_default).into(emblem);
         return view;
     }
 

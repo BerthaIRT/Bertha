@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                app:srcCompat="@drawable/bama" />
+                app:srcCompat="@drawable/emblem_default" />
 
             <Space
                 android:layout_width="match_parent"

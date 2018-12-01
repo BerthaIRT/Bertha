@@ -1,7 +1,12 @@
 package com.ua.cs495f2018.berthaIRT;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.View;
 
@@ -176,7 +181,6 @@ public class Util {
     public static float convertPixelsToDp(float px, Context context){
         return px / ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
-
 
 
 //    public static void makeDummieReports(Context ctx, int num){

@@ -1,9 +1,13 @@
 package com.ua.cs495f2018.berthaIRT;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,14 +16,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ua.cs495f2018.berthaIRT.dialog.YesNoDialog;
 import com.ua.cs495f2018.berthaIRT.fragment.AdminDashboardFragment;
 import com.ua.cs495f2018.berthaIRT.fragment.AdminReportCardsFragment;
 import com.ua.cs495f2018.berthaIRT.fragment.AlertCardsFragment;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class AdminMainActivity extends AppCompatActivity {
     FragmentManager fragDaddy = getSupportFragmentManager();
@@ -27,6 +32,50 @@ public class AdminMainActivity extends AppCompatActivity {
     ImageView imgAlerts, imgReports, imgDashboard;
     TextView tvAlerts, tvReports, tvDashboard;
     View nav;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+//                Uri selectedImage = data.getData();
+//                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+//
+//                Cursor cursor = getContentResolver().query(selectedImage,
+//                        filePathColumn, null, null, null);
+//                cursor.moveToFirst();
+//
+//                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//                String picturePath = cursor.getString(columnIndex);
+//                cursor.close();
+
+                try {
+                    Bitmap b = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+
+                    float ratio = b.getHeight() / b.getWidth();
+                    if(ratio > 1.2 || ratio < 0.8) {
+                        YesNoDialog warning = new YesNoDialog(this, "Emblem Dimensions", "The image you have uploaded will be distorted to fit a square frame.  For best results, choose square images.", new Interface.YesNoHandler() {
+                            @Override
+                            public void onYesClicked() {
+                                Client.net.uploadBitmap(AdminMainActivity.this, b, findViewById(R.id.dashboard_img_emblem));
+                            }
+
+                            @Override
+                            public void onNoClicked() {
+                                return;
+                            }
+                        });
+                        ((TextView) warning.findViewById(R.id.generaldialog_button_yes)).setText("IGNORE");
+                        ((TextView) warning.findViewById(R.id.generaldialog_button_no)).setText("CANCEL");
+                    }
+                    else Client.net.uploadBitmap(AdminMainActivity.this, b, findViewById(R.id.dashboard_img_emblem));
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

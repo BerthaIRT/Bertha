@@ -57,7 +57,8 @@ public class CognitoNet {//Performs AWS Cognito login.
     }
 
     //Occurs on both admin and student sign-in.
-    void performCognitoLogin(Context ctx, String username, String password, boolean isAdmin, Interface.WithStringListener callback) {
+    void performCognitoLogin(Context ctx, String username, String password, Interface.WithStringListener callback) {
+        final boolean isAdmin = (ctx instanceof AdminLoginActivity);
         //Flow for Cognito sign-in
         AuthenticationHandler handler = new AuthenticationHandler() {
             @Override
@@ -107,7 +108,7 @@ public class CognitoNet {//Performs AWS Cognito login.
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
                     builder.setView(v);
-                    builder.create();
+                    builder.show();
 
                     //After Update Details dialog is closed, update attributes and continue Cognito login
                     v.findViewById(R.id.completesignup_button_confirm).setOnClickListener(x -> {

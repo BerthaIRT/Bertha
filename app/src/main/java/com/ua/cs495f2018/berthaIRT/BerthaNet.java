@@ -1,7 +1,9 @@
 package com.ua.cs495f2018.berthaIRT;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -17,6 +19,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +36,7 @@ import static com.ua.cs495f2018.berthaIRT.CognitoNet.session;
 
 public class BerthaNet {
     //private static String ip = "http://54.236.113.200";
-    private static String ip = "http://10.0.0.174:6969";
+    public static String ip = "http://10.0.0.174:6969";
     //Utilities for converting objects to server-friendly JSONs
     JsonParser jp;
     private Gson gson;
@@ -54,7 +57,7 @@ public class BerthaNet {
     private void netSend(Context ctx, String path, final String body, final Interface.WithStringListener callback) {
         StringRequest req = new StringRequest(Request.Method.PUT, ip.concat(path), callback::onEvent, error -> {
             Toast.makeText(ctx, error.getMessage(), Toast.LENGTH_LONG).show();
-            System.out.println(error.getMessage());
+            error.printStackTrace();
         }) {
             @Override
             public byte[] getBody(){
@@ -245,11 +248,26 @@ public class BerthaNet {
     }
 
     void joinGroup(Context ctx, String groupID, Interface.WithVoidListener callback) {
-        netSend(ctx, "/group/join", groupID, (r) ->
+        netSend(ctx, "/group/join/student", groupID, (r) ->
                 Client.performLogin(ctx, r, "BeRThAfirsttimestudent", x -> {
                     //Login successful and details stored - launch main activity
                     if (x.equals("SECURE"))
                         callback.onEvent();
                 }));
+    }
+
+    public Bitmap uploadBitmap(Context ctx, Bitmap bitmap, ImageView display){
+        Bitmap b = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        String hexImg = Util.asHex(bytes.toByteArray());
+
+        secureSend(ctx, "/group/emblem", hexImg, (r) ->{
+            Toast.makeText(ctx, "Emblem upload successful.", Toast.LENGTH_SHORT).show();
+        });
+
+        if(display != null) display.setImageBitmap(b);
+        return b;
     }
 }

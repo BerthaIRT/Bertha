@@ -20,7 +20,8 @@ public class WaitDialog extends AlertDialog {
     }
 
     public WaitDialog setMessage(String message){
-        ((TextView) findViewById(R.id.waitdialog_alt_text)).setText(message);
+        TextView tv = findViewById(R.id.waitdialog_alt_text);
+        if(tv != null) tv.setText(message);
         return this;
     }
 }

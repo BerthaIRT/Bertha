@@ -93,11 +93,11 @@ public class Client extends AppCompatActivity {
         if(cogNet == null) cogNet = new CognitoNet(ctx);
 
        WaitDialog dialog = new WaitDialog(ctx);
-       dialog.show();
+       //dialog.show();
        dialog.setMessage("Signing in...");
 
         //log in with cognito
-        cogNet.performCognitoLogin(ctx, username, password, isAdmin, (r)->{
+        cogNet.performCognitoLogin(ctx, username, password, (r)->{
             if(r.equals("INVALID_CREDENTIALS")){
                 dialog.dismiss();
                 loginResult.onEvent(r);

@@ -11,6 +11,21 @@
         android:layout_height="wrap_content"
         android:background="@drawable/gradient_card">
 
+        <ImageView
+            android:id="@+id/generaldialog_img_emblem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/emblem_default" />
+
         <TextView
             android:id="@+id/generaldialog_alt_title"
             style="@style/_HeaderText"
@@ -25,7 +40,7 @@
             android:text="Dialog Title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/generaldialog_img_emblem" />
 
         <TextView
             android:id="@+id/generaldialog_alt_text"
@@ -44,7 +59,7 @@
             android:id="@+id/linearLayout4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/generaldialog_alt_text">
 

@@ -95,8 +95,7 @@ public class AdminDashboardFragment extends Fragment {
         ((TextView) view.findViewById(R.id.dashboard_alt_name)).setText(Client.userAttributes.get("name"));
         ((TextView) view.findViewById(R.id.dashboard_alt_institution)).setText(Client.userGroupName);
         ((TextView) view.findViewById(R.id.dashboard_alt_accesscode)).setText(Client.userAttributes.get("custom:groupID"));
-        ImageView emblem = view.findViewById(R.id.dashboard_img_emblem);
-        Picasso.get().load(BerthaNet.ip + "/emblem/" + Client.userAttributes.get("custom:groupID") + ".png").placeholder(R.drawable.emblem_default).into(emblem);
+        Client.net.getEmblem(view.findViewById(R.id.dashboard_img_emblem));
         return view;
     }
 

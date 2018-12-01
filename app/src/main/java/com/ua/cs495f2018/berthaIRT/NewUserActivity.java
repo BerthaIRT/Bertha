@@ -1,13 +1,22 @@
 package com.ua.cs495f2018.berthaIRT;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 import com.ua.cs495f2018.berthaIRT.dialog.OkDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.YesNoDialog;
+
+import java.io.IOException;
 
 public class NewUserActivity extends AppCompatActivity {
     EditText etAccessCode;
@@ -28,7 +37,6 @@ public class NewUserActivity extends AppCompatActivity {
 
     @SuppressLint("InflateParams")
     private void actionConfirmJoin() {
-        getLayoutInflater().inflate(R.layout.dialog_student_confirmsignup, null);
 
         String userGroupID = etAccessCode.getText().toString();
         try {
@@ -39,6 +47,7 @@ public class NewUserActivity extends AppCompatActivity {
             etAccessCode.setError("Invalid access code.");
             return;
         }
+
 
         //look up the group
         Client.net.lookupGroup(this, userGroupID, ()->{
@@ -55,13 +64,29 @@ public class NewUserActivity extends AppCompatActivity {
                 etAccessCode.setText("");
                 return;
             }
-            //Open for registration
-            new YesNoDialog(NewUserActivity.this, "Confirm", "Are you a student at " + Client.userGroupName + "?", new Interface.YesNoHandler() {
-                    @Override
-                    public void onYesClicked() { actionJoinGroup(); }
-                    @Override
-                    public void onNoClicked() { }
-            }).show();
+
+            YesNoDialog d = new YesNoDialog(NewUserActivity.this, Client.userGroupName, "Is this your institution?", new Interface.YesNoHandler() {
+                @Override
+                public void onYesClicked() { actionJoinGroup(); }
+
+                @Override
+                public void onNoClicked() {}
+            });
+            RequestCreator i = Picasso.get().load(BerthaNet.ip + "/emblem/" + userGroupID + ".png");
+            i.fetch(new Callback() {
+                @Override
+                public void onSuccess() {
+                    d.show();
+                    ImageView emblem = d.findViewById(R.id.generaldialog_img_emblem);
+                    i.into(emblem);
+                    emblem.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    d.show();
+                }
+            });
         });
     }
         //Look up group name and status, without having to be signed in (that's why netSend is used)

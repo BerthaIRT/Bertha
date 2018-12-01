@@ -3,12 +3,14 @@ package com.ua.cs495f2018.berthaIRT;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.squareup.picasso.Picasso;
 import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
 
 import java.security.KeyPair;
@@ -121,6 +123,7 @@ public class Client extends AppCompatActivity {
                             net.exchangeKeys(ctx, (c)->{
                                 aesEncrypter = ((Cipher[])c)[0];
                                 aesDecrypter = ((Cipher[])c)[1];
+
                                 dialog.setMessage("Pulling data...");
                                 net.lookupGroup(ctx, userAttributes.get("custom:groupID"), ()->
                                     net.pullAll(ctx, ()->{

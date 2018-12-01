@@ -17,6 +17,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
 
 import java.io.ByteArrayOutputStream;
@@ -269,5 +271,15 @@ public class BerthaNet {
 
         if(display != null) display.setImageBitmap(b);
         return b;
+    }
+
+    public void getEmblem(String groupID, ImageView into){
+        Picasso.get().load(ip + "/emblem/" + groupID + ".png")
+                .placeholder(R.drawable.emblem_default)
+                .into(into);
+    }
+
+    public void getEmblem(ImageView into){
+        getEmblem(Client.userAttributes.get("custom:groupID"), into);
     }
 }

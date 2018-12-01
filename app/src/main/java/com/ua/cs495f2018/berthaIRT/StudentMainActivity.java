@@ -1,12 +1,14 @@
 package com.ua.cs495f2018.berthaIRT;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 public class StudentMainActivity extends AppCompatActivity {
 
@@ -24,7 +26,6 @@ public class StudentMainActivity extends AppCompatActivity {
         findViewById(R.id.student_main_viewhistory).setOnClickListener(v ->
                 startActivity(new Intent(StudentMainActivity.this, StudentAlertCardsActivity.class)));
 
-        ImageView emblem = findViewById(R.id.student_main_img_emblem);
-        Picasso.get().load(BerthaNet.ip + "/emblem/" + Client.userAttributes.get("custom:groupID") + ".png").placeholder(R.drawable.emblem_default).into(emblem);
+        Client.net.getEmblem(findViewById(R.id.student_main_img_emblem));
     }
 }

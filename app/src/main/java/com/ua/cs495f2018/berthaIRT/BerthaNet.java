@@ -18,7 +18,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.ua.cs495f2018.berthaIRT.dialog.OkDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;

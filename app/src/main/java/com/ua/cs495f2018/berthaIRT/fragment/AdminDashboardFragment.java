@@ -34,7 +34,7 @@ public class AdminDashboardFragment extends Fragment {
 
         view.findViewById(R.id.dashboard_button_metrics).setOnClickListener(v1 ->
                 startActivity(new Intent(getActivity(), MetricsActivity.class)));
-//
+
         //not a user attribute
 //        view.findViewById(R.id.dashboard_button_editinstitutionname).setOnClickListener(v1 ->
 //                Util.showInputDialog(getContext(),"Your Institution Name", null, Client.currentUserGroupID,"Update", x-> actionUpdateAttribute("institution", x)) );
@@ -55,13 +55,13 @@ public class AdminDashboardFragment extends Fragment {
         //if you edit admin name
         view.findViewById(R.id.dashboard_button_editmyname).setOnClickListener(v1 -> actionEditName());
 
-//        view.findViewById(R.id.dashboard_button_resetpassword).setOnClickListener(v1 ->
-//                new YesNoDialog(getActivity(), "Are you sure?", "A temporary code for you to reset your password will be sent to your email and you will be logged out.", new Interface.YesNoHandler() {
-//                    @Override
-//                    public void onYesClicked() { actionResetPassword(); }
-//                    @Override
-//                    public void onNoClicked() { }
-//                }).show());
+        view.findViewById(R.id.dashboard_button_resetpassword).setOnClickListener(v1 ->
+                new YesNoDialog(getActivity(), "Are you sure?", "A temporary code for you to reset your password will be sent to your email and you will be logged out.", new Interface.YesNoHandler() {
+                    @Override
+                    public void onYesClicked() { Client.net.forgotPassword(getContext(), Client.userAttributes.get("cognito:username")); }
+                    @Override
+                    public void onNoClicked() { }
+                }).show());
 
         //if you logout
         view.findViewById(R.id.dashboard_button_logout).setOnClickListener(v1 ->
@@ -91,8 +91,10 @@ public class AdminDashboardFragment extends Fragment {
     public void actionToggleRegistration() {
         Client.net.toggleRegistration(getContext(), (r)->{
             Toast.makeText(getContext(), "Registration set to " + r, Toast.LENGTH_SHORT).show();
-            if(r.equals("Closed")) ((TextView) view.findViewById(R.id.dashboard_button_registration)).setText(R.string.open_registration);
-            else ((TextView) view.findViewById(R.id.dashboard_button_registration)).setText(R.string.close_registration);
+            if(r.equals("Closed"))
+                ((TextView) view.findViewById(R.id.dashboard_button_registration)).setText(R.string.open_registration);
+            else
+                ((TextView) view.findViewById(R.id.dashboard_button_registration)).setText(R.string.close_registration);
             Client.userGroupStatus = r;
         });
     }
@@ -107,10 +109,6 @@ public class AdminDashboardFragment extends Fragment {
         startActivity(new Intent(getActivity(), AdminLoginActivity.class));
         Objects.requireNonNull(getActivity()).finish();
     }
-
-//    private void actionResetPassword() {
-//
-//    }
 
 /*    private void actionAddRemoveAdmin() {
         //Get the admins and display dialog

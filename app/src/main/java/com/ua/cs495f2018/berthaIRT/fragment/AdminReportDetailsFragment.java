@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.ua.cs495f2018.berthaIRT.Client.net;
+
 public class AdminReportDetailsFragment extends Fragment {
     LinearLayout catTainer, tagTainer;
 
@@ -104,8 +106,9 @@ public class AdminReportDetailsFragment extends Fragment {
 
         //lets you edit admins
         v.findViewById(R.id.admin_reportdetails_button_editassignees).setOnClickListener(v1 ->
-                        new CheckboxDialog(getActivity(), Util.getPreChecked(Client.adminsList, Client.activeReport.getAssignedTo()),
-                                Client.adminsList, this::finishEditAdmins).show());
+                net.lookupGroup(getContext(), Client.userAttributes.get("custom:groupID"), () ->
+                        new CheckboxDialog(getActivity(), Util.getPreChecked(Client.userGroupAdmins, Client.activeReport.getAssignedTo()),
+                            Client.userGroupAdmins, this::finishEditAdmins).show()));
 
         //lets you add notes
         v.findViewById(R.id.admin_reportdetails_button_addnotes).setOnClickListener(v1 ->
@@ -228,7 +231,7 @@ public class AdminReportDetailsFragment extends Fragment {
     private void actionUpdateReport() {
         WaitDialog d = new WaitDialog(getContext());
         d.show();
-        Client.net.syncActiveReport(getContext(), ()->{
+        net.syncActiveReport(getContext(), ()->{
             d.dismiss();
             populateReportDetails(Client.activeReport);
         });

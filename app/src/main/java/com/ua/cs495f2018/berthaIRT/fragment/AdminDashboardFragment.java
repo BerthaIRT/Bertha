@@ -1,12 +1,15 @@
 package com.ua.cs495f2018.berthaIRT.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,14 +18,20 @@ import com.ua.cs495f2018.berthaIRT.Client;
 import com.ua.cs495f2018.berthaIRT.Interface;
 import com.ua.cs495f2018.berthaIRT.MetricsActivity;
 import com.ua.cs495f2018.berthaIRT.R;
+import com.ua.cs495f2018.berthaIRT.adapter.AddRemoveAdapter;
 import com.ua.cs495f2018.berthaIRT.dialog.AddRemoveDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.InputDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.YesNoDialog;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import static com.ua.cs495f2018.berthaIRT.Client.net;
 
 public class AdminDashboardFragment extends Fragment {
     View view;
+    Dialog d;
 
     public AdminDashboardFragment(){
 
@@ -72,7 +81,7 @@ public class AdminDashboardFragment extends Fragment {
                     public void onNoClicked() { }
                 }).show());
 
-        //view.findViewById(R.id.dashboard_button_addremoveadmin).setOnClickListener(v1 -> actionAddRemoveAdmin());
+        view.findViewById(R.id.dashboard_button_addremoveadmin).setOnClickListener(v1 -> actionAddRemoveAdmin());
 
         //set up the info at the top of the dashboard
         ((TextView) view.findViewById(R.id.dashboard_alt_name)).setText(Client.userAttributes.get("name"));
@@ -98,8 +107,7 @@ public class AdminDashboardFragment extends Fragment {
             Client.userGroupStatus = r;
         });
     }
-//
-//
+
 //    private void actionChangeInstitutionName(String s) {
 //        //TODO change on server
 //        Toast.makeText(getActivity(),"Inst name " + s, Toast.LENGTH_SHORT).show();
@@ -110,11 +118,11 @@ public class AdminDashboardFragment extends Fragment {
         Objects.requireNonNull(getActivity()).finish();
     }
 
-/*    private void actionAddRemoveAdmin() {
+    private void actionAddRemoveAdmin() {
         //Get the admins and display dialog
         List<String> admins = new ArrayList<>();
-        Client.net.pullAdmins(getContext(),()-> {
-            d = new AddRemoveDialog(getActivity(), Client.adminsList, this::actionAddAdmin, this::actionRemoveAdmin, null);
+        net.lookupGroup(getContext(), Client.userAttributes.get("custom:groupID"), () -> {
+            d = new AddRemoveDialog(getActivity(), Client.userGroupAdmins, this::actionAddAdmin, this::actionRemoveAdmin, null);
             d.show();
             ((EditText) Objects.requireNonNull(d.findViewById(R.id.addremove_input))).setHint("Admin Email");
         });
@@ -124,7 +132,7 @@ public class AdminDashboardFragment extends Fragment {
         new YesNoDialog(getActivity(), "Are you sure? ", "About to add " + admin + " as an Admin?", new Interface.YesNoHandler() {
             @Override
             public void onYesClicked() {
-                Client.net.netSend(getContext(), "/group/join/admin", admin, x->
+                Client.net.netSend(getContext(), "/group/addadmin", admin, false, x->
                         ((AddRemoveAdapter) ((RecyclerView) Objects.requireNonNull(d.findViewById(R.id.addremove_rv))).getAdapter()).addToList(admin));
             }
 
@@ -138,7 +146,7 @@ public class AdminDashboardFragment extends Fragment {
         new YesNoDialog(getActivity(),"Are you sure?", "About to remove " + admin + " as an Admin?", new Interface.YesNoHandler() {
             @Override
             public void onYesClicked() {
-                Client.net.netSend(getContext(), "/group/remove/admin", admin,null);
+                Client.net.netSend(getContext(), "/group/removeadmin", admin,false, null);
             }
 
             @Override
@@ -147,5 +155,5 @@ public class AdminDashboardFragment extends Fragment {
                 ((AddRemoveAdapter) ((RecyclerView) Objects.requireNonNull(d.findViewById(R.id.addremove_rv))).getAdapter()).addToList(admin);
             }
         }).show();
-    }*/
+    }
 }

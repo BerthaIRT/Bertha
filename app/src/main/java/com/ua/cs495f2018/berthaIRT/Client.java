@@ -49,8 +49,6 @@ public class Client extends AppCompatActivity {
     //For new admins to start on the dashboard screen instead of an empty RV
     static boolean startOnDashboard = false; //for new admins, maybe could be a pref
 
-    public static List<String> adminsList;
-
     public static float displayWidth;
     public static float displayHeight;
     public static int displayWidthDPI;

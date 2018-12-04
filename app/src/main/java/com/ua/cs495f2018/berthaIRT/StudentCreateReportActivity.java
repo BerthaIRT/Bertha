@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.ua.cs495f2018.berthaIRT.dialog.CheckboxDialog;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -84,8 +85,6 @@ public class StudentCreateReportActivity extends AppCompatActivity {
             etDescription.setError("You must provide a description.");
             return;
         }
-        if(tvTime.getText().toString().equals("") && !tvDate.getText().toString().equals(""))
-            tvDate.setError("If you provide a time, you must provide a date.");
 
         List<String> cats = Arrays.asList(getResources().getStringArray(R.array.category_item));
         List<Boolean> checked = new ArrayList<>();

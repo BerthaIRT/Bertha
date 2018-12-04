@@ -183,8 +183,8 @@ public class FilterDialog extends AlertDialog{
                 new AddRemoveDialog(v.getContext(),filterTags, null, null, this::updateTags).show());
 
         Objects.requireNonNull(ivEditAssignedTo).setOnClickListener(v ->
-                    new CheckboxDialog(v.getContext(), Util.getPreChecked(Client.adminsList, filterAssignedTo),
-                            Client.adminsList, this::updateAssignedTo).show());
+                    new CheckboxDialog(v.getContext(), Util.getPreChecked(Client.userGroupAdmins, filterAssignedTo),
+                            Client.userGroupAdmins, this::updateAssignedTo).show());
 
         Objects.requireNonNull(defaultFilterBtn).setOnClickListener(v -> {
             List<String> nullStringList = new ArrayList<>();

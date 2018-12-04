@@ -1,12 +1,7 @@
 package com.ua.cs495f2018.berthaIRT;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.View;
 
@@ -154,6 +149,10 @@ public class Util {
         if (target == null)
             return false;
         return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
+    public static void updateAdminList() {
+
     }
 
     /**

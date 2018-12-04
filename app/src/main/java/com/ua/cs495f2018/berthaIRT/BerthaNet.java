@@ -80,7 +80,7 @@ public class BerthaNet {
     //netSend will call this function with strings already encrypted.
     //If the user is logged in, their JWT is attached to the Authentication header.
     //Only one string is sent as the body.  Up to calling functions to parse JSON / map values
-    private void netSend(Context ctx, String path, String body, boolean ignoreEncryption, Interface.WithStringListener callback) {
+    public void netSend(Context ctx, String path, String body, boolean ignoreEncryption, Interface.WithStringListener callback) {
         CognitoUserSession sess = Client.cogNet.getSession();
         if (ENCRYPTION_ENABLED && !ignoreEncryption && sess != null && aesDecrypter != null) { //logged in, so encrypt
             try {
@@ -162,7 +162,7 @@ public class BerthaNet {
         });
     }
 
-    void lookupGroup(Context ctx, String groupID, Interface.WithVoidListener callback){
+    public void lookupGroup(Context ctx, String groupID, Interface.WithVoidListener callback){
         String path = "group/info";
         if(Client.cogNet.getSession() == null) path+="/";
         netSend(ctx, path, groupID, true, r->{

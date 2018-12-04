@@ -3,14 +3,10 @@ package com.ua.cs495f2018.berthaIRT;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.squareup.picasso.Picasso;
 import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
 
 import java.security.KeyPair;
@@ -35,7 +31,9 @@ public class Client extends AppCompatActivity {
 
     public static String userGroupName;
     public static String userGroupStatus;
+    public static List<String> userGroupAdmins;
     public static Map<String,String> userAttributes;
+    public static boolean isAdmin;
 
     //List containing reports pulled from server.
     //Should NOT be updated outside of a network callback function or else inconsistencies between client and server occur
@@ -65,6 +63,7 @@ public class Client extends AppCompatActivity {
         setContentView(R.layout.activity_landingpage);
         reportMap = new HashMap<>();
         net = new BerthaNet(this);
+        cogNet = new CognitoNet(this);
 
         displayWidth = getResources().getDisplayMetrics().widthPixels;
         displayHeight = getResources().getDisplayMetrics().heightPixels;
@@ -91,11 +90,10 @@ public class Client extends AppCompatActivity {
    }
 
    public static void performLogin(Context ctx, String username, String password, Interface.WithStringListener loginResult){
-        final boolean isAdmin = (ctx instanceof AdminLoginActivity);
-        if(cogNet == null) cogNet = new CognitoNet(ctx);
+        final boolean admintest = (ctx instanceof AdminLoginActivity);
 
        WaitDialog dialog = new WaitDialog(ctx);
-       //dialog.show();
+       dialog.show();
        dialog.setMessage("Signing in...");
 
         //log in with cognito
@@ -105,6 +103,7 @@ public class Client extends AppCompatActivity {
                 loginResult.onEvent(r);
             }
             else{
+                isAdmin = admintest;
                 dialog.setMessage("Establishing secure connection...");
                 //now make and update rsa key
                 try {
@@ -121,12 +120,14 @@ public class Client extends AppCompatActivity {
                         cogNet.updateCognitoAttribute("custom:rsaPublicKey", Util.asHex(keys.getPublic().getEncoded()), ()->{
                             //now RSA is all set so we can send our firebase token and grab an AES key
                             net.exchangeKeys(ctx, (c)->{
-                                aesEncrypter = ((Cipher[])c)[0];
-                                aesDecrypter = ((Cipher[])c)[1];
+                                if(c!=null) {
+                                    aesEncrypter = ((Cipher[]) c)[0];
+                                    aesDecrypter = ((Cipher[]) c)[1];
+                                }
 
                                 dialog.setMessage("Pulling data...");
                                 net.lookupGroup(ctx, userAttributes.get("custom:groupID"), ()->
-                                    net.pullAll(ctx, ()->{
+                                    net.pullAllReports(ctx, ()->{
                                         if(isAdmin) net.pullAlerts(ctx, ()->{
                                             dialog.dismiss();
                                             loginResult.onEvent("SECURE");
@@ -141,36 +142,8 @@ public class Client extends AppCompatActivity {
                         });
                     });
 
-                    }catch (Exception e){e.printStackTrace();}
+                }catch (Exception e){e.printStackTrace();}
             }
         });
-   }
-
-    static AsyncTask<Void, Void, Void> t;
-    public static void makeRefreshTask(Context ctx, Interface.WithVoidListener onUpdateHandler){
-//        if(t != null) t.cancel(true);
-//        t = new AsyncTask<Void, Void, Void>()  {
-//            @Override
-//            protected Void doInBackground(Void... voids) {
-//                while(true){
-//                    net.secureSend(ctx, "/refresh", "", r->{
-//                        if(r.equals("nope")) return;
-//                        net.pullReports(ctx, net.jp.parse(r).getAsJsonArray(), onUpdateHandler);
-//                    });
-//                    try {
-//                        Thread.sleep(10000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                        return null;
-//                    }
-//
-//                    if(((AppCompatActivity) ctx).isFinishing()){
-//                        cancel(true);
-//                        return null;
-//                    }
-//                }
-//            }
-//        };
-//        t.execute(null, null, null);
    }
 }

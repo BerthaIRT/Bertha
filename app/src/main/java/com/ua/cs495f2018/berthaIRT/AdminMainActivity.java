@@ -21,6 +21,8 @@ import com.ua.cs495f2018.berthaIRT.fragment.AdminDashboardFragment;
 import com.ua.cs495f2018.berthaIRT.fragment.AdminReportCardsFragment;
 import com.ua.cs495f2018.berthaIRT.fragment.AlertCardsFragment;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,7 +30,10 @@ import java.util.List;
 
 public class AdminMainActivity extends AppCompatActivity {
     FragmentManager fragDaddy = getSupportFragmentManager();
-    Fragment fragAlerts, fragReports, fragDashboard, fromFrag;
+    AlertCardsFragment fragAlerts;
+    AdminReportCardsFragment fragReports;
+    AdminDashboardFragment fragDashboard;
+    Fragment fromFrag;
     ImageView imgAlerts, imgReports, imgDashboard;
     TextView tvAlerts, tvReports, tvDashboard;
     View nav;
@@ -120,50 +125,69 @@ public class AdminMainActivity extends AppCompatActivity {
         //if you should start on the dashboard
         if(Client.startOnDashboard)
             makeActive(fragDashboard);
-        else
+        else {
             makeActive(fragAlerts);
+            drawActive(imgAlerts, tvAlerts);
+            fragAlerts.onResume();
+        }
     }
 
     public void makeActive(Fragment toFrag){
         FragmentTransaction fTrans = fragDaddy.beginTransaction();
-
-        //if there wasn't a previous frag
-        if(fromFrag == null)
+        if(fromFrag == null) {
             fTrans.show(toFrag).commit();
-        //stop from adding the same fragment
-        else if(fromFrag == toFrag)
+            fromFrag = toFrag;
             return;
-        else {
-            if (fromFrag == fragDashboard || toFrag == fragAlerts)
-                fTrans.setCustomAnimations(R.anim.slidein_left, R.anim.slideout_right);
+        }
+        if(fromFrag == toFrag)
+            return;
+
+        if(toFrag == fragAlerts){
+            fTrans.setCustomAnimations(R.anim.slidein_left, R.anim.slideout_right);
+            drawActive(imgAlerts, tvAlerts);
+            if(fromFrag == fragDashboard)
+                drawInactive(imgDashboard, tvDashboard);
             else
+                drawInactive(imgReports, tvReports);
+
+            fragAlerts.onResume();
+        }
+        else if(toFrag == fragReports){
+            drawActive(imgReports, tvReports);
+            if(fromFrag == fragAlerts) {
                 fTrans.setCustomAnimations(R.anim.slidein_right, R.anim.slideout_left);
-            fTrans.hide(fromFrag).show(toFrag).commit();
-        }
+                drawInactive(imgAlerts, tvAlerts);
+            }
+            else{
+                fTrans.setCustomAnimations(R.anim.slidein_left, R.anim.slideout_right);
+                drawInactive(imgDashboard, tvDashboard);
+            }
 
-        List<ImageView> ivs = Arrays.asList(imgAlerts, imgReports, imgDashboard);
-        List<TextView> tvs = Arrays.asList(tvAlerts, tvReports, tvDashboard);
-        if(toFrag == fragReports) {
-            Collections.swap(ivs, 0, 1);
-            Collections.swap(tvs, 0, 1);
+            fragReports.onResume();
         }
-        else if(toFrag == fragDashboard) {
-            Collections.swap(ivs, 0, 2);
-            Collections.swap(tvs, 0, 2);
+        else{
+            fTrans.setCustomAnimations(R.anim.slidein_right, R.anim.slideout_left);
+            drawActive(imgDashboard, tvDashboard);
+            if(fromFrag == fragAlerts)
+                drawInactive(imgAlerts, tvAlerts);
+            else
+                drawInactive(imgReports, tvReports);
         }
-        ivs.get(0).setScaleX(1.0f);
-        ivs.get(0).setScaleY(1.0f);
-        tvs.get(0).setTypeface(null, Typeface.BOLD);
-        tvs.get(0).setTextColor(Color.parseColor("#FFFFFFFF"));
-        ivs.get(1).setScaleX(0.8f);
-        ivs.get(1).setScaleY(0.8f);
-        tvs.get(1).setTypeface(null, Typeface.NORMAL);
-        tvs.get(1).setTextColor(Color.parseColor("#88FFFFFF"));
-        ivs.get(2).setScaleX(0.8f);
-        ivs.get(2).setScaleY(0.8f);
-        tvs.get(2).setTypeface(null, Typeface.NORMAL);
-        tvs.get(2).setTextColor(Color.parseColor("#88FFFFFF"));
-
+        fTrans.hide(fromFrag).show(toFrag).commit();
         fromFrag = toFrag;
+    }
+
+    private void drawActive(ImageView img, TextView tv){
+        img.setScaleX(1.0f);
+        img.setScaleY(1.0f);
+        tv.setTypeface(null, Typeface.BOLD);
+        tv.setTextColor(Color.parseColor("#FFFFFFFF"));
+    }
+
+    private void drawInactive(ImageView img, TextView tv){
+        img.setScaleX(0.8f);
+        img.setScaleY(0.8f);
+        tv.setTypeface(null, Typeface.NORMAL);
+        tv.setTextColor(Color.parseColor("#88FFFFFF"));
     }
 }

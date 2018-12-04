@@ -25,7 +25,6 @@ import java.util.Locale;
 import java.util.Random;
 
 public class Util {
-
     static void writeToUserfile(Context ctx, JsonObject j) {
         try {
             new File(ctx.getFilesDir(), "user.dat");
@@ -220,7 +219,7 @@ public class Util {
 //            dialog.show();
 //            dialog.setMessage("Sending report...");
 //            String jayReport = Client.net.gson.toJson(newReport);
-//            Client.net.secureSend(ctx, "/report/new", jayReport, r->{
+//            Client.net.netSend(ctx, "/report/new", jayReport, r->{
 //                Client.activeReport = Client.net.gson.fromJson(r, Report.class);
 //                dialog.dismiss();
 //            });*/

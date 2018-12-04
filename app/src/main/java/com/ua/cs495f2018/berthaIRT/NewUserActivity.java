@@ -37,7 +37,7 @@ public class NewUserActivity extends AppCompatActivity {
 
     @SuppressLint("InflateParams")
     private void actionConfirmJoin() {
-
+        Client.cogNet.signOut();
         String userGroupID = etAccessCode.getText().toString();
         try {
             Integer.valueOf(userGroupID);

@@ -19,8 +19,10 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ForgotPasswordContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.UpdateAttributesHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.util.CognitoServiceConstants;
@@ -36,7 +38,7 @@ public class CognitoNet {//Performs AWS Cognito login.
     private CognitoUserPool pool;
 
     //Stores JWKs and other security information
-    static CognitoUserSession session = null;
+    private CognitoUserSession session = null;
 
     CognitoNet(Context ctx) {
         //Initialize AWS
@@ -53,7 +55,16 @@ public class CognitoNet {//Performs AWS Cognito login.
 
         //If for some reason user obtains keys from last session, sign out / get rid of them.
         //If you don't sign out and try secure communication with the server the Client IDs wont match up and encryption fails
+        signOut();
+    }
+
+    void signOut(){
         if (pool.getCurrentUser() != null) pool.getCurrentUser().signOut();
+        session = null;
+    }
+
+    CognitoUserSession getSession(){
+        return session;
     }
 
     //Occurs on both admin and student sign-in.
@@ -127,7 +138,7 @@ public class CognitoNet {//Performs AWS Cognito login.
             }
         };
         //For some reason I have to put this here too
-        if (pool.getCurrentUser() != null) pool.getCurrentUser().signOut();
+        signOut();
 
         //Log in the user
         pool.getUser(username).getSessionInBackground(handler);

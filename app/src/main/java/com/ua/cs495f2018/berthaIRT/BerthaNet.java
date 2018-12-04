@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,11 +20,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.ua.cs495f2018.berthaIRT.dialog.OkDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.crypto.Cipher;
@@ -33,12 +36,14 @@ import javax.crypto.spec.SecretKeySpec;
 import static com.ua.cs495f2018.berthaIRT.Client.aesDecrypter;
 import static com.ua.cs495f2018.berthaIRT.Client.aesEncrypter;
 import static com.ua.cs495f2018.berthaIRT.Client.rsaDecrypter;
-import static com.ua.cs495f2018.berthaIRT.CognitoNet.session;
 
 
 public class BerthaNet {
-    //private static String ip = "http://54.236.113.200";
-    public static String ip = "http://10.0.0.174:6969";
+    public static boolean ENCRYPTION_ENABLED = false;
+
+
+    //private static String ip = "http://54.236.113.200/app/";
+    public static String ip = "http://10.0.0.185:6969/app/";
     //Utilities for converting objects to server-friendly JSONs
     JsonParser jp;
     private Gson gson;
@@ -52,43 +57,17 @@ public class BerthaNet {
         netQ = Volley.newRequestQueue(c);
     }
 
-    //Basic network HTTP request.
-    //secureSend will call this function with strings already encrypted.
-    //If the user is logged in, their JWT is attached to the Authentication header.
-    //Only one string is sent as the body.  Up to calling functions to parse JSON / map values
-    private void netSend(Context ctx, String path, final String body, final Interface.WithStringListener callback) {
-        StringRequest req = new StringRequest(Request.Method.PUT, ip.concat(path), callback::onEvent, error -> {
-            Toast.makeText(ctx, error.getMessage(), Toast.LENGTH_LONG).show();
-            error.printStackTrace();
-        }) {
-            @Override
-            public byte[] getBody(){
-                return body.getBytes();
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                if (session != null) {
-                    Map<String, String> header = new HashMap<>();
-                    header.put("Authentication", Util.asHex(session.getIdToken().getJWTToken().getBytes()));
-                    return header;
-                }
-                return super.getHeaders();
-            }
-        };
-        netQ.add(req);
-    }
-
-    //Secured network HTTP request.  Must be logged in with initialized ciphers.
-    public void secureSend(Context ctx, String path, final String params, final Interface.WithStringListener callback) {
-        Interface.WithStringListener wrapper = response -> {
+    private Interface.WithStringListener secureResponseWrapper(Interface.WithStringListener callback) {
+        return response -> {
             //Result will be hex-encoded for URL safety and encrypted with AES for security
             try {
                 //Decode hex into bytes
                 byte[] encrypted = Util.fromHexString(response);
+                String decrypted;
+                if(!ENCRYPTION_ENABLED) decrypted = new String(encrypted);
                 //Use cipher to decrypt bytes
-                String decrypted = new String(aesDecrypter.doFinal(encrypted));
-                System.out.println("Decrypted: " + decrypted);
+                else decrypted = new String(aesDecrypter.doFinal(encrypted));
+                System.out.println("Server response: " + decrypted);
                 //Do the original callback with the decrypted string
                 callback.onEvent(decrypted);
             } catch (Exception e) {
@@ -96,18 +75,49 @@ public class BerthaNet {
                 e.printStackTrace();
             }
         };
-        //Encrypt the data
-        byte[] encrypted = new byte[0];
-        try {
-            encrypted = aesEncrypter.doFinal(params.getBytes());
-        } catch (Exception e) {
-            System.out.println("Unable to encrypt data packet!");
-            e.printStackTrace();
+    }
+
+    //Basic network HTTP request.
+    //netSend will call this function with strings already encrypted.
+    //If the user is logged in, their JWT is attached to the Authentication header.
+    //Only one string is sent as the body.  Up to calling functions to parse JSON / map values
+    private void netSend(Context ctx, String path, String body, boolean ignoreEncryption, Interface.WithStringListener callback) {
+        CognitoUserSession sess = Client.cogNet.getSession();
+        if (ENCRYPTION_ENABLED && !ignoreEncryption && sess != null && aesDecrypter != null) { //logged in, so encrypt
+            try {
+                byte[] encrypted = aesEncrypter.doFinal(body.getBytes());
+                body = Util.asHex(encrypted);
+            } catch (Exception e) {
+                System.out.println("Unable to encrypt data packet!");
+                e.printStackTrace();
+            }
+            //wrap the response so it gets decoded
+            callback = secureResponseWrapper(callback);
         }
-        //Data is byte code which won't translate well when sending over URL, so hex-encode it
-        String encoded = Util.asHex(encrypted);
-        //Send encrypted string as normal, with the wrapper as callback to decrypt response
-        netSend(ctx, path, encoded, wrapper);
+        addRequest(sess, path, body, callback);
+    }
+
+    private void addRequest(final CognitoUserSession tokens, final String path, final String body, Interface.WithStringListener callback){
+        StringRequest req = new StringRequest(Request.Method.PUT, ip.concat(path), callback::onEvent, Throwable::printStackTrace) {
+            @Override
+            public byte[] getBody(){
+                return body.getBytes();
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> header = new HashMap<>();
+                if(tokens != null){
+                    header.put("Authentication", Util.asHex(tokens.getIdToken().getJWTToken().getBytes()));
+                }
+                else if (!ENCRYPTION_ENABLED && Client.userAttributes != null){
+                    header.put("user", Client.userAttributes.get("cognito:username"));
+                    header.put("group", Client.userAttributes.get("custom:groupID"));
+                }
+                return header;
+            }
+        };
+        netQ.add(req);
     }
 
     //We need to recieve an AES key from the server in order to encrypt our requests.
@@ -116,7 +126,11 @@ public class BerthaNet {
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( (AppCompatActivity) ctx, instanceIdResult -> {
             String token = instanceIdResult.getToken();
             System.out.println(token);
-            netSend(ctx, "/keys/issue", token, r -> {
+            netSend(ctx, "keyexchange", token, true, r -> {
+                if(!ENCRYPTION_ENABLED){
+                    callback.onEvent(null);
+                    return;
+                }
                 try {
                     //AES keys come in two parts, the key itself, and initialization vectors
                     JsonObject jay = jp.parse(r).getAsJsonObject();
@@ -140,10 +154,6 @@ public class BerthaNet {
                     Cipher decrypter = Cipher.getInstance("AES/CBC/PKCS5Padding");
                     encrypter.init(Cipher.ENCRYPT_MODE, spec, iv);
                     decrypter.init(Cipher.DECRYPT_MODE, spec, iv);
-
-                    //                secureSend(ctx, "/keys/verify", "", rr->{
-                    //                    if(rr.equals("SECURE")) callback.onEvent(new Cipher[]{encrypter, decrypter});
-                    //                });
                     callback.onEvent(new Cipher[]{encrypter, decrypter});
                 } catch (Exception e) {
                     System.out.println("Unable to initialize AES ciphers!");
@@ -154,17 +164,21 @@ public class BerthaNet {
     }
 
     void lookupGroup(Context ctx, String groupID, Interface.WithVoidListener callback){
-        netSend(ctx, "/group/info", groupID, r->{
+        String path = "group/info";
+        if(Client.cogNet.getSession() == null) path+="/";
+        netSend(ctx, path, groupID, true, r->{
             JsonObject jay = jp.parse(r).getAsJsonObject();
             Client.userGroupName = jay.get("groupName").getAsString();
-            if(!Client.userGroupName.equals("NONE"))
+            if(!Client.userGroupName.equals("NONE")) {
                 Client.userGroupStatus = jay.get("groupStatus").getAsString();
+                Client.userGroupAdmins = gson.fromJson(jay.get("admins").getAsString(), List.class);
+            }
             callback.onEvent();
         });
     }
 
-    void pullAll(Context ctx, Interface.WithVoidListener callback) {
-        secureSend(ctx, "/report/pull/all", "", r->{
+    void pullAllReports(Context ctx, Interface.WithVoidListener callback) {
+        netSend(ctx, "report/pull/all", "", false, r->{
             JsonArray reportList = jp.parse(r).getAsJsonArray();
             for(JsonElement e : reportList){
                 Report rp = gson.fromJson(e.getAsString(), Report.class);
@@ -174,69 +188,45 @@ public class BerthaNet {
         });
     }
 
-    private void pullReports(Context ctx, JsonArray ids, Interface.WithVoidListener callback){
-        if(ids.size() == 0) callback.onEvent();
-        else{
-            Integer i = ids.remove(0).getAsInt();
-            secureSend(ctx, "/report/pull", i.toString(), r->{
-                Report report =  gson.fromJson(r, Report.class);
-                Client.reportMap.put(i,report);
-                if(Client.activeReport != null && report.getReportID().equals(Client.activeReport.getReportID()))
-                    Client.activeReport = report;
-                pullReports(ctx, ids, callback);
-            });
-        }
+    void pullReport(Context ctx, String id, Interface.WithVoidListener callback){
+        netSend(ctx, "report/pull", id, false, r->{
+            Report report =  gson.fromJson(r, Report.class);
+            Client.reportMap.put(Integer.valueOf(id), report);
+            if(Client.activeReport != null && report.getReportID().equals(Client.activeReport.getReportID()))
+                Client.activeReport = report;
+            callback.onEvent();
+        });
     }
 
-    void pullAlerts(Context ctx, Interface.WithVoidListener callback){
-        secureSend(ctx, "/group/alert/pull", "", rr->{
+    public void pullAlerts(Context ctx, Interface.WithVoidListener callback){
+        netSend(ctx, "alerts", "", false, rr->{
             JsonArray alertList = jp.parse(rr).getAsJsonArray();
             Client.alertList = new ArrayList<>();
             for(JsonElement e : alertList)
-                Client.alertList.add(gson.fromJson(e.getAsString(), Message.class));
+                Client.alertList.add(gson.fromJson(e.toString(), Message.class));
             callback.onEvent();
         });
     }
-
-    public void pullAdmins(Context ctx, Interface.WithVoidListener callback){
-        secureSend(ctx, "/group/admins", "", rr->{
-            JsonArray adminList = jp.parse(rr).getAsJsonArray();
-            Client.adminsList = new ArrayList<>();
-            for(JsonElement e : adminList)
-                Client.adminsList.add(e.getAsString());
-            callback.onEvent();
-        });
-    }
-
-//    public void sendNewReport(Context ctx, Interface.WithVoidListener callback){
-//        //todo: this might be dangerous with the refresh function running idk check this part out if shit blows up ya know
-//        secureSend(ctx, "/report/create", gson.toJson(Client.activeReport), r->{
-//            Client.activeReport = Client.net.gson.fromJson(r, Report.class);
-//            Client.reportMap.put(Client.activeReport.getReportID(), Client.activeReport);
-//            callback.onEvent();
-//        });
-//    }
 
     public void syncActiveReport(Context ctx, Interface.WithVoidListener callback){
-        //todo: this might be dangerous with the refresh function running idk check this part out if shit blows up ya know
         WaitDialog d = new WaitDialog(ctx);
         d.show();
-        String path = "/report/update";
-        if(Client.activeReport.getReportID() == null) path = "/report/create";
-        secureSend(ctx, path, gson.toJson(Client.activeReport), r->{
+        String path = "report/update";
+        if(Client.activeReport.getReportID() == null) path = "report/create";
+        netSend(ctx, path, gson.toJson(Client.activeReport), false, r->{
             Client.activeReport = Client.net.gson.fromJson(r, Report.class);
             Client.reportMap.put(Client.activeReport.getReportID(), Client.activeReport);
             d.dismiss();
-            callback.onEvent();
+            if(callback != null) callback.onEvent();
         });
     }
 
     public void toggleRegistration(Context ctx, Interface.WithStringListener callback){
-        secureSend(ctx, "/group/togglestatus", "", callback);
+        netSend(ctx, "group/togglestatus", "", false, callback);
     }
 
-    public void dismissAlert(Context ctx, Integer messageID, Interface.WithVoidListener callback) {
-        secureSend(ctx, "/group/alert/dismiss", messageID.toString(), r->callback.onEvent());
+    public void dismissAlert(Context ctx, Long messageID, Interface.WithVoidListener callback) {
+        //netSend(ctx, "group/alert/dismiss", messageID.toString(), false, r->callback.onEvent());
     }
 
     void createGroup(Context ctx, String email, String institution, Interface.WithVoidListener callback) {
@@ -244,13 +234,13 @@ public class BerthaNet {
         req.addProperty("newAdmin", email);
         req.addProperty("groupName", institution);
 
-        netSend(ctx, "/group/create", req.toString(), r -> {
+        netSend(ctx, "/group/create", req.toString(), true, r -> {
             if (r.equals(email)) callback.onEvent();
         });
     }
 
     void joinGroup(Context ctx, String groupID, Interface.WithVoidListener callback) {
-        netSend(ctx, "/group/join/student", groupID, (r) ->
+        netSend(ctx, "group/join", groupID, false, (r) ->
                 Client.performLogin(ctx, r, "BeRThAfirsttimestudent", x -> {
                     //Login successful and details stored - launch main activity
                     if (x.equals("SECURE"))
@@ -265,7 +255,7 @@ public class BerthaNet {
         b.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         String hexImg = Util.asHex(bytes.toByteArray());
 
-        secureSend(ctx, "/group/emblem", hexImg, (r) ->{
+        netSend(ctx, "group/uploademblem", hexImg, false, (r) ->{
             Toast.makeText(ctx, "Emblem upload successful.", Toast.LENGTH_SHORT).show();
         });
 
@@ -274,12 +264,19 @@ public class BerthaNet {
     }
 
     public void getEmblem(String groupID, ImageView into){
-        Picasso.get().load(ip + "/emblem/" + groupID + ".png")
+        Picasso.get().load(ip + "emblem/" + groupID + ".png")
                 .placeholder(R.drawable.emblem_default)
                 .into(into);
     }
 
     public void getEmblem(ImageView into){
         getEmblem(Client.userAttributes.get("custom:groupID"), into);
+    }
+
+    public void forgotPassword(Context ctx, String username){
+        if(username.equals("")) return;
+        netSend(ctx, "forgotpassword", username, true, (r)->{
+            new OkDialog(ctx, "Password Reset", "A new temporary password has been sent to " + username, null).show();
+        });
     }
 }

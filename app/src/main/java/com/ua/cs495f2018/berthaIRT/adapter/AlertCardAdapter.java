@@ -45,7 +45,7 @@ public class AlertCardAdapter extends RecyclerView.Adapter<AlertCardAdapter.Aler
 
     private void removeAlert(int position) {
         //removes the alert for that admin
-        Client.net.dismissAlert(ctx, data.get(position).getMessageID(), ()->{
+        Client.net.dismissAlert(ctx, data.get(position).getMessageTimestamp(), ()->{
             data.remove(position);
             notifyItemRemoved(position);
         });

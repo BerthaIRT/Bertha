@@ -23,7 +23,9 @@ import java.util.Objects;
 
 public class StudentReportDetailsActivity extends AppCompatActivity {
     FragmentManager fragDaddy = getSupportFragmentManager();
-    Fragment fragDetails, fragMessages, fromFrag;
+    Fragment fromFrag;
+    StudentReportDetailsFragment fragDetails;
+    MessagesFragment fragMessages;
     ImageView imgDetails, imgMessages;
     TextView tvDetails, tvMessages;
     View nav;
@@ -43,7 +45,7 @@ public class StudentReportDetailsActivity extends AppCompatActivity {
             activityRootView.getWindowVisibleDisplayFrame(r);
 
             int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
-            if (heightDiff > (r.bottom - r.top)/4)
+            if (heightDiff > (r.bottom - r.top) / 4)
                 nav.setVisibility(View.GONE);
             else
                 nav.setVisibility(View.VISIBLE);
@@ -61,59 +63,65 @@ public class StudentReportDetailsActivity extends AppCompatActivity {
         fragDaddy.beginTransaction().add(R.id.reportdetails_fragframe, fragDetails, "Details").hide(fragDetails).commit();
 
         //if you hit the details button in bottom nav
-        findViewById(R.id.reportdetails_button_details).setOnClickListener(v-> makeActive(fragDetails));
+        findViewById(R.id.reportdetails_button_details).setOnClickListener(v -> makeActive(fragDetails));
 
         //if you hit messages in bottom nav
-        findViewById(R.id.reportdetails_button_messages).setOnClickListener(v-> makeActive(fragMessages));
+        findViewById(R.id.reportdetails_button_messages).setOnClickListener(v -> makeActive(fragMessages));
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         //if there was extras passed to the intent
-        if(extras != null) {
+        //if (extras != null) {
             //set the active report to the report id in the notification
-            Client.activeReport = Client.reportMap.get(Integer.parseInt(extras.getString("id")));
+            //Client.activeReport = Client.reportMap.get(Integer.parseInt(extras.getString("id")));
             //if it's coming from a notification click with messages
-            if (intent.getStringExtra("frag").equals("messages"))
-                makeActive(fragMessages);
-            else
-                makeActive(fragDetails);
-        }
-        else
+            //if (intent.getStringExtra("frag").equals("messages"))//todo
+                //makeActive(fragMessages);
+            //else
+                //makeActive(fragDetails);
+        //}
+        //else
             makeActive(fragDetails);
+            fragDetails.onResume();
     }
 
     public void makeActive(Fragment toFrag){
         FragmentTransaction fTrans = fragDaddy.beginTransaction();
-
-        //if there wasn't a previous frag
-        if(fromFrag == null)
+        if(fromFrag == null) {
             fTrans.show(toFrag).commit();
-        //stop from adding the same fragment
-        else if(fromFrag == toFrag)
+            fromFrag = toFrag;
             return;
-        else {
-            if (toFrag == fragDetails)
-                fTrans.setCustomAnimations(R.anim.slidein_left, R.anim.slideout_right);
-            else
-                fTrans.setCustomAnimations(R.anim.slidein_right, R.anim.slideout_left);
-            fTrans.hide(fromFrag).show(toFrag).commit();
         }
+        if(fromFrag == toFrag)
+            return;
 
-        List<ImageView> ivs = Arrays.asList(imgDetails, imgMessages);
-        List<TextView> tvs = Arrays.asList(tvDetails, tvMessages);
-        if(toFrag == fragMessages) {
-            Collections.swap(ivs, 0, 1);
-            Collections.swap(tvs, 0, 1);
+        if(toFrag == fragDetails){
+            fTrans.setCustomAnimations(R.anim.slidein_left, R.anim.slideout_right);
+            drawActive(imgDetails, tvDetails);
+            drawInactive(imgMessages, tvMessages);
+            fragDetails.onResume();
         }
-        ivs.get(0).setScaleX(1.0f);
-        ivs.get(0).setScaleY(1.0f);
-        tvs.get(0).setTypeface(null, Typeface.BOLD);
-        tvs.get(0).setTextColor(Color.parseColor("#FFFFFFFF"));
-        ivs.get(1).setScaleX(0.8f);
-        ivs.get(1).setScaleY(0.8f);
-        tvs.get(1).setTypeface(null, Typeface.NORMAL);
-        tvs.get(1).setTextColor(Color.parseColor("#88FFFFFF"));
-
+        else{
+            fTrans.setCustomAnimations(R.anim.slidein_left, R.anim.slideout_right);
+            drawActive(imgMessages, tvMessages);
+            drawInactive(imgDetails, tvDetails);
+            fragMessages.onResume();
+        }
+        fTrans.hide(fromFrag).show(toFrag).commit();
         fromFrag = toFrag;
+    }
+
+    private void drawActive(ImageView img, TextView tv){
+        img.setScaleX(1.0f);
+        img.setScaleY(1.0f);
+        tv.setTypeface(null, Typeface.BOLD);
+        tv.setTextColor(Color.parseColor("#FFFFFFFF"));
+    }
+
+    private void drawInactive(ImageView img, TextView tv){
+        img.setScaleX(0.8f);
+        img.setScaleY(0.8f);
+        tv.setTypeface(null, Typeface.NORMAL);
+        tv.setTextColor(Color.parseColor("#88FFFFFF"));
     }
 }

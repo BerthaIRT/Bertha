@@ -16,21 +16,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import com.ua.cs495f2018.berthaIRT.Client;
+import com.ua.cs495f2018.berthaIRT.FirebaseNet;
 import com.ua.cs495f2018.berthaIRT.Message;
 import com.ua.cs495f2018.berthaIRT.R;
 import com.ua.cs495f2018.berthaIRT.adapter.MessageAdapter;
 
-class LinearLayoutManagerWrapper extends LinearLayoutManager {
-
-    public LinearLayoutManagerWrapper(Context context) {
-        super(context);
-    }
-
-    @Override
-    public boolean supportsPredictiveItemAnimations() {
-        return false;
-    }
-}
 
 public class MessagesFragment extends Fragment {
 
@@ -40,6 +30,18 @@ public class MessagesFragment extends Fragment {
     ImageButton msgSendButton;
 
     public MessagesFragment(){
+    }
+
+    class LinearLayoutManagerWrapper extends LinearLayoutManager {
+
+        public LinearLayoutManagerWrapper(Context context) {
+            super(context);
+        }
+
+        @Override
+        public boolean supportsPredictiveItemAnimations() {
+            return false;
+        }
     }
 
     @Override
@@ -76,9 +78,6 @@ public class MessagesFragment extends Fragment {
             public void afterTextChanged(Editable s) { }
         });
 
-        adapter.updateMessages(Client.activeReport.getMessages());
-
-        Client.makeRefreshTask(getContext(), ()-> adapter.updateMessages(Client.activeReport.getMessages()));
         return v;
     }
 
@@ -105,7 +104,7 @@ public class MessagesFragment extends Fragment {
             Client.net.syncActiveReport(getContext(), ()->{
                 editMessageText.setText("");
                 msgSendButton.setAlpha(0.4f);
-                adapter.updateMessages(Client.activeReport.getMessages());
+                //adapter.updateMessages(Client.activeReport.getMessages());
             });
 
 /*            //If there was a problem updating the report then set the error message
@@ -158,12 +157,21 @@ public class MessagesFragment extends Fragment {
 
 //    public void recieveMessage() {
 //        //TODO Scott look at
-//        Client.net.secureSend("message/get", null, (r)->{
+//        Client.net.netSend("message/get", null, (r)->{
 //            JsonObject jay = Client.net.jp.parse(r).getAsJsonObject();
 //            for(Map.Entry<String, JsonElement> e : jay.entrySet())
 //                messageList.add(Client.net.gson.fromJson(e.getValue().getAsString(), Log.class));
 //        });
 //    }
 
-
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(adapter == null) return;
+        adapter.updateMessages(Client.activeReport.getMessages());
+        FirebaseNet.setOnRefreshHandler((r)->{
+            if(Integer.valueOf(r).equals(Client.activeReport.getReportID()))
+                adapter.updateMessages(Client.activeReport.getMessages());
+        });
+    }
 }

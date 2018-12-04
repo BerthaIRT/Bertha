@@ -17,12 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ua.cs495f2018.berthaIRT.Client;
+import com.ua.cs495f2018.berthaIRT.FirebaseNet;
 import com.ua.cs495f2018.berthaIRT.R;
 import com.ua.cs495f2018.berthaIRT.Report;
 import com.ua.cs495f2018.berthaIRT.adapter.AdminReportCardAdapter;
 import com.ua.cs495f2018.berthaIRT.dialog.FilterDialog;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class AdminReportCardsFragment extends Fragment {
@@ -53,9 +55,9 @@ public class AdminReportCardsFragment extends Fragment {
         ivSearch = v.findViewById(R.id.admin_search_icon_iv);
         etSearch = v.findViewById(R.id.admin_reports_input_searchbox);
 
-        adapter.updateReports(Client.reportMap.values());
         filterData = adapter.getData();
 
+        //todo: this will all have to be redone upon an update to the report
         //create a filter dialog for use later
         filterDialog = new FilterDialog(getContext(), filteredReports-> {
             adapter.updateReports(filteredReports);
@@ -124,54 +126,7 @@ public class AdminReportCardsFragment extends Fragment {
         });
 
         //Search button push view toggle
-        ivSearch.setOnTouchListener(new View.OnTouchListener() {
-            private boolean touchStayedWithinViewBounds;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch(event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        // PRESSED
-                        ViewCompat.setElevation(ivSearch, 0);
-                        touchStayedWithinViewBounds = true;
-                        return true; // if you want to handle the touch event
-                    case MotionEvent.ACTION_UP:
-                        // RELEASED
-                        if(touchStayedWithinViewBounds) {
-                            ivSearch.callOnClick();
-                        }
-                        ViewCompat.setElevation(ivSearch, 20);
-                        return true; // if you want to handle the touch event
-                    case MotionEvent.ACTION_MOVE:
-                        // Used held down Search Icon and MOVED out of its BOUNDS.
-                        if(touchStayedWithinViewBounds && !isMotionEventInsideView(ivSearch, event)){
-                            touchStayedWithinViewBounds = false;
-                        }
-                        return true;
-                    case MotionEvent.ACTION_CANCEL:
-                        // If moved out of bounds, cancel and do not perform search, as user may have mis-clicked.
-                        ViewCompat.setElevation(ivSearch, 20);
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-            //Determines if the motion inside the Search Icon is moved outside.
-            private boolean isMotionEventInsideView(View view, MotionEvent event) {
-                Rect viewRect = new Rect(
-                        view.getLeft(),
-                        view.getTop(),
-                        view.getRight(),
-                        view.getBottom()
-                );
-                return viewRect.contains(
-                        view.getLeft() + (int) event.getX(),
-                        view.getTop() + (int) event.getY()
-                );
-            }
-        });
-
-        Client.makeRefreshTask(getContext(), ()-> adapter.updateReports(Client.reportMap.values()));
+        //ivSearch.setOnClickListener();
 
         return v;
     }
@@ -180,5 +135,13 @@ public class AdminReportCardsFragment extends Fragment {
     private void actionShowFilters() {
         filterDialog.resetUnfilteredList(Client.reportMap.values());
         filterDialog.show();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(adapter == null) return;
+        adapter.updateReports(Client.reportMap.values());
+        FirebaseNet.setOnRefreshHandler((r)-> adapter.updateReports(Client.reportMap.values()));
     }
 }

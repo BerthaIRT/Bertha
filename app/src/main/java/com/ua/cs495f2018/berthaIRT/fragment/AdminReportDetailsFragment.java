@@ -104,9 +104,8 @@ public class AdminReportDetailsFragment extends Fragment {
 
         //lets you edit admins
         v.findViewById(R.id.admin_reportdetails_button_editassignees).setOnClickListener(v1 ->
-                Client.net.pullAdmins(getContext(),()->
                         new CheckboxDialog(getActivity(), Util.getPreChecked(Client.adminsList, Client.activeReport.getAssignedTo()),
-                                Client.adminsList, this::finishEditAdmins).show()));
+                                Client.adminsList, this::finishEditAdmins).show());
 
         //lets you add notes
         v.findViewById(R.id.admin_reportdetails_button_addnotes).setOnClickListener(v1 ->

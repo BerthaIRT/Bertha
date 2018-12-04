@@ -7,8 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ua.cs495f2018.berthaIRT.Client;
+import com.ua.cs495f2018.berthaIRT.FirebaseNet;
 import com.ua.cs495f2018.berthaIRT.R;
 import com.ua.cs495f2018.berthaIRT.adapter.AlertCardAdapter;
 
@@ -17,7 +19,7 @@ public class AlertCardsFragment extends Fragment {
 
     RecyclerView rv;
     AlertCardAdapter adapter;
-
+    TextView tvNoAlerts;
     public AlertCardsFragment(){
 
     }
@@ -29,12 +31,22 @@ public class AlertCardsFragment extends Fragment {
         rv = v.findViewById(R.id.alertcards_rv);
         adapter = new AlertCardAdapter(getContext());
         rv.setAdapter(adapter);
-
-        adapter.updateAlerts(Client.alertList);
-
-        //show no alerts if there aren't any
-        if(adapter.getItemCount() == 0)
-            v.findViewById(R.id.alertcards_alt_noalerts).setVisibility(View.VISIBLE);
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(adapter == null) return;
+        adapter.updateAlerts(Client.alertList);
+        if(adapter.getItemCount() == 0)
+            tvNoAlerts.setVisibility(View.VISIBLE);
+
+        //yeah i know whatever
+        FirebaseNet.setOnRefreshHandler((r)->{
+            adapter.updateAlerts(Client.alertList);
+            if(adapter.getItemCount() == 0)
+                tvNoAlerts.setVisibility(View.VISIBLE);
+        });
     }
 }

@@ -35,7 +35,6 @@ import java.util.Objects;
 
 public class AdminDashboardFragment extends Fragment {
     View view;
-    AddRemoveDialog d;
 
     public AdminDashboardFragment(){
 
@@ -66,11 +65,7 @@ public class AdminDashboardFragment extends Fragment {
         view.findViewById(R.id.dashboard_button_registration).setOnClickListener(v1 -> actionToggleRegistration());
 
         //if you edit admin name
-        view.findViewById(R.id.dashboard_button_editmyname).setOnClickListener(v1 ->{
-                    InputDialog d = new InputDialog(getContext(),"Your Full Name", "", x -> Client.cogNet.updateCognitoAttribute("name", x, ()-> Toast.makeText(getContext(), "Update successful.", Toast.LENGTH_SHORT).show()));
-                    d.show();
-                    ((TextView) Objects.requireNonNull(d.findViewById(R.id.inputdialog_input))).setHint(Client.userAttributes.get("name"));
-        });
+        view.findViewById(R.id.dashboard_button_editmyname).setOnClickListener(v1 -> actionEditName());
 
 //        view.findViewById(R.id.dashboard_button_resetpassword).setOnClickListener(v1 ->
 //                new YesNoDialog(getActivity(), "Are you sure?", "A temporary code for you to reset your password will be sent to your email and you will be logged out.", new Interface.YesNoHandler() {
@@ -99,6 +94,12 @@ public class AdminDashboardFragment extends Fragment {
         return view;
     }
 
+    private void actionEditName() {
+        InputDialog d = new InputDialog(getContext(),"Your Full Name", "", x -> Client.cogNet.updateCognitoAttribute("name", x, ()-> Toast.makeText(getContext(), "Update successful.", Toast.LENGTH_SHORT).show()));
+        d.show();
+        ((TextView) Objects.requireNonNull(d.findViewById(R.id.inputdialog_input))).setHint(Client.userAttributes.get("name"));
+    }
+
     public void actionToggleRegistration() {
         Client.net.toggleRegistration(getContext(), (r)->{
             Toast.makeText(getContext(), "Registration set to " + r, Toast.LENGTH_SHORT).show();
@@ -107,39 +108,11 @@ public class AdminDashboardFragment extends Fragment {
             Client.userGroupStatus = r;
         });
     }
-
-//    //Currently working on
-//    private void actionChangeRegistration() {
-//        TextView tvRegistration = view.findViewById(R.id.dashboard_button_registration);
-//        String message = "You are about to CLOSE your group to new members.  No one may use your institution's access code until you reopen.";
-//        if(tvRegistration.getText() == "Open Registration") message = "You are about to OPEN your group to new members and your access code will become active.";
-//        new YesNoDialog(getActivity(),"Changing Registration", message, new Interface.YesNoHandler() {
-//            @Override
-//            public void onYesClicked() { toggleRegistration(); }
-//            @Override
-//            public void onNoClicked() { }
-//        }).show();
-//    }
-//
-//    private void toggleRegistration() {
-//        /*Client.net.secureSend("admin/toggleregistration", null, (r)->{
-//            if(r.equals("Closed"))
-//                ((TextView) view.findViewById(R.id.dashboard_button_registration)).setText("Open Registration");
-//            else
-//                ((TextView) view.findViewById(R.id.dashboard_button_registration)).setText("Close Registration");
-//
-//        });*/
-//    }
 //
 //
 //    private void actionChangeInstitutionName(String s) {
 //        //TODO change on server
 //        Toast.makeText(getActivity(),"Inst name " + s, Toast.LENGTH_SHORT).show();
-//    }
-//
-//    private void actionEditEmblem() {
-//        //TODO change on server
-//        Toast.makeText(getActivity(),"Emblem", Toast.LENGTH_SHORT).show();
 //    }
 
     private void actionLogOut(){
@@ -165,7 +138,7 @@ public class AdminDashboardFragment extends Fragment {
         new YesNoDialog(getActivity(), "Are you sure? ", "About to add " + admin + " as an Admin?", new Interface.YesNoHandler() {
             @Override
             public void onYesClicked() {
-                Client.net.secureSend(getContext(), "/group/join/admin", admin, x->
+                Client.net.netSend(getContext(), "/group/join/admin", admin, x->
                         ((AddRemoveAdapter) ((RecyclerView) Objects.requireNonNull(d.findViewById(R.id.addremove_rv))).getAdapter()).addToList(admin));
             }
 
@@ -179,7 +152,7 @@ public class AdminDashboardFragment extends Fragment {
         new YesNoDialog(getActivity(),"Are you sure?", "About to remove " + admin + " as an Admin?", new Interface.YesNoHandler() {
             @Override
             public void onYesClicked() {
-                Client.net.secureSend(getContext(), "/group/remove/admin", admin,null);
+                Client.net.netSend(getContext(), "/group/remove/admin", admin,null);
             }
 
             @Override

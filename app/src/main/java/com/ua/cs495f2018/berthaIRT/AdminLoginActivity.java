@@ -40,7 +40,7 @@ public class AdminLoginActivity extends AppCompatActivity {
         findViewById(R.id.adminlogin_button_signup).setOnClickListener(x -> actionSignup());
 
         //if you hit forgot password
-        findViewById(R.id.adminlogin_button_forgot).setOnClickListener(x-> actionForgotPassword());
+        findViewById(R.id.adminlogin_button_forgot).setOnClickListener(x-> Client.net.forgotPassword(AdminLoginActivity.this, etEmail.getText().toString()));
     }
 
     private void actionLogin() {
@@ -104,9 +104,5 @@ public class AdminLoginActivity extends AppCompatActivity {
                 etNewEmail.setError("Must be valid email");
         });
         dialog.show();
-    }
-
-    private void actionForgotPassword() {
-
     }
 }

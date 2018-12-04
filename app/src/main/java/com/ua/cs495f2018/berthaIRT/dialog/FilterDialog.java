@@ -182,11 +182,9 @@ public class FilterDialog extends AlertDialog{
         Objects.requireNonNull(ivEditTags).setOnClickListener(v ->
                 new AddRemoveDialog(v.getContext(),filterTags, null, null, this::updateTags).show());
 
-        Objects.requireNonNull(ivEditAssignedTo).setOnClickListener(v -> {
-            Client.net.pullAdmins(getContext(),()->
+        Objects.requireNonNull(ivEditAssignedTo).setOnClickListener(v ->
                     new CheckboxDialog(v.getContext(), Util.getPreChecked(Client.adminsList, filterAssignedTo),
                             Client.adminsList, this::updateAssignedTo).show());
-        });
 
         Objects.requireNonNull(defaultFilterBtn).setOnClickListener(v -> {
             List<String> nullStringList = new ArrayList<>();
@@ -202,21 +200,8 @@ public class FilterDialog extends AlertDialog{
             cbOpen.setChecked(true);
             cbResolved.setChecked(true);
 
-            for(int i = 0; i < filterStatus.size(); i++)
-                filterStatus.remove(0);
-
-            for(int i = 0; i < 5; i++){
-                if(i == 0)
-                    filterStatus.add("New");
-                if(i == 1)
-                    filterStatus.add("Open");
-                if(i == 2)
-                    filterStatus.add("Assigned");
-                if(i == 3)
-                    filterStatus.add("Closed");
-                if(i == 4)
-                    filterStatus.add("Resolved");
-            }
+            filterStatus.clear();
+            filterStatus.addAll(Arrays.asList("New", "Open", "Assigned", "Closed", "Resolved"));
 
         });
 

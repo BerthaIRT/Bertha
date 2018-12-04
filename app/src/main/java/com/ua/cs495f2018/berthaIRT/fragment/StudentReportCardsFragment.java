@@ -27,12 +27,11 @@ public class StudentReportCardsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater flater, ViewGroup tainer, Bundle savedInstanceState) {
         View v = flater.inflate(R.layout.fragment_student_reportcards, tainer, false);
 
+        rv = v.findViewById(R.id.student_reports_rv);
         adapter = new ReportCardAdapter(getContext());
-
-        rv = v.findViewById(R.id.admin_reports_rv);
+        tvNoReports = v.findViewById(R.id.student_reports_alt_noreports);
         rv.setAdapter(adapter);
 
-        tvNoReports = v.findViewById(R.id.student_reports_alt_noreports);
         return v;
     }
 
@@ -40,8 +39,16 @@ public class StudentReportCardsFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        if(adapter == null) return;
+        if(adapter == null)
+            return;
         adapter.updateReports(Client.reportMap.values());
-        FirebaseNet.setOnRefreshHandler((r)-> adapter.updateReports(Client.reportMap.values()));
+        if(adapter.getItemCount() == 0)
+            tvNoReports.setVisibility(View.VISIBLE);
+
+        FirebaseNet.setOnRefreshHandler((r)-> {
+            adapter.updateReports(Client.reportMap.values());
+            if(adapter.getItemCount() == 0)
+                tvNoReports.setVisibility(View.VISIBLE);
+        });
     }
 }

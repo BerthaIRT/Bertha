@@ -53,8 +53,7 @@ public class AlertCardAdapter extends RecyclerView.Adapter<AlertCardAdapter.Aler
     @NonNull
     @Override
     public AlertViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(ctx).inflate(R.layout.adapter_alertcard, parent, false);
-        return new AlertViewHolder(v);
+        return new AlertViewHolder(LayoutInflater.from(ctx).inflate(R.layout.adapter_alertcard, parent, false));
     }
 
     @Override

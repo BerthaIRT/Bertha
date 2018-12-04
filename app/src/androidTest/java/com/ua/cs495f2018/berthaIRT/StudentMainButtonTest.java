@@ -12,13 +12,16 @@ import android.view.ViewParent;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
@@ -32,7 +35,40 @@ import static org.hamcrest.Matchers.is;
 public class StudentMainButtonTest {
 
     @Rule
-    public ActivityTestRule<StudentMainActivity> mActivityTestRule = new ActivityTestRule<>(StudentMainActivity.class);
+    public ActivityTestRule<Client> mActivityTestRule = new ActivityTestRule<>(Client.class);
+
+    @Before
+    public void init() {
+        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("999999"));
+
+        ViewInteraction cardView = onView(
+                allOf(withId(R.id.newuser_button_join),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.cardView7),
+                                        0),
+                                2),
+                        isDisplayed()));
+        cardView.perform(click());
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction cardView2 = onView(withId(R.id.generaldialog_button_yes)).check(matches(isDisplayed()));
+        cardView2.perform(click());
+
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void createNewReportButton() {
@@ -61,7 +97,7 @@ public class StudentMainButtonTest {
                         isDisplayed()));
         appCompatTextView.perform(click());
 
-        onView(withId(R.id.alertcards_rv)).check(matches(isDisplayed()));
+        onView(withId(R.id.student_reports_rv)).check(matches(isDisplayed()));
     }
 
     private static Matcher<View> childAtPosition(

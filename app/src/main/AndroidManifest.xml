@@ -15,7 +15,8 @@
         android:roundIcon="@drawable/bertha_appicon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:windowSoftInputMode="adjustPan">
+        android:windowSoftInputMode="adjustPan"
+        >
         <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
      See README(https://goo.gl/l4GJaQ) for more. -->
         <meta-data
@@ -28,33 +29,45 @@
             android:resource="@color/colorAccent" />
 
         android:windowSoftInputMode="adjustResize">
-        <activity android:name="com.ua.cs495f2018.berthaIRT.Client">
+        <activity android:name="com.ua.cs495f2018.berthaIRT.Client"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ua.cs495f2018.berthaIRT.AdminLoginActivity">
+        <activity android:name="com.ua.cs495f2018.berthaIRT.AdminLoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="ADMIN_LOGIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ua.cs495f2018.berthaIRT.AdminMainActivity" />
-        <activity android:name="com.ua.cs495f2018.berthaIRT.NewUserActivity" />
-        <activity android:name="com.ua.cs495f2018.berthaIRT.AdminReportDetailsActivity" >
+        <activity android:name="com.ua.cs495f2018.berthaIRT.AdminMainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.ua.cs495f2018.berthaIRT.NewUserActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.ua.cs495f2018.berthaIRT.AdminReportDetailsActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="ADMIN_REPORT" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ua.cs495f2018.berthaIRT.StudentReportCardsActivity" />
-        <activity android:name="com.ua.cs495f2018.berthaIRT.StudentCreateReportActivity" />
-        <activity android:name="com.ua.cs495f2018.berthaIRT.StudentMainActivity" />
-        <activity android:name="com.ua.cs495f2018.berthaIRT.LogActivity" />
-        <activity android:name="com.ua.cs495f2018.berthaIRT.MetricsActivity" />
-        <activity android:name="com.ua.cs495f2018.berthaIRT.StudentReportDetailsActivity">
+        <activity android:name="com.ua.cs495f2018.berthaIRT.StudentReportCardsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.ua.cs495f2018.berthaIRT.StudentCreateReportActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.ua.cs495f2018.berthaIRT.StudentMainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.ua.cs495f2018.berthaIRT.LogActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.ua.cs495f2018.berthaIRT.MetricsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.ua.cs495f2018.berthaIRT.StudentReportDetailsActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="STUDENT_REPORT" />
                 <category android:name="android.intent.category.DEFAULT" />

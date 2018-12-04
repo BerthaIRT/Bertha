@@ -3,6 +3,7 @@ package com.ua.cs495f2018.berthaIRT;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -53,8 +54,9 @@ public class AdminLoginActivity extends AppCompatActivity {
                 etPassword.setError("Invalid email or password.");
             }
             else if (r.equals("SECURE")) {
-                startActivity(new Intent(AdminLoginActivity.this, AdminMainActivity.class));
-                finish();
+                Intent i = new Intent(AdminLoginActivity.this, AdminMainActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
             }
         });
     }

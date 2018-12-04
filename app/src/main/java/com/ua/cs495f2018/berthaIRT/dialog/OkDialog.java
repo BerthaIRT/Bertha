@@ -19,8 +19,8 @@ public class OkDialog extends AlertDialog{
 
     public OkDialog(Context ctx, String title, String text, Interface.WithVoidListener listener) {
         super(ctx);
-        this.title = title.trim();
-        this.text = text.trim();
+        this.title = title;
+        this.text = text;
         this.listener = listener;
     }
 

@@ -71,6 +71,7 @@ public class AdminLoginActivity extends AppCompatActivity {
             dialog.dismiss();
             actionNewGroup();
         });
+
         v.findViewById(R.id.signuptype_button_existinggroup).setOnClickListener(x -> {
             dialog.dismiss();
             new OkDialog(this, null, "To join an existing institution as an administrator, you must be invited by an existing administrator of that group.\n\nAdministrators may invite others via email address.", null).show();

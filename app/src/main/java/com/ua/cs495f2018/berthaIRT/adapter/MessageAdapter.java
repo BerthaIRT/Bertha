@@ -23,18 +23,12 @@ import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
-    public interface RecyclerViewClickListener {
-        void onClick(View view, int position);
-    }
-
     private Context ctx;
     private List<Message> data;
-    private RecyclerViewClickListener mListener;
 
 
-    public MessageAdapter(Context c, RecyclerViewClickListener l) {
+    public MessageAdapter(Context c) {
         ctx = c;
-        mListener = l;
         data = new ArrayList<>();
     }
 
@@ -88,6 +82,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         }
         tvTime.setText(Util.formatJustTime(message.getMessageTimestamp()));
         tvSub.setText(message.getMessageSubject());
+
+        //if the message is from a student and the message is coming in
+        if(message.getMessageSubject().startsWith("Student") && holder.inContainer.getVisibility() == View.VISIBLE)
+            tvSub.setText(R.string.hidden);
         tvBody.setText(message.getMessageBody());
     }
 
@@ -96,7 +94,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         return data.size();
     }
 
-    public class MessageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MessageViewHolder extends RecyclerView.ViewHolder {
         LinearLayout dateDiv;
         ConstraintLayout inContainer, outContainer;
         TextView tvInTime, tvInSub, tvInBody, tvOutTime, tvOutSub, tvOutBody;
@@ -112,11 +110,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             tvOutTime = itemView.findViewById(R.id.message_alt_outgoing_time);
             tvOutSub = itemView.findViewById(R.id.message_alt_outgoing_subject);
             tvOutBody = itemView.findViewById(R.id.message_alt_outgoing_body);
-        }
-
-        @Override
-        public void onClick(View view) {
-            mListener.onClick(view, getAdapterPosition());
         }
     }
 }

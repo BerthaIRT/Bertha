@@ -532,12 +532,13 @@ public class EditReportTest {
         //last notes message body in the report should match
         assertTrue(Client.activeReport.getNotes().get(rvSize).getMessageBody().contains(addString));
 
-        onView(allOf(withId(R.id.admin_reportdetails_button_addnotes),
-                childAtPosition(
-                        childAtPosition(
-                                withClassName(is("android.support.v7.widget.CardView")),
-                                0),
-                        2))).perform(scrollTo());
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        onView(withId(R.id.admin_reportdetails_button_addnotes)).perform(scrollTo());
 
         //the last item's text should be what I added
         onView(withId(R.id.admin_reportdetails_notes_rv))

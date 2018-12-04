@@ -30,6 +30,7 @@ public class AlertCardsFragment extends Fragment {
 
         rv = v.findViewById(R.id.alertcards_rv);
         adapter = new AlertCardAdapter(getContext());
+        tvNoAlerts = v.findViewById(R.id.alertcards_alt_noalerts);
         rv.setAdapter(adapter);
         return v;
     }

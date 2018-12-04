@@ -49,7 +49,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ua.cs495f2018.berthaIRT.StudentAlertCardsActivity" />
+        <activity android:name="com.ua.cs495f2018.berthaIRT.StudentReportCardsActivity" />
         <activity android:name="com.ua.cs495f2018.berthaIRT.StudentCreateReportActivity" />
         <activity android:name="com.ua.cs495f2018.berthaIRT.StudentMainActivity" />
         <activity android:name="com.ua.cs495f2018.berthaIRT.LogActivity" />

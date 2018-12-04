@@ -1,15 +1,12 @@
 package com.ua.cs495f2018.berthaIRT.fragment;
 
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -20,16 +17,15 @@ import com.ua.cs495f2018.berthaIRT.Client;
 import com.ua.cs495f2018.berthaIRT.FirebaseNet;
 import com.ua.cs495f2018.berthaIRT.R;
 import com.ua.cs495f2018.berthaIRT.Report;
-import com.ua.cs495f2018.berthaIRT.adapter.AdminReportCardAdapter;
+import com.ua.cs495f2018.berthaIRT.adapter.ReportCardAdapter;
 import com.ua.cs495f2018.berthaIRT.dialog.FilterDialog;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class AdminReportCardsFragment extends Fragment {
     RecyclerView rv;
-    AdminReportCardAdapter adapter;
+    ReportCardAdapter adapter;
     TextView tvNoReports;
     ImageView ivSearch;
     EditText etSearch;
@@ -44,7 +40,7 @@ public class AdminReportCardsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater flater, ViewGroup tainer, Bundle savedInstanceState) {
         View v = flater.inflate(R.layout.fragment_admin_reportcards, tainer, false);
 
-        adapter = new AdminReportCardAdapter(getContext());
+        adapter = new ReportCardAdapter(getContext());
 
         rv = v.findViewById(R.id.admin_reports_rv);
         rv.setAdapter(adapter);

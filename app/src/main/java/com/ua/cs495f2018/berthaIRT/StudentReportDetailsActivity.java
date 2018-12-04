@@ -71,18 +71,18 @@ public class StudentReportDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         //if there was extras passed to the intent
-        //if (extras != null) {
+        if(extras != null) {
             //set the active report to the report id in the notification
-            //Client.activeReport = Client.reportMap.get(Integer.parseInt(extras.getString("id")));
-            //if it's coming from a notification click with messages
-            //if (intent.getStringExtra("frag").equals("messages"))//todo
-                //makeActive(fragMessages);
-            //else
-                //makeActive(fragDetails);
-        //}
-        //else
+            Client.activeReport = Client.reportMap.get(Integer.parseInt(extras.getString("id")));
+            //if it's coming from a notification with message then launch message
+            if (intent.getStringExtra("frag").equals("messages"))
+                makeActive(fragMessages);
+            else
+                makeActive(fragDetails);
+        }
+        else
             makeActive(fragDetails);
-            fragDetails.onResume();
+        fragDetails.onResume();
     }
 
     public void makeActive(Fragment toFrag){
@@ -102,7 +102,7 @@ public class StudentReportDetailsActivity extends AppCompatActivity {
             fragDetails.onResume();
         }
         else{
-            fTrans.setCustomAnimations(R.anim.slidein_left, R.anim.slideout_right);
+            fTrans.setCustomAnimations(R.anim.slidein_right, R.anim.slideout_left);
             drawActive(imgMessages, tvMessages);
             drawInactive(imgDetails, tvDetails);
             fragMessages.onResume();

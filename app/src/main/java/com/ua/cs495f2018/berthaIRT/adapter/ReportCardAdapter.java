@@ -16,6 +16,7 @@ import com.ua.cs495f2018.berthaIRT.AdminReportDetailsActivity;
 import com.ua.cs495f2018.berthaIRT.Client;
 import com.ua.cs495f2018.berthaIRT.R;
 import com.ua.cs495f2018.berthaIRT.Report;
+import com.ua.cs495f2018.berthaIRT.StudentReportDetailsActivity;
 import com.ua.cs495f2018.berthaIRT.Util;
 
 import java.util.ArrayList;
@@ -23,11 +24,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
-public class AdminReportCardAdapter extends RecyclerView.Adapter<AdminReportCardAdapter.ReportViewHolder>{
+public class ReportCardAdapter extends RecyclerView.Adapter<ReportCardAdapter.ReportViewHolder>{
     private Context ctx;
     private List<Report> data;
 
-    public AdminReportCardAdapter(Context c){
+    public ReportCardAdapter(Context c){
         ctx = c;
         data = new ArrayList<>();
     }
@@ -94,8 +95,12 @@ public class AdminReportCardAdapter extends RecyclerView.Adapter<AdminReportCard
         //if you click on the the card it launches the report details
         holder.cardContainer.setOnClickListener(v -> {
             //get the report clicked on
-            Client.activeReport = data.get(holder.getAdapterPosition());
-            ctx.startActivity(new Intent(ctx, AdminReportDetailsActivity.class));
+            Client.activeReport = Client.reportMap.get(r.getReportID());
+            //if the parent activity is AdminMain vs StudentMain
+            if(ctx.getClass().getSimpleName().equals("AdminMainActivity"))
+                ctx.startActivity(new Intent(ctx, AdminReportDetailsActivity.class));
+            else
+                ctx.startActivity(new Intent(ctx, StudentReportDetailsActivity.class));
         });
     }
 

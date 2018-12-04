@@ -39,21 +39,25 @@ public class FirebaseNet extends FirebaseMessagingService {
         System.out.println(data);
         String title = data.get("title");
 
-        if(title == null) return;
+        if(title == null)
+            return;
         String reportID = data.get("reportID");
+        String extras = data.get("extras");
         String body = data.get("body");
         String clickAction = data.get("clickAction");
         if (title.equals("REFRESH")) {
             if (Client.cogNet.getSession().isValid())
-                Client.net.pullReport(getApplication(), reportID, ()->{
-                    Client.net.pullAlerts(getApplication(), ()->onRefreshHandler.onEvent(reportID));
-                });
+                Client.net.pullReport(getApplication(), reportID, ()->
+                        Client.net.pullAlerts(getApplication(), ()->onRefreshHandler.onEvent(reportID)));
             return;
         }
 
         Intent intent = new Intent(getApplicationContext(), NewUserActivity.class);
-        if (Client.cogNet.getSession().isValid() && clickAction != null)
+        if (Client.cogNet.getSession().isValid() && clickAction != null) {
             intent = new Intent(clickAction);
+            intent.putExtra("id", reportID);
+            intent.putExtra("frag", extras);
+        }
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
@@ -64,7 +68,7 @@ public class FirebaseNet extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
                 .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setSmallIcon(R.drawable.ic_report_red_24dp)
+                .setSmallIcon(R.drawable.bertha_appicon_round)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)

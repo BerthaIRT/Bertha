@@ -21,12 +21,7 @@ import com.ua.cs495f2018.berthaIRT.fragment.AdminDashboardFragment;
 import com.ua.cs495f2018.berthaIRT.fragment.AdminReportCardsFragment;
 import com.ua.cs495f2018.berthaIRT.fragment.AlertCardsFragment;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class AdminMainActivity extends AppCompatActivity {
     FragmentManager fragDaddy = getSupportFragmentManager();

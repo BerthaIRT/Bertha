@@ -1,14 +1,9 @@
 package com.ua.cs495f2018.berthaIRT;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
 public class StudentMainActivity extends AppCompatActivity {
 
@@ -24,7 +19,7 @@ public class StudentMainActivity extends AppCompatActivity {
 
         //if you hit the option to view past submitted report
         findViewById(R.id.student_main_viewhistory).setOnClickListener(v ->
-                startActivity(new Intent(StudentMainActivity.this, StudentAlertCardsActivity.class)));
+                startActivity(new Intent(StudentMainActivity.this, StudentReportCardsActivity.class)));
 
         Client.net.getEmblem(findViewById(R.id.student_main_img_emblem));
     }

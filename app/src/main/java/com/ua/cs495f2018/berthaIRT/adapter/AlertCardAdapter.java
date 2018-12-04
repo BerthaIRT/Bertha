@@ -18,7 +18,6 @@ import com.ua.cs495f2018.berthaIRT.Client;
 import com.ua.cs495f2018.berthaIRT.Message;
 import com.ua.cs495f2018.berthaIRT.R;
 import com.ua.cs495f2018.berthaIRT.Report;
-import com.ua.cs495f2018.berthaIRT.StudentReportDetailsActivity;
 import com.ua.cs495f2018.berthaIRT.Util;
 
 import java.util.ArrayList;
@@ -104,11 +103,7 @@ public class AlertCardAdapter extends RecyclerView.Adapter<AlertCardAdapter.Aler
         holder.cardContainer.setOnClickListener(v -> {
             //get the report clicked on
             Client.activeReport = Client.reportMap.get(a.getReportID());
-            //if the parent activity is AdminMain vs StudentMain
-            if(ctx.getClass().getSimpleName().equals("AdminMainActivity"))
-                ctx.startActivity(new Intent(ctx, AdminReportDetailsActivity.class));
-            else
-                ctx.startActivity(new Intent(ctx, StudentReportDetailsActivity.class));
+            ctx.startActivity(new Intent(ctx, AdminReportDetailsActivity.class));
        });
     }
 

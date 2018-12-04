@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
+import com.google.gson.JsonObject;
 import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
 
 import java.security.KeyPair;
@@ -69,22 +70,19 @@ public class Client extends AppCompatActivity {
         displayWidthDPI = Math.round(displayWidth / ((float) dpiDensity / DisplayMetrics.DENSITY_DEFAULT));
         System.out.println(displayWidthDPI);
 
-        startActivity(new Intent(this, NewUserActivity.class));
-        finish();
-
-//        JsonObject studentLogin = Util.readFromUserfile(Client.this);
-//        if(studentLogin != null){
-//            net.performCognitoLogin(this, studentLogin.get("username").getAsString(), studentLogin.get("password").getAsString(), false, x->{
-//                if(x.equals("SECURE")){
-//                 //waitDialog.dialog.dismiss();
-//                 startActivity(new Intent(this, StudentMainActivity.class));}
-//                finish();
-//            });
-//        }
-//        else{
-//            startActivity(new Intent(this, NewUserActivity.class));
-//            finish();
-//        }
+        JsonObject studentLogin = Util.readFromUserfile(Client.this);
+        if(studentLogin != null){
+            performLogin(this , studentLogin.get("username").getAsString(), studentLogin.get("password").getAsString(), x->{
+                if(x.equals("SECURE")){
+                 startActivity(new Intent(this, StudentMainActivity.class));
+                finish();
+                }
+            });
+        }
+        else{
+            startActivity(new Intent(this, NewUserActivity.class));
+            finish();
+        }
    }
 
    public static void performLogin(Context ctx, String username, String password, Interface.WithStringListener loginResult){

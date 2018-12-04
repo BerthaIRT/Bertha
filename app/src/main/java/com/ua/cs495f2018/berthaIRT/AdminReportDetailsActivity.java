@@ -23,7 +23,9 @@ import java.util.Objects;
 
 public class AdminReportDetailsActivity extends AppCompatActivity {
     FragmentManager fragDaddy = getSupportFragmentManager();
-    Fragment fragDetails, fragMessages, fromFrag;
+    AdminReportDetailsFragment fragDetails;
+    MessagesFragment fragMessages;
+    Fragment fromFrag;
     ImageView imgDetails, imgMessages;
     TextView tvDetails, tvMessages;
     View nav;
@@ -100,7 +102,7 @@ public class AdminReportDetailsActivity extends AppCompatActivity {
             fragDetails.onResume();
         }
         else{
-            fTrans.setCustomAnimations(R.anim.slidein_left, R.anim.slideout_right);
+            fTrans.setCustomAnimations(R.anim.slideout_right, R.anim.slidein_left);
             drawActive(imgMessages, tvMessages);
             drawInactive(imgDetails, tvDetails);
             fragMessages.onResume();

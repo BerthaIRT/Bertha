@@ -50,13 +50,7 @@ public class MessagesFragment extends Fragment {
         View v = flater.inflate(R.layout.fragment_messages, tainer, false);
         RecyclerView rv = v.findViewById(R.id.chat_recycler_view);
 
-        MessageAdapter.RecyclerViewClickListener listener = (view, position) -> {
-//            if(messageList.get(position).sendingError) {
-//                resendMessage(position);
-//            }
-        };
-
-        adapter = new MessageAdapter(getContext(), listener);
+        adapter = new MessageAdapter(getContext());
         rv.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));
         rv.setAdapter(adapter);
 
@@ -106,63 +100,8 @@ public class MessagesFragment extends Fragment {
                 msgSendButton.setAlpha(0.4f);
                 //adapter.updateMessages(Client.activeReport.getMessages());
             });
-
-/*            //If there was a problem updating the report then set the error message
-            if(!//Client.updateReportMap()) {
-                message.sendingError = true;
-                messageList.set(messageList.size() - 1, message);
-                adapter.notifyDataSetChanged();
-            }*/
-
-//            //makes the last sent items time visible
-//            for(int i = messageList.size() - 2; i >= 0; i --) {
-//                //gets that item
-//                Log temp = messageList.get(i);
-//                //make sure it belongs to the currentUser
-//                if(temp.sender.equals(Client.currentUserName)) {
-//                    messageList.set(i, temp);
-//                    adapter.notifyDataSetChanged();
-//                    break;
-//                }
-//            }
-
-            //replies back with the same for now
-            //Message msgDto1 = new Message(msgContent,"31321");
-            //messageList.add(msgDto1);
-
-            //temp if until the messages are sent
-//            if(messageList.size() > 0) {
-//                adapter.notifyItemInserted(messageList.size() - 1);
-//                rv.smoothScrollToPosition(messageList.size() - 1);
-//            }
         }
     }
-
-//    public void resendMessage(int position) {
-//        Toast.makeText(getActivity(),"RESEND", Toast.LENGTH_SHORT).show();
-//
-//        Log message = messageList.get(position);
-//        //message.sendingError = false;
-//
-//        //get the current report Object and add the new message
-//        Client.activeReport.messages.add(message);
-//
-//        //If there was a problem updating the report then set the error message back
-//        /*if(!//Client.updateReportMap(Client.activeReport))
-//            message.sendingError = true;*/
-//
-//        messageList.set(position, message);
-//        adapter.notifyDataSetChanged();
-//    }
-
-//    public void recieveMessage() {
-//        //TODO Scott look at
-//        Client.net.netSend("message/get", null, (r)->{
-//            JsonObject jay = Client.net.jp.parse(r).getAsJsonObject();
-//            for(Map.Entry<String, JsonElement> e : jay.entrySet())
-//                messageList.add(Client.net.gson.fromJson(e.getValue().getAsString(), Log.class));
-//        });
-//    }
 
     @Override
     public void onResume(){

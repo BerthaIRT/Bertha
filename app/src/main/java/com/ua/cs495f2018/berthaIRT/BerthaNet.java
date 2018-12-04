@@ -2,6 +2,7 @@ package com.ua.cs495f2018.berthaIRT;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.ua.cs495f2018.berthaIRT.dialog.OkDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
 
 import java.io.ByteArrayOutputStream;
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +40,7 @@ import static com.ua.cs495f2018.berthaIRT.Client.rsaDecrypter;
 
 
 public class BerthaNet {
-    public static boolean ENCRYPTION_ENABLED = false;
+    public static boolean ENCRYPTION_ENABLED = true;
 
 
     public static String ip = "http://54.236.113.200/app/";
@@ -93,11 +95,18 @@ public class BerthaNet {
             //wrap the response so it gets decoded
             callback = secureResponseWrapper(callback);
         }
-        addRequest(sess, path, body, callback);
+        addRequest(ctx, sess, path, body, callback);
     }
 
-    private void addRequest(final CognitoUserSession tokens, final String path, final String body, Interface.WithStringListener callback){
-        StringRequest req = new StringRequest(Request.Method.PUT, ip.concat(path), callback::onEvent, Throwable::printStackTrace) {
+    private void addRequest(Context ctx, final CognitoUserSession tokens, final String path, final String body, Interface.WithStringListener callback){
+        StringRequest req = new StringRequest(Request.Method.PUT, ip.concat(path), callback::onEvent, error->{
+            String errorMessage;
+            if(error.getCause() instanceof ConnectException){
+                errorMessage = "Unable to establish a connection!";
+            }
+            else errorMessage = error.getMessage();
+            new OkDialog(ctx, "Network error", errorMessage, null).show();
+        }) {
             @Override
             public byte[] getBody(){
                 return body.getBytes();

@@ -18,7 +18,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.ua.cs495f2018.berthaIRT.dialog.OkDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
@@ -42,8 +41,8 @@ public class BerthaNet {
     public static boolean ENCRYPTION_ENABLED = false;
 
 
-    //private static String ip = "http://54.236.113.200/app/";
-    public static String ip = "http://10.0.0.185:6969/app/";
+    public static String ip = "http://54.236.113.200/app/";
+    //public static String ip = "http://10.0.0.185:6969/app/";
     //Utilities for converting objects to server-friendly JSONs
     JsonParser jp;
     private Gson gson;

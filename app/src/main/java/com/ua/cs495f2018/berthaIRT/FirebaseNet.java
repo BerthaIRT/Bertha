@@ -46,7 +46,7 @@ public class FirebaseNet extends FirebaseMessagingService {
         if (title.equals("REFRESH")) {
             if (Client.cogNet.getSession().isValid())
                 Client.net.pullReport(getApplication(), reportID, ()->{
-                    onRefreshHandler.onEvent(reportID);
+                    Client.net.pullAlerts(getApplication(), ()->onRefreshHandler.onEvent(reportID));
                 });
             return;
         }

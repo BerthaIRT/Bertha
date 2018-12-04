@@ -42,8 +42,8 @@ public class BerthaNet {
     public static boolean ENCRYPTION_ENABLED = false;
 
 
-    //private static String ip = "http://54.236.113.200/app/";
-    public static String ip = "http://10.0.0.185:6969/app/";
+    public static String ip = "http://54.236.113.200/app/";
+    //public static String ip = "http://10.0.0.185:6969/app/";
     //Utilities for converting objects to server-friendly JSONs
     JsonParser jp;
     private Gson gson;

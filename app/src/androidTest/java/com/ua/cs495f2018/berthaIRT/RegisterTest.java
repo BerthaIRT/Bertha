@@ -74,15 +74,7 @@ public class RegisterTest {
 
         onView(withId(R.id.newgroup_input_institution)).perform(clearText(), typeText("Test Case"));
 
-        ViewInteraction cardView3 = onView(
-                allOf(withId(R.id.newgroup_button_signup),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.support.v7.widget.CardView")),
-                                        0),
-                                2),
-                        isDisplayed()));
-        cardView3.perform(click());
+        onView(withId(R.id.newgroup_button_signup)).perform(click());
     }
 
     private static Matcher<View> childAtPosition(

@@ -44,8 +44,7 @@ public class ReportCardAdapter extends RecyclerView.Adapter<ReportCardAdapter.Re
     @NonNull
     @Override
     public ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(ctx).inflate(R.layout.adapter_reportcard, parent, false);
-        return new ReportViewHolder(v);
+        return new ReportViewHolder(LayoutInflater.from(ctx).inflate(R.layout.adapter_reportcard, parent, false));
     }
 
     @Override

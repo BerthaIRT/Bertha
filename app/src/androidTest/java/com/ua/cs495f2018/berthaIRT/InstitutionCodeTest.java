@@ -46,6 +46,12 @@ public class InstitutionCodeTest {
                         isDisplayed()));
         cardView.perform(click());
 
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         onView(withId(R.id.newuser_input_accesscode)).check(matches(hasErrorText("Invalid access code.")));
     }
 
@@ -91,15 +97,13 @@ public class InstitutionCodeTest {
                         isDisplayed()));
         cardView.perform(click());
 
-        ViewInteraction cardView2 = onView(
-                allOf(withId(R.id.generaldialog_button_yes),
-                        childAtPosition(
-                                allOf(withId(R.id.linearLayout4),
-                                        childAtPosition(
-                                                withClassName(is("android.support.constraint.ConstraintLayout")),
-                                                2)),
-                                2),
-                        isDisplayed()));
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction cardView2 = onView(withId(R.id.generaldialog_button_yes)).check(matches(isDisplayed()));
         cardView2.perform(click());
 
         // Added a sleep statement to match the app's execution delay.

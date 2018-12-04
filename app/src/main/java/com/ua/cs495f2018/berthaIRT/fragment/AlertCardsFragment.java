@@ -38,7 +38,8 @@ public class AlertCardsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(adapter == null) return;
+        if(adapter == null)
+            return;
         adapter.updateAlerts(Client.alertList);
         if(adapter.getItemCount() == 0)
             tvNoAlerts.setVisibility(View.VISIBLE);

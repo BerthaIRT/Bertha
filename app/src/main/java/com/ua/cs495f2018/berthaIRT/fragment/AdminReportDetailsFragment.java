@@ -203,6 +203,8 @@ public class AdminReportDetailsFragment extends Fragment {
         //if there is no log then show message
         if (notesList.size() == 0)
             tvNoNotes.setVisibility(View.VISIBLE);
+        else
+            tvNoNotes.setVisibility(View.GONE);
     }
 
     private void finishEditCategories(List<String> newList) {

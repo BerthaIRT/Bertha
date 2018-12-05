@@ -10,7 +10,6 @@
     android:clickable="true"
     android:focusable="true"
     android:stateListAnimator="@animator/button_anim"
-    app:cardBackgroundColor="@color/LightText"
     app:cardCornerRadius="0dp"
     app:cardElevation="0dp"
     tools:layout_editor_absoluteX="8dp"

@@ -286,7 +286,11 @@ public class BerthaNet {
         jay.addProperty("reportID", rep.getReportID());
         jay.addProperty("image", hexImg);
 
+        WaitDialog d = new WaitDialog(ctx);
+        d.setMessage("Uploading Media");
+        d.show();
         netSend(ctx, "report/media", jay.toString(), true, (r) ->{
+            d.dismiss();
             Toast.makeText(ctx, "Image upload successful.", Toast.LENGTH_SHORT).show();
             listener.onEvent();
         });

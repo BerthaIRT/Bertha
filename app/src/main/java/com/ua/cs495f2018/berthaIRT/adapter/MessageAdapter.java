@@ -54,20 +54,30 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
+        System.out.println("onBind");
         Message message = data.get(position);
-        TextView tvTime = holder.tvInTime;
-        TextView tvSub = holder.tvInSub;
-        TextView tvBody = holder.tvInBody;
 
-        Log.v("MessageAdapter", Client.userAttributes.get("username") + " vs " + message.getMessageSubject());
+        Log.v("MessageAdapter", Client.userAttributes.get("username") + ": " + message.getMessageBody() + " vs " + message.getMessageSubject());
+
         if(message.getMessageSubject().equals(Client.userAttributes.get("username"))){
-             tvTime = holder.tvOutTime;
-             tvSub = holder.tvOutSub;
-             tvBody = holder.tvOutBody;
-             holder.inContainer.setVisibility(View.GONE);
+            holder.outContainer.setVisibility(View.VISIBLE);
+            holder.tvOutTime.setText(Util.formatJustTime(message.getMessageTimestamp()));
+            holder.tvOutSub.setText(message.getMessageSubject());
+            holder.tvOutBody.setText(message.getMessageBody());
+            holder.inContainer.setVisibility(View.GONE);
+            if(message.getMessageSubject().startsWith("student"))
+                holder.tvOutSub.setText(R.string.you);
         }
-        else
+
+        else {
+            holder.inContainer.setVisibility(View.VISIBLE);
+            holder.tvInTime.setText(Util.formatJustTime(message.getMessageTimestamp()));
+            holder.tvInSub.setText(message.getMessageSubject());
+            holder.tvInBody.setText(message.getMessageBody());
             holder.outContainer.setVisibility(View.GONE);
+            if(message.getMessageSubject().startsWith("student"))
+                holder.tvInSub.setText(R.string.hidden);
+        }
 
         Message lastMessage = null;
         try{
@@ -77,18 +87,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 tvTime.setVisibility(View.GONE);
             }*/
         } catch(IndexOutOfBoundsException ignored){}
-        if(lastMessage == null || isNewDay(message.getMessageTimestamp(), lastMessage.getMessageTimestamp())){
+
+        if(data.size() == 0 || isNewDay(message.getMessageTimestamp(), lastMessage.getMessageTimestamp())){
             ((TextView) holder.dateDiv.findViewById(R.id.message_alt_datediv)).setText(Util.formatDatestamp(message.getMessageTimestamp()));
             holder.dateDiv.setVisibility(View.VISIBLE);
         }
+        else
+            holder.dateDiv.setVisibility(View.GONE);
 
-        tvSub.setText(message.getMessageSubject());
+/*        tvSub.setText(message.getMessageSubject());
         tvBody.setText(message.getMessageBody());
         tvTime.setText(Util.formatJustTime(message.getMessageTimestamp()));
 
         //if the message is from a student and the message is coming in
         if(message.getMessageSubject().startsWith("student"))
-            tvSub.setText(R.string.hidden);
+            tvSub.setText(R.string.hidden);*/
     }
 
     @Override

@@ -26,6 +26,7 @@ public class MessagesFragment extends Fragment {
 
     private EditText editMessageText;
     private MessageAdapter adapter;
+    private RecyclerView rv;
 
     ImageButton msgSendButton;
 
@@ -48,7 +49,7 @@ public class MessagesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater flater, ViewGroup tainer, Bundle savedInstanceState){
 
         View v = flater.inflate(R.layout.fragment_messages, tainer, false);
-        RecyclerView rv = v.findViewById(R.id.chat_recycler_view);
+        rv = v.findViewById(R.id.chat_recycler_view);
 
         adapter = new MessageAdapter(getContext());
         rv.setLayoutManager(new LinearLayoutManagerWrapper(getContext()));
@@ -98,7 +99,6 @@ public class MessagesFragment extends Fragment {
             Client.net.syncActiveReport(getContext(), ()->{
                 editMessageText.setText("");
                 msgSendButton.setAlpha(0.4f);
-                //adapter.updateMessages(Client.activeReport.getMessages());
             });
         }
     }
@@ -106,11 +106,16 @@ public class MessagesFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        if(adapter == null) return;
+        if(adapter == null)
+            return;
+
         adapter.updateMessages(Client.activeReport.getMessages());
         FirebaseNet.setOnRefreshHandler((r)->{
-            if(Integer.valueOf(r).equals(Client.activeReport.getReportID()))
+            if(Integer.valueOf(r).equals(Client.activeReport.getReportID())) {
                 adapter.updateMessages(Client.activeReport.getMessages());
+                System.out.println("Refresh");
+                //rv.smoothScrollToPosition(adapter.getItemCount() - 1);
+            }
         });
     }
 }

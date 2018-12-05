@@ -14,7 +14,6 @@
         android:background="@drawable/gradient_card">
 
         <TextView
-            android:id="@+id/textView62"
             style="@style/_HelperText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +40,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView63"
             style="@style/_HelperText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,7 +82,6 @@
             app:layout_constraintTop_toBottomOf="@+id/newgroup_input_institution">
 
             <TextView
-                android:id="@+id/textView420"
                 style="@style/_DarkButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

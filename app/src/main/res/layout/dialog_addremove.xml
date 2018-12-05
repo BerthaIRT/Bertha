@@ -101,7 +101,6 @@
             app:cardElevation="0dp">
 
             <TextView
-                android:id="@+id/addremove_alt_pos"
                 style="@style/_LightButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

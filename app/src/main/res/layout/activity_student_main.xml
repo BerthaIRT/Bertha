@@ -9,7 +9,6 @@
     android:background="@drawable/gradient_glowthing">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cardView8"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

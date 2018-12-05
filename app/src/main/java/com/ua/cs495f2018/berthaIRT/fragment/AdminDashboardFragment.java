@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,8 +47,10 @@ public class AdminDashboardFragment extends Fragment {
         });
 
         //sets the text for registration
-        if(Client.userGroupStatus.equals("Closed"))
-            ((TextView) view.findViewById(R.id.dashboard_button_registration)).setText(R.string.open_registration);
+        if(Client.userGroupStatus.equals("Closed")) {
+            ((TextView) view.findViewById(R.id.dashboard_alt_registration)).setText(R.string.open_registration);
+            ((ImageView) view.findViewById(R.id.dashboard_img_registration)).setImageResource(R.drawable.ic_check);
+        }
 
         //if you toggle registration
         view.findViewById(R.id.dashboard_button_registration).setOnClickListener(v1 -> actionToggleRegistration());
@@ -111,10 +114,14 @@ public class AdminDashboardFragment extends Fragment {
     public void actionToggleRegistration() {
         Client.net.toggleRegistration(getContext(), (r)->{
             Toast.makeText(getContext(), "Registration set to " + r, Toast.LENGTH_SHORT).show();
-            if(r.equals("Closed"))
-                ((TextView) view.findViewById(R.id.dashboard_button_registration)).setText(R.string.open_registration);
-            else
-                ((TextView) view.findViewById(R.id.dashboard_button_registration)).setText(R.string.close_registration);
+            if(r.equals("Closed")){
+                ((TextView) view.findViewById(R.id.dashboard_alt_registration)).setText(R.string.open_registration);
+                    ((ImageView) view.findViewById(R.id.dashboard_img_registration)).setImageResource(R.drawable.ic_check);
+            }
+            else{
+                ((TextView) view.findViewById(R.id.dashboard_alt_registration)).setText(R.string.close_registration);
+                ((ImageView) view.findViewById(R.id.dashboard_img_registration)).setImageResource(R.drawable.ic_close_black_24dp);
+            }
             Client.userGroupStatus = r;
         });
     }

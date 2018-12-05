@@ -56,7 +56,6 @@
             app:layout_constraintTop_toBottomOf="@+id/generaldialog_alt_title" />
 
         <LinearLayout
-            android:id="@+id/linearLayout4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -78,7 +77,6 @@
                 app:cardElevation="0dp">
 
                 <TextView
-                    android:id="@+id/generaldialog_alt_ok"
                     style="@style/_DarkButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

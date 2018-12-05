@@ -73,7 +73,6 @@
                     android:background="@drawable/gradient_card">
 
                     <TextView
-                        android:id="@+id/textView6"
                         style="@style/_HelperText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -101,7 +100,6 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView12"
                         style="@style/_HelperText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -125,7 +123,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/textView11"
                         style="@style/_HelperText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -300,7 +298,6 @@
                     </android.support.v7.widget.CardView>
 
                     <TextView
-                        android:id="@+id/textView18"
                         style="@style/_HelperText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -340,7 +337,6 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView24"
                         style="@style/_HelperText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -352,7 +348,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
                     <TextView
-                        android:id="@+id/textView25"
                         style="@style/_HelperText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -388,7 +383,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
                     <TextView
-                        android:id="@+id/textView28"
                         style="@style/_HelperText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -413,7 +407,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/admin_reportdetails_alt_incidentdate" />
 
                     <TextView
-                        android:id="@+id/textView30"
                         style="@style/_HelperText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

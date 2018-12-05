@@ -96,7 +96,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/newuser_input_accesscode">
 
                 <TextView
-                    android:id="@+id/textView2"
                     style="@style/_DarkButton"
                     android:text="Join" />
 
@@ -123,7 +122,6 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/textView20"
             style="@style/_LightButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

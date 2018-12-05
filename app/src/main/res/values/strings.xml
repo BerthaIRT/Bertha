@@ -17,23 +17,6 @@
         <item>Other</item>
     </string-array>
 
-    <string-array name="category_priority">
-        <item>Violence</item>
-        <item>Bullying</item>
-        <item>Fighting</item>
-        <item>Abuse</item>
-        <item>Self-harm</item>
-        <item>Alcohol</item>
-        <item>Drugs</item>
-        <item>Hazing</item>
-        <item>Cheating</item>
-        <item>Vandalism</item>
-        <item>Cyberbullying</item>
-        <item>Sexual Misconduct</item>
-        <item>Other</item>
-        <item>School Policy Violations</item>
-        <item>Student-Teacher Relationships</item>
-    </string-array>
     <string name="open_registration">Open Registration</string>
     <string name="close_registration">Close Registration</string>
     <string name="all_categories">All Categories</string>

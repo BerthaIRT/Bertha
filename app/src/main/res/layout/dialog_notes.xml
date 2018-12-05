@@ -69,7 +69,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/notesdialog_alt_text">
 
                 <TextView
-                    android:id="@+id/inputdialog_alt_button"
                     style="@style/_DarkButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

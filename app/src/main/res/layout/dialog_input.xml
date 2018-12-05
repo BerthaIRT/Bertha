@@ -68,7 +68,6 @@
             app:layout_constraintTop_toBottomOf="@+id/inputdialog_input">
 
             <TextView
-                android:id="@+id/inputdialog_alt_button"
                 style="@style/_DarkButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

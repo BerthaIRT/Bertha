@@ -30,15 +30,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView13">
+            app:layout_constraintTop_toBottomOf="@+id/signuptype_button_newgroup">
 
             <TextView
-                android:id="@+id/textView42"
                 style="@style/_LightButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:stateListAnimator="@animator/button_anim"
                 android:text="I am a new administrator\njoining an existing group"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +45,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/cardView13"
+            android:id="@+id/signuptype_button_newgroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -56,18 +54,17 @@
             android:clickable="true"
             android:stateListAnimator="@animator/button_anim"
             app:cardBackgroundColor="@color/OffWhiteBackground"
+            app:cardCornerRadius="5dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/signuptype_button_newgroup"
                 style="@style/_LightButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:stateListAnimator="@animator/button_anim"
                 android:text="I am registering my institution\nfor BeRThA IRT"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

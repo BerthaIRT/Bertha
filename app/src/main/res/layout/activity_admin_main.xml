@@ -83,7 +83,6 @@
             </android.support.constraint.ConstraintLayout>
 
             <ImageView
-                android:id="@+id/imageView8"
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
@@ -131,7 +130,6 @@
             </android.support.constraint.ConstraintLayout>
 
             <ImageView
-                android:id="@+id/imageView9"
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"

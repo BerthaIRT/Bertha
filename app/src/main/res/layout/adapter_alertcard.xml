@@ -18,7 +18,6 @@
         android:paddingRight="50dp">
 
         <ImageView
-            android:id="@+id/imageView5"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:adjustViewBounds="false"
@@ -27,7 +26,6 @@
             app:srcCompat="@android:drawable/ic_menu_delete" />
 
         <TextView
-            android:id="@+id/textView31"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:fontFamily="@font/martel_sans_semibold"
@@ -121,7 +119,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/alertcard_alt_action" />
 
                 <TextView
-                    android:id="@+id/textView4"
                     style="@style/_HelperText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

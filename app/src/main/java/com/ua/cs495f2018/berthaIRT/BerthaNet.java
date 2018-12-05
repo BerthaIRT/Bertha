@@ -52,6 +52,8 @@ public class BerthaNet {
     //Volley RequestQueue
     private RequestQueue netQ;
 
+    WaitDialog dialog;
+
     BerthaNet(Context c) {
         jp = new JsonParser();
         gson = new Gson();
@@ -103,9 +105,12 @@ public class BerthaNet {
             String errorMessage;
             if(error.getCause() instanceof ConnectException)
                 errorMessage = "Unable to establish a connection!";
-            else
-                errorMessage = ((VolleyError) error).getLocalizedMessage();
-            new OkDialog(ctx, "Network error", errorMessage, null).show();
+            }
+            else errorMessage = ((VolleyError) error).getLocalizedMessage();
+            new OkDialog(ctx, "Network error", errorMessage, ()->{
+                if(dialog != null)
+                    dialog.dismiss();
+            }).show();
         }) {
             @Override
             public byte[] getBody(){
@@ -262,8 +267,6 @@ public class BerthaNet {
     public void uploadBitmap(Context ctx, Bitmap bitmap, Interface.WithStringListener listener){
         Bitmap b = Bitmap.createBitmap(bitmap);
 
-        String path = "report/media";
-
         if(ctx instanceof AdminMainActivity) {
             b = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
             sentBitmap(ctx,"group/emblem",b, ()->listener.onEvent("group/emblem"));
@@ -309,6 +312,6 @@ public class BerthaNet {
     }
 
     public void updateInstitutionName(Context ctx, String name, Interface.WithVoidListener callback) {
-        netSend(ctx, "changename", name, false, (s)->callback.onEvent());
+        netSend(ctx, "group/changename", name, false, (s)->callback.onEvent());
     }
 }

@@ -89,6 +89,7 @@ public class Client extends AppCompatActivity {
         final boolean admintest = (ctx instanceof AdminLoginActivity);
 
        WaitDialog dialog = new WaitDialog(ctx);
+       net.dialog = dialog;
        dialog.show();
        dialog.setMessage("Signing in...");
 
@@ -126,10 +127,12 @@ public class Client extends AppCompatActivity {
                                     net.pullAllReports(ctx, ()->{
                                         if(isAdmin) net.pullAlerts(ctx, ()->{
                                             dialog.dismiss();
+                                            net.dialog = null;
                                             loginResult.onEvent("SECURE");
                                         });
                                         else{
                                             dialog.dismiss();
+                                            net.dialog = null;
                                             loginResult.onEvent("SECURE");
                                         }
                                     })

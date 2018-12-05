@@ -58,7 +58,7 @@ public class CognitoNet {//Performs AWS Cognito login.
         signOut();
     }
 
-    void signOut(){
+    public void signOut(){
         if (pool.getCurrentUser() != null) pool.getCurrentUser().signOut();
         session = null;
     }

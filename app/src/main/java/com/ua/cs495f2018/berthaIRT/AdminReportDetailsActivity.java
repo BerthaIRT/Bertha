@@ -72,14 +72,8 @@ public class AdminReportDetailsActivity extends AppCompatActivity {
         Bundle extras = intent.getExtras();
         //if there was extras passed to the intent
         if(extras != null) {
-            //set the active report to the report id in the notification
-            Client.activeReport = Client.reportMap.get(Integer.parseInt(extras.getString("id")));
-/*            System.out.println(Client.activeReport.getReportID());
-            //if it's coming from a notification with message then launch message
-            if (extras.getString("frag").equals("messages"))
-                makeActive(fragMessages);
-            else*/
-                makeActive(fragDetails);
+            makeActive(fragMessages);
+            fragMessages.onResume();
         }
         else
             makeActive(fragDetails);

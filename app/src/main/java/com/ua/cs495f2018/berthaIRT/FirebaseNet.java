@@ -58,8 +58,7 @@ public class FirebaseNet extends FirebaseMessagingService {
             intent.putExtra("id", reportID);
             intent.putExtra("frag", extras);
         }
-
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
 

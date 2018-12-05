@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.ua.cs495f2018.berthaIRT.dialog.CheckboxDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.YesNoDialog;
+import com.ua.cs495f2018.berthaIRT.fragment.StudentReportDetailsFragment;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -33,6 +34,8 @@ public class StudentCreateReportActivity extends AppCompatActivity {
     private EditText etDescription;
     private SeekBar sbThreat;
 
+    private List<Bitmap> pictureList;
+
     private long incidentDateStamp = GregorianCalendar.getInstance().getTimeInMillis();
     private long incidentTimeStamp = 0;
 
@@ -43,7 +46,7 @@ public class StudentCreateReportActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     Bitmap b = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-                    Client.net.uploadBitmap(StudentCreateReportActivity.this, b, null);
+                    pictureList.add(b);
                 }
                 catch (IOException e) {
                     e.printStackTrace();
@@ -135,9 +138,19 @@ public class StudentCreateReportActivity extends AppCompatActivity {
             newReport.setCategories(r);
             Client.activeReport = newReport;
             Client.net.syncActiveReport(StudentCreateReportActivity.this, ()->{
-                startActivity(new Intent(this, StudentReportDetailsActivity.class));
-                finish();
+                uploadImages(pictureList, ()->{
+                    startActivity(new Intent(this, StudentReportDetailsActivity.class));
+                    finish();
+                });
             });
         }).show();
+    }
+
+    public void uploadImages(List<Bitmap> images, Interface.WithVoidListener callback){
+        Client.net.uploadReportImage(StudentCreateReportActivity.this, Client.activeReport, images.remove(0), ()->{
+            if(images.size() > 0) uploadImages(images, callback);
+            else callback.onEvent();
+        });
+
     }
 }

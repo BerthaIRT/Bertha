@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.client.AWSMobileClient;
@@ -27,6 +28,8 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetail
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.UpdateAttributesHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.util.CognitoServiceConstants;
 import com.google.gson.JsonObject;
+import com.ua.cs495f2018.berthaIRT.dialog.InputDialog;
+import com.ua.cs495f2018.berthaIRT.dialog.OkDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +61,7 @@ public class CognitoNet {//Performs AWS Cognito login.
         signOut();
     }
 
-    void signOut(){
+    public  void signOut(){
         if (pool.getCurrentUser() != null) pool.getCurrentUser().signOut();
         session = null;
     }
@@ -96,6 +99,7 @@ public class CognitoNet {//Performs AWS Cognito login.
             //Otherwise generate a random password for the student and store it in userfile
             @Override
             public void authenticationChallenge(ChallengeContinuation continuation) {
+                System.out.println(continuation.getChallengeName());
                 //if student is logging in for the first time
                 if (!isAdmin) {
                     String rPassword = Util.generateRandomPassword();
@@ -133,7 +137,7 @@ public class CognitoNet {//Performs AWS Cognito login.
 
             @Override
             public void onFailure(Exception exception) {
-                System.out.println(exception.getMessage());
+                exception.printStackTrace();
                 callback.onEvent("INVALID_CREDENTIALS");
             }
         };
@@ -180,6 +184,42 @@ public class CognitoNet {//Performs AWS Cognito login.
             @Override
             public void onSuccess(List<CognitoUserCodeDeliveryDetails> attributesVerificationList) {
                 callback.onEvent();
+            }
+
+            @Override
+            public void onFailure(Exception exception) {
+                exception.printStackTrace();
+            }
+        });
+    }
+
+    public void forgotPassword(Context ctx, String username){
+        pool.getUser(username).forgotPasswordInBackground(new ForgotPasswordHandler() {
+            @Override
+            public void onSuccess() {
+                new OkDialog(ctx, "Password Reset", "Please login with your new password.", null).show();
+            }
+
+            @Override
+            public void getResetCode(ForgotPasswordContinuation continuation) {
+                View v = ((AppCompatActivity) ctx).getLayoutInflater().inflate(R.layout.dialog_admin_forgotpassword, null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+                builder.setView(v);
+                AlertDialog d = builder.create();
+                d.show();
+
+                ((TextView) v.findViewById(R.id.completesignup_alt_name)).setText("CONFIRMATION CODE");
+                ((TextView) v.findViewById(R.id.completesignup_alt_text)).setText("To reset your password, input the confirmation code that was sent to " + username + ".");
+
+                //After Update Details dialog is closed, update attributes and continue Cognito login
+                v.findViewById(R.id.completesignup_button_confirm).setOnClickListener(x -> {
+                    continuation.setVerificationCode(((TextView) v.findViewById(R.id.completesignup_input_name)).getText().toString());
+                    continuation.setPassword(((TextView) v.findViewById(R.id.completesignup_input_password)).getText().toString());
+                    continuation.continueTask();
+                    d.dismiss();
+                });
+
             }
 
             @Override

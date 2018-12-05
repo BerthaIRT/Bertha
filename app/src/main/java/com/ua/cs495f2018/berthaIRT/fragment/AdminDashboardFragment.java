@@ -91,8 +91,10 @@ public class AdminDashboardFragment extends Fragment {
 
     private void actionInstitutionName() {
         InputDialog d = new InputDialog(getContext(),"Institution Name", "", x ->
-            Client.net.updateInstitutionName(getContext(), x, ()-> Toast.makeText(getContext(), "Update successful.", Toast.LENGTH_SHORT).show()));
-
+            Client.net.updateInstitutionName(getContext(), x, ()->{
+                        Toast.makeText(getContext(), "Update successful.", Toast.LENGTH_SHORT).show();
+                        tvInstitution.setText(x);
+            }));
         d.show();
         ((TextView) Objects.requireNonNull(d.findViewById(R.id.inputdialog_input))).setText(Client.userGroupName);
     }
@@ -100,7 +102,7 @@ public class AdminDashboardFragment extends Fragment {
     private void actionResetPassword() {
         new YesNoDialog(getActivity(), "Are you sure?", "A temporary code for you to reset your password will be sent to your email and you will be logged out.", new Interface.YesNoHandler() {
             @Override
-            public void onYesClicked() { Client.net.forgotPassword(getContext(), Client.userAttributes.get("cognito:username")); }
+            public void onYesClicked() { Client.cogNet.forgotPassword(getContext(), Client.userAttributes.get("cognito:username")); }
             @Override
             public void onNoClicked() { }
         }).show();
@@ -133,6 +135,7 @@ public class AdminDashboardFragment extends Fragment {
 //    }
 
     private void actionLogOut(){
+        Client.cogNet.signOut();
         startActivity(new Intent(getActivity(), AdminLoginActivity.class));
         Objects.requireNonNull(getActivity()).finish();
     }

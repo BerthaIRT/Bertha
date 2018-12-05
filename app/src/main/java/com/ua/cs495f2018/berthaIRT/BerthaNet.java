@@ -44,8 +44,8 @@ public class BerthaNet {
     public static boolean ENCRYPTION_ENABLED = true;
 
 
-    public static String ip = "http://54.236.113.200/";
-    //public static String ip = "http://10.0.0.185:6969/";
+    //public static String ip = "http://54.236.113.200/";
+    public static String ip = "http://10.0.0.185:6969/";
     //Utilities for converting objects to server-friendly JSONs
     JsonParser jp;
     private Gson gson;
@@ -285,14 +285,7 @@ public class BerthaNet {
         getEmblem(Client.userAttributes.get("custom:groupID"), into);
     }
 
-    public void forgotPassword(Context ctx, String username){
-        if(username.equals("")) return;
-        netSend(ctx, "forgotpassword", username, true, (r)->{
-            new OkDialog(ctx, "Password Reset", "A new temporary password has been sent to " + username, null).show();
-        });
-    }
-
     public void updateInstitutionName(Context ctx, String name, Interface.WithVoidListener callback) {
-        netSend(ctx, "changename", name, false, (s)->callback.onEvent());
+        netSend(ctx, "group/changename", name, false, (s)->callback.onEvent());
     }
 }

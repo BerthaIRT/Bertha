@@ -46,7 +46,7 @@ public class FirebaseNet extends FirebaseMessagingService {
         String body = data.get("body");
         String clickAction = data.get("clickAction");
         if (title.equals("REFRESH")) {
-            if (Client.cogNet.getSession().isValid()) {
+            if (Client.cogNet.getSession() != null && Client.cogNet.getSession().isValid()) {
                 Client.net.lookupGroup(getApplication(), Client.userAttributes.get("custom:groupID"), null);
                 Client.net.pullReport(getApplication(), reportID, () ->
                         Client.net.pullAlerts(getApplication(), () -> onRefreshHandler.onEvent(reportID)));

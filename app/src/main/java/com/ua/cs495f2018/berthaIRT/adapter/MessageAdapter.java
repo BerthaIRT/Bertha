@@ -89,7 +89,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             }*/
         } catch(IndexOutOfBoundsException ignored){}
 
-        if(data.size() == 0 || isNewDay(message.getMessageTimestamp(), lastMessage.getMessageTimestamp())){
+        if(lastMessage == null || isNewDay(message.getMessageTimestamp(), lastMessage.getMessageTimestamp())){
             ((TextView) holder.dateDiv.findViewById(R.id.message_alt_datediv)).setText(Util.formatDatestamp(message.getMessageTimestamp()));
             holder.dateDiv.setVisibility(View.VISIBLE);
         }

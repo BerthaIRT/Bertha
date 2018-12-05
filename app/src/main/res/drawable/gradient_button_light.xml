@@ -4,8 +4,8 @@
     <shape>
         <gradient
             android:angle="90"
-            android:startColor="@color/AccentDark"
-            android:endColor="@color/Accent"
+            android:startColor="@color/PrimaryLight"
+            android:endColor="@color/AccentDark"
             android:type="linear" />
         <corners android:radius="5dp"/>
     </shape>
@@ -14,9 +14,9 @@
     <shape>
         <gradient
             android:angle="90"
-            android:startColor="@color/Accent"
-            android:centerColor="@color/LightText"
-            android:endColor="@color/LightText"
+            android:startColor="@color/AccentDark"
+            android:centerColor="@color/Accent"
+            android:endColor="@color/Accent"
             android:centerX="50%"
             android:type="linear" />
         <corners android:radius="5dp"/>

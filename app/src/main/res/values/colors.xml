@@ -4,8 +4,8 @@
     <color name="PrimaryDark">#00438f</color>
     <color name="PrimaryLight">#99C9FF</color>
     <color name="PrimarySuperlight">#e6f1ff</color>
-    <color name="Accent">#fff2de</color>
-    <color name="AccentDark">#cfc8a2</color>
+    <color name="Accent">#ffffff</color>
+    <color name="AccentDark">#d9d9d9</color>
     <color name="StandardText">#000000</color>
     <color name="HelperText">#88000000</color>
     <color name="OffWhiteBackground">#f5fcff</color>

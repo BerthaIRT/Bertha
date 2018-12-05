@@ -37,7 +37,8 @@ public class ReportCardAdapter extends RecyclerView.Adapter<ReportCardAdapter.Re
         if(c == null)
             c = new ArrayList<>();
 
-        data = new ArrayList<>(c);
+        data.clear();
+        data.addAll(c);
         notifyDataSetChanged();
     }
 

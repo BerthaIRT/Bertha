@@ -32,6 +32,7 @@ import static com.ua.cs495f2018.berthaIRT.Client.net;
 public class AdminDashboardFragment extends Fragment {
     View view;
     Dialog d;
+    TextView tvName, tvInstitution;
 
     public AdminDashboardFragment(){
 
@@ -60,17 +61,12 @@ public class AdminDashboardFragment extends Fragment {
 
         //if you toggle registration
         view.findViewById(R.id.dashboard_button_registration).setOnClickListener(v1 -> actionToggleRegistration());
-
         //if you edit admin name
         view.findViewById(R.id.dashboard_button_editmyname).setOnClickListener(v1 -> actionEditName());
 
-        view.findViewById(R.id.dashboard_button_resetpassword).setOnClickListener(v1 ->
-                new YesNoDialog(getActivity(), "Are you sure?", "A temporary code for you to reset your password will be sent to your email and you will be logged out.", new Interface.YesNoHandler() {
-                    @Override
-                    public void onYesClicked() { Client.net.forgotPassword(getContext(), Client.userAttributes.get("cognito:username")); }
-                    @Override
-                    public void onNoClicked() { }
-                }).show());
+        view.findViewById(R.id.dashboard_button_resetpassword).setOnClickListener(v1 -> actionResetPassword());
+
+        view.findViewById(R.id.dashboard_button_editinstitutionname).setOnClickListener(v->actionInstitutionName());
 
         //if you logout
         view.findViewById(R.id.dashboard_button_logout).setOnClickListener(v1 ->
@@ -84,17 +80,40 @@ public class AdminDashboardFragment extends Fragment {
         view.findViewById(R.id.dashboard_button_addremoveadmin).setOnClickListener(v1 -> actionAddRemoveAdmin());
 
         //set up the info at the top of the dashboard
-        ((TextView) view.findViewById(R.id.dashboard_alt_name)).setText(Client.userAttributes.get("name"));
-        ((TextView) view.findViewById(R.id.dashboard_alt_institution)).setText(Client.userGroupName);
+        tvName = view.findViewById(R.id.dashboard_alt_name);
+        tvName.setText(Client.userAttributes.get("name"));
+        tvInstitution = view.findViewById(R.id.dashboard_alt_institution);
+        tvInstitution.setText(Client.userGroupName);
         ((TextView) view.findViewById(R.id.dashboard_alt_accesscode)).setText(Client.userAttributes.get("custom:groupID"));
         Client.net.getEmblem(view.findViewById(R.id.dashboard_img_emblem));
         return view;
     }
 
-    private void actionEditName() {
-        InputDialog d = new InputDialog(getContext(),"Your Full Name", "", x -> Client.cogNet.updateCognitoAttribute("name", x, ()-> Toast.makeText(getContext(), "Update successful.", Toast.LENGTH_SHORT).show()));
+    private void actionInstitutionName() {
+        InputDialog d = new InputDialog(getContext(),"Institution Name", "", x ->
+            Client.net.updateInstitutionName(getContext(), x, ()-> Toast.makeText(getContext(), "Update successful.", Toast.LENGTH_SHORT).show()));
+
         d.show();
-        ((TextView) Objects.requireNonNull(d.findViewById(R.id.inputdialog_input))).setHint(Client.userAttributes.get("name"));
+        ((TextView) Objects.requireNonNull(d.findViewById(R.id.inputdialog_input))).setText(Client.userGroupName);
+    }
+
+    private void actionResetPassword() {
+        new YesNoDialog(getActivity(), "Are you sure?", "A temporary code for you to reset your password will be sent to your email and you will be logged out.", new Interface.YesNoHandler() {
+            @Override
+            public void onYesClicked() { Client.net.forgotPassword(getContext(), Client.userAttributes.get("cognito:username")); }
+            @Override
+            public void onNoClicked() { }
+        }).show();
+    }
+
+    private void actionEditName() {
+        InputDialog d = new InputDialog(getContext(),"Your Full Name", "", x ->
+            Client.cogNet.updateCognitoAttribute("name", x, ()-> {
+                        Toast.makeText(getContext(), "Update successful.", Toast.LENGTH_SHORT).show();
+                        tvName.setText(x);
+                    }));
+        d.show();
+        ((TextView) Objects.requireNonNull(d.findViewById(R.id.inputdialog_input))).setText(Client.userAttributes.get("name"));
     }
 
     public void actionToggleRegistration() {

@@ -38,7 +38,8 @@ public class AlertCardAdapter extends RecyclerView.Adapter<AlertCardAdapter.Aler
         if(c == null)
             c = new ArrayList<>();
 
-        data = new ArrayList<>(c);
+        data.clear();
+        data.addAll(c);
         notifyDataSetChanged();
     }
 

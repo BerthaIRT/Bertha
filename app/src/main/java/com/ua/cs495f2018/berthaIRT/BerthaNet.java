@@ -44,14 +44,16 @@ public class BerthaNet {
     public static boolean ENCRYPTION_ENABLED = true;
 
 
-    //public static String ip = "http://54.236.113.200/";
-    public static String ip = "http://10.0.0.185:6969/";
+    public static String ip = "http://54.236.113.200/";
+    //public static String ip = "http://10.0.0.185:6969/";
     //Utilities for converting objects to server-friendly JSONs
     JsonParser jp;
     private Gson gson;
 
     //Volley RequestQueue
     private RequestQueue netQ;
+
+    WaitDialog dialog;
 
     BerthaNet(Context c) {
         jp = new JsonParser();
@@ -106,7 +108,9 @@ public class BerthaNet {
                 errorMessage = "Unable to establish a connection!";
             }
             else errorMessage = ((VolleyError) error).getLocalizedMessage();
-            new OkDialog(ctx, "Network error", errorMessage, null).show();
+            new OkDialog(ctx, "Network error", errorMessage, ()->{
+                if(dialog != null) dialog.dismiss();
+            }).show();
         }) {
             @Override
             public byte[] getBody(){

@@ -74,11 +74,11 @@ public class StudentReportDetailsActivity extends AppCompatActivity {
         if(extras != null) {
             //set the active report to the report id in the notification
             Client.activeReport = Client.reportMap.get(Integer.parseInt(extras.getString("id")));
-            //if it's coming from a notification with message then launch message
-            if (intent.getStringExtra("frag").equals("messages"))
+/*            //if it's coming from a notification with message then launch message
+            if (Objects.requireNonNull(extras.getString("frag")).equals("messages"))*/
                 makeActive(fragMessages);
-            else
-                makeActive(fragDetails);
+/*            else
+                makeActive(fragDetails);*/
         }
         else
             makeActive(fragDetails);

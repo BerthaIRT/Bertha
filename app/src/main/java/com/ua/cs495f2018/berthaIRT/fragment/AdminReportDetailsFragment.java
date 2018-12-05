@@ -97,8 +97,8 @@ public class AdminReportDetailsFragment extends Fragment {
             v.findViewById(R.id.admin_reportdetails_button_attachments).setOnClickListener(v1 ->
                     new ImageDialog(getContext()).show());
         else {
-            v.findViewById(R.id.student_reportdetails_button_attachments).setVisibility(View.GONE);
-            v.findViewById(R.id.admin_reportdetails_no_attachments).setVisibility(View.GONE);
+            v.findViewById(R.id.admin_reportdetails_button_attachments).setVisibility(View.GONE);
+            v.findViewById(R.id.admin_reportdetails_no_attachments).setVisibility(View.VISIBLE);
         }
 
 

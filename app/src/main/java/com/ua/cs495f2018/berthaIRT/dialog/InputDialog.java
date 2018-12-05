@@ -38,11 +38,15 @@ public class InputDialog extends AlertDialog{
         ((TextView) Objects.requireNonNull((View) findViewById(R.id.inputdialog_alt_label))).setText(label);
         ((TextView) Objects.requireNonNull((View) findViewById(R.id.inputdialog_alt_text))).setText(text);
 
+        EditText et = findViewById(R.id.inputdialog_input);
+
+        et.setSelection(Objects.requireNonNull(et).getText().length());
+
         //if you hit confirm
         Objects.requireNonNull((View) findViewById(R.id.inputdialog_button_confirm)).setOnClickListener(x -> {
             dismiss();
             if(listener != null)
-                listener.onEvent(((EditText) Objects.requireNonNull((View) findViewById(R.id.inputdialog_input))).getText().toString().trim());
+                listener.onEvent(et.getText().toString().trim());
         });
 
         //if you close the dialog

@@ -20,6 +20,7 @@ public class Report {
     private List<Message> messages;
     private List<Message> logs;
     private List<Message> notes;
+    private Integer mediaCount;
 
     public Report() {
         categories = new ArrayList<>();
@@ -28,6 +29,7 @@ public class Report {
         messages = new ArrayList<>();
         logs = new ArrayList<>();
         notes = new ArrayList<>();
+        mediaCount = 0;
     }
 
     //@DynamoDBHashKey(attributeName = "reportID")
@@ -150,5 +152,13 @@ public class Report {
 
     public void setNotes(List<Message> notes) {
         this.notes = notes;
+    }
+
+    public Integer getMediaCount() {
+        return mediaCount;
+    }
+
+    public void setMediaCount(Integer mediaCount) {
+        this.mediaCount = mediaCount;
     }
 }

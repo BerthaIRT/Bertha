@@ -43,9 +43,8 @@ import static com.ua.cs495f2018.berthaIRT.Client.rsaDecrypter;
 public class BerthaNet {
     public static boolean ENCRYPTION_ENABLED = true;
 
-
-    //public static String ip = "http://54.236.113.200/";
-    public static String ip = "http://10.0.0.185:6969/";
+    public static String ip = "http://54.236.113.200/";
+    //public static String ip = "http://10.0.0.185:6969/";
     //Utilities for converting objects to server-friendly JSONs
     JsonParser jp;
     private Gson gson;
@@ -102,10 +101,10 @@ public class BerthaNet {
     private void addRequest(Context ctx, final CognitoUserSession tokens, final String path, final String body, Interface.WithStringListener callback){
         StringRequest req = new StringRequest(Request.Method.PUT, ip.concat(path), callback::onEvent, error->{
             String errorMessage;
-            if(error.getCause() instanceof ConnectException){
+            if(error.getCause() instanceof ConnectException)
                 errorMessage = "Unable to establish a connection!";
-            }
-            else errorMessage = ((VolleyError) error).getLocalizedMessage();
+            else
+                errorMessage = ((VolleyError) error).getLocalizedMessage();
             new OkDialog(ctx, "Network error", errorMessage, null).show();
         }) {
             @Override
@@ -116,9 +115,8 @@ public class BerthaNet {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> header = new HashMap<>();
-                if(tokens != null){
+                if(tokens != null)
                     header.put("Authentication", Util.asHex(tokens.getIdToken().getJWTToken().getBytes()));
-                }
                 else if (!ENCRYPTION_ENABLED && Client.userAttributes != null){
                     header.put("user", Client.userAttributes.get("cognito:username"));
                     header.put("group", Client.userAttributes.get("custom:groupID"));
@@ -222,12 +220,14 @@ public class BerthaNet {
         WaitDialog d = new WaitDialog(ctx);
         d.show();
         String path = "report/update";
-        if(Client.activeReport.getReportID() == null) path = "report/create";
+        if(Client.activeReport.getReportID() == null)
+            path = "report/create";
         netSend(ctx, path, gson.toJson(Client.activeReport), false, r->{
             Client.activeReport = Client.net.gson.fromJson(r, Report.class);
             Client.reportMap.put(Client.activeReport.getReportID(), Client.activeReport);
             d.dismiss();
-            if(callback != null) callback.onEvent();
+            if(callback != null)
+                callback.onEvent();
         });
     }
 
@@ -245,7 +245,8 @@ public class BerthaNet {
         req.addProperty("groupName", institution);
 
         netSend(ctx, "/group/create", req.toString(), true, r -> {
-            if (r.equals(email)) callback.onEvent();
+            if (r.equals(email))
+                callback.onEvent();
         });
     }
 
@@ -258,16 +259,29 @@ public class BerthaNet {
                 }));
     }
 
-    public void uploadBitmap(Context ctx, Bitmap bitmap, ImageView display){
-        Bitmap b = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
+    public void uploadBitmap(Context ctx, Bitmap bitmap, Interface.WithStringListener listener){
+        Bitmap b = Bitmap.createBitmap(bitmap);
 
+        String path = "report/media";
+
+        if(ctx instanceof AdminMainActivity) {
+            b = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
+            sentBitmap(ctx,"group/emblem",b, ()->listener.onEvent("group/emblem"));
+        }
+        else
+            sentBitmap(ctx,"report/media",b, ()->listener.onEvent("report/media"));
+
+    }
+
+    private void sentBitmap(Context ctx, String path, Bitmap b, Interface.WithVoidListener listener) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         b.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         String hexImg = Util.asHex(bytes.toByteArray());
 
-        netSend(ctx, "group/emblem", hexImg, true, (r) ->{
-            Toast.makeText(ctx, "Emblem upload successful.", Toast.LENGTH_SHORT).show();
-            if(display != null) display.setImageBitmap(b);
+        netSend(ctx, path, hexImg, true, (r) ->{
+            Toast.makeText(ctx, "Image upload successful.", Toast.LENGTH_SHORT).show();
+            if(listener != null)
+                listener.onEvent();
         });
     }
 
@@ -279,6 +293,12 @@ public class BerthaNet {
 
     public void getEmblem(ImageView into){
         getEmblem(Client.userAttributes.get("custom:groupID"), into);
+    }
+
+    public void getReportImage(int index, ImageView into) {
+        Picasso.get().load(ip + "media/" + Client.userAttributes.get("custom:groupID") + "/" + Client.activeReport.getReportID() + "/" + index + ".png")
+                .placeholder(R.drawable.media_default)
+                .into(into);
     }
 
     public void forgotPassword(Context ctx, String username){

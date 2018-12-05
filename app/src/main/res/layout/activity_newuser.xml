@@ -9,35 +9,21 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_glowthing">
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:adjustViewBounds="true"
-        android:cropToPadding="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/irt_logo" />
-
     <android.support.v7.widget.CardView
         android:id="@+id/cardView7"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:stateListAnimator="@animator/button_anim"
         app:cardBackgroundColor="@color/OffWhiteBackground"
         app:cardElevation="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView19"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7">
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -135,20 +121,53 @@
         android:id="@+id/textView19"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="#22FFFFFF"
-        android:fontFamily="@font/roboto_medium"
+        android:fontFamily="@font/martel_sans_semibold"
         android:gravity="center_horizontal"
-        android:text="BeRThA IRT facilitates safety and communication by enabling students to report incidents to school administrators while remaining completely anonymous.  No identifying information is required to submit reports, nor will it be collected.\n\nYour institution will provide an access code to join."
+        android:lineSpacingMultiplier=".7"
+        android:text="BERTHA IRT facilitates safety and communication by enabling students to report incidents to school administrators while remaining completely anonymous. \nNo identifying information is required to submit reports,\nnor will any be collected.\n\nYour institution will provide an access code to join."
         android:textColor="@color/LightText"
         android:textSize="12sp"
-        android:textStyle="bold"
         app:autoSizeMaxTextSize="14dp"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/newuser_button_adminlogin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView7" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        app:srcCompat="@drawable/bertha_appicon" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/maven_pro_medium"
+        android:lines="3"
+        android:text="Incident\nResponse\nTool"
+        android:textColor="@color/LightText"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

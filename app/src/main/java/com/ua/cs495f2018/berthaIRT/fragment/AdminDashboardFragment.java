@@ -49,7 +49,7 @@ public class AdminDashboardFragment extends Fragment {
         //sets the text for registration
         if(Client.userGroupStatus.equals("Closed")) {
             ((TextView) view.findViewById(R.id.dashboard_alt_registration)).setText(R.string.open_registration);
-            ((ImageView) view.findViewById(R.id.dashboard_img_registration)).setImageResource(R.drawable.ic_check);
+            ((ImageView) view.findViewById(R.id.dashboard_img_registration)).setImageResource(R.drawable.ic_lock_open_black_24dp);
         }
 
         //if you toggle registration
@@ -116,11 +116,11 @@ public class AdminDashboardFragment extends Fragment {
             Toast.makeText(getContext(), "Registration set to " + r, Toast.LENGTH_SHORT).show();
             if(r.equals("Closed")){
                 ((TextView) view.findViewById(R.id.dashboard_alt_registration)).setText(R.string.open_registration);
-                    ((ImageView) view.findViewById(R.id.dashboard_img_registration)).setImageResource(R.drawable.ic_check);
+                    ((ImageView) view.findViewById(R.id.dashboard_img_registration)).setImageResource(R.drawable.ic_lock_open_black_24dp);
             }
             else{
                 ((TextView) view.findViewById(R.id.dashboard_alt_registration)).setText(R.string.close_registration);
-                ((ImageView) view.findViewById(R.id.dashboard_img_registration)).setImageResource(R.drawable.ic_close_black_24dp);
+                ((ImageView) view.findViewById(R.id.dashboard_img_registration)).setImageResource(R.drawable.ic_lock_outline_black_24dp);
             }
             Client.userGroupStatus = r;
         });

@@ -8,22 +8,174 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_glowthing">
 
-    <android.support.v7.widget.CardView
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintEnd_toStartOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView5"
+        app:srcCompat="@drawable/bertha_appicon" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/maven_pro_medium"
+        android:lines="3"
+        android:text="Incident\nResponse\nTool"
+        android:textColor="@color/LightText"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView8"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
         app:cardBackgroundColor="@color/OffWhiteBackground"
         app:cardElevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@drawable/gradient_card">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView47">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/student_main_viewhistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:stateListAnimator="@animator/button_anim"
+                    app:cardElevation="0dp">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/gradient_card">
+
+                        <TextView
+                            android:id="@+id/textView29"
+                            style="@style/_HelperText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:gravity="center"
+                            android:lineSpacingMultiplier=".7"
+                            android:text="REPORT AN\nINCIDENT"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginLeft="24dp"
+                            android:layout_marginTop="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginRight="24dp"
+                            android:layout_marginBottom="24dp"
+                            android:scaleType="fitCenter"
+                            android:tint="@color/PrimaryDark"
+                            app:layout_constraintBottom_toTopOf="@+id/textView29"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/baseline_new_releases_24" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/student_main_button_createreport"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:stateListAnimator="@animator/button_anim"
+                    app:cardElevation="0dp">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/gradient_card">
+
+                        <TextView
+                            android:id="@+id/textView10"
+                            style="@style/_HelperText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:gravity="center"
+                            android:lineSpacingMultiplier=".7"
+                            android:text="MY PAST\nREPORTS"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginLeft="24dp"
+                            android:layout_marginTop="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginRight="24dp"
+                            android:layout_marginBottom="24dp"
+                            android:scaleType="fitCenter"
+                            android:tint="@color/PrimaryDark"
+                            app:layout_constraintBottom_toTopOf="@+id/textView10"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/baseline_library_books_24" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView47"
@@ -78,102 +230,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
             </LinearLayout>
-            <android.support.v7.widget.CardView
-                tools:ignore="HardcodedText,ContentDescription"
-                tools:targetApi="lollipop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:stateListAnimator="@animator/button_anim"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="0dp"
-                tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="8dp"
-                android:id="@+id/cardView"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView47">
-
-                <TextView
-                    android:id="@+id/student_main_viewhistory"
-                    style="@style/_DarkButton"
-                    android:layout_width="match_parent"
-                    android:background="@drawable/gradient_button_dark"
-                    android:gravity="center"
-                    android:padding="16dp"
-                    android:text="MY REPORTS" />
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="24dp"
-                android:clickable="true"
-                android:stateListAnimator="@animator/button_anim"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView">
-
-                <TextView
-                    android:id="@+id/student_main_button_createreport"
-                    style="@style/_DarkButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/gradient_button_dark"
-                    android:gravity="center"
-                    android:padding="18dp"
-                    android:text="CREATE NEW REPORT" />
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
-                android:alpha=".9"
-                app:cardElevation="6dp"
-                app:cardPreventCornerOverlap="true"
-                app:cardUseCompatPadding="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView47">
-
-            </android.support.v7.widget.CardView>
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="60dp"
-        android:adjustViewBounds="true"
-        android:cropToPadding="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/irt_logo" />
 
 </android.support.constraint.ConstraintLayout>

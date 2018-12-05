@@ -139,7 +139,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
             android:layout_weight="1"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -159,42 +159,37 @@
                 android:stateListAnimator="@animator/button_anim"
                 app:cardElevation="0dp">
 
-                <android.support.constraint.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/gradient_card">
-
-                    <TextView
-                        android:id="@+id/textView38"
-                        style="@style/_HelperText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:gravity="center"
-                        android:lineSpacingMultiplier=".7"
-                        android:text="CHANGE EMBLEM"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                    android:background="@drawable/gradient_card"
+                    android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
                         android:layout_marginBottom="8dp"
-                        android:padding="16dp"
-                        android:scaleType="fitCenter"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="false"
+                        android:cropToPadding="false"
+                        android:padding="8dp"
+                        android:paddingLeft="3dp"
                         android:tint="@color/PrimaryDark"
-                        app:layout_constraintBottom_toTopOf="@+id/textView38"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_emblem" />
-                </android.support.constraint.ConstraintLayout>
+                        app:srcCompat="@drawable/ic_account_balance_black_24dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/martel_sans"
+                        android:gravity="center"
+                        android:lineSpacingMultiplier=".8"
+                        android:text="RENAME INSTITUTION"
+                        android:textColor="@color/StandardText" />
+                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -209,41 +204,53 @@
                 android:stateListAnimator="@animator/button_anim"
                 app:cardElevation="0dp">
 
-                <android.support.constraint.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/gradient_card">
+                    android:background="@drawable/gradient_card"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:id="@+id/imageView7"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="12dp"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/shape_circle" />
+
+                        <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_margin="24dp"
+                            android:layout_weight="1"
+                            android:adjustViewBounds="false"
+                            android:cropToPadding="false"
+                            android:paddingLeft="2dp"
+                            android:tint="@color/LightText"
+                            app:srcCompat="@drawable/ic_account_balance_black_24dp" />
+                    </FrameLayout>
 
                     <TextView
-                        android:id="@+id/textView37"
-                        style="@style/_HelperText"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/textView20"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
                         android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/martel_sans"
                         android:gravity="center"
-                        android:lineSpacingMultiplier=".7"
-                        android:text="RENAME INSTITUTION"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:scaleType="fitCenter"
-                        android:tint="@color/PrimaryDark"
-                        app:layout_constraintBottom_toTopOf="@+id/textView37"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_institution" />
-                </android.support.constraint.ConstraintLayout>
+                        android:lineSpacingMultiplier=".8"
+                        android:text="UPDATE EMBLEM"
+                        android:textColor="@color/StandardText" />
+                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -258,42 +265,38 @@
                 android:stateListAnimator="@animator/button_anim"
                 app:cardElevation="0dp">
 
-                <android.support.constraint.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/gradient_card">
-
-                    <TextView
-                        android:id="@+id/dashboard_alt_registration"
-                        style="@style/_HelperText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:gravity="center"
-                        android:lineSpacingMultiplier=".7"
-                        android:text="CLOSE REGISTRATION"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                    android:background="@drawable/gradient_card"
+                    android:orientation="vertical">
 
                     <ImageView
                         android:id="@+id/dashboard_img_registration"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
                         android:layout_marginBottom="8dp"
-                        android:scaleType="fitCenter"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="false"
+                        android:cropToPadding="false"
+                        android:padding="8dp"
                         android:tint="@color/PrimaryDark"
-                        app:layout_constraintBottom_toTopOf="@+id/dashboard_alt_registration"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_close_black_24dp" />
-                </android.support.constraint.ConstraintLayout>
+                        app:srcCompat="@drawable/ic_lock_outline_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/dashboard_alt_registration"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/martel_sans"
+                        android:gravity="center"
+                        android:lineSpacingMultiplier=".8"
+                        android:text="CLOSE REGISTRATION"
+                        android:textColor="@color/StandardText" />
+                </LinearLayout>
             </android.support.v7.widget.CardView>
 
         </LinearLayout>
@@ -326,42 +329,36 @@
                 android:stateListAnimator="@animator/button_anim"
                 app:cardElevation="0dp">
 
-                <android.support.constraint.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/gradient_card">
-
-                    <TextView
-                        android:id="@+id/textView29"
-                        style="@style/_HelperText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:gravity="center"
-                        android:lineSpacingMultiplier=".7"
-                        android:text="LOG\nOUT"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                    android:background="@drawable/gradient_card"
+                    android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
                         android:layout_marginBottom="8dp"
-                        android:padding="12dp"
-                        android:scaleType="fitCenter"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="false"
+                        android:cropToPadding="false"
+                        android:padding="8dp"
                         android:tint="@color/PrimaryDark"
-                        app:layout_constraintBottom_toTopOf="@+id/textView29"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_logout" />
-                </android.support.constraint.ConstraintLayout>
+                        app:srcCompat="@drawable/ic_reply_black_24dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/martel_sans"
+                        android:gravity="center"
+                        android:lineSpacingMultiplier=".8"
+                        android:text="LOGOUT AND QUIT"
+                        android:textColor="@color/StandardText" />
+                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -376,41 +373,36 @@
                 android:stateListAnimator="@animator/button_anim"
                 app:cardElevation="0dp">
 
-                <android.support.constraint.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/gradient_card">
-
-                    <TextView
-                        android:id="@+id/textView10"
-                        style="@style/_HelperText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:gravity="center"
-                        android:lineSpacingMultiplier=".7"
-                        android:text="MANAGE ADMINS"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                    android:background="@drawable/gradient_card"
+                    android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
                         android:layout_marginBottom="8dp"
-                        android:scaleType="fitCenter"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="false"
+                        android:cropToPadding="false"
+                        android:padding="8dp"
                         android:tint="@color/PrimaryDark"
-                        app:layout_constraintBottom_toTopOf="@+id/textView10"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_addremoveadmin" />
-                </android.support.constraint.ConstraintLayout>
+                        app:srcCompat="@drawable/ic_person_outline_black_24dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/martel_sans"
+                        android:gravity="center"
+                        android:lineSpacingMultiplier=".8"
+                        android:text="CHANGE MY NAME"
+                        android:textColor="@color/StandardText" />
+                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -425,42 +417,36 @@
                 android:stateListAnimator="@animator/button_anim"
                 app:cardElevation="0dp">
 
-                <android.support.constraint.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/gradient_card">
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        style="@style/_HelperText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:gravity="center"
-                        android:lineSpacingMultiplier=".7"
-                        android:text="CHANGE MY NAME"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                    android:background="@drawable/gradient_card"
+                    android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
                         android:layout_marginBottom="8dp"
-                        android:padding="16dp"
-                        android:scaleType="fitCenter"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="false"
+                        android:cropToPadding="false"
+                        android:padding="8dp"
                         android:tint="@color/PrimaryDark"
-                        app:layout_constraintBottom_toTopOf="@+id/textView9"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_editname" />
-                </android.support.constraint.ConstraintLayout>
+                        app:srcCompat="@drawable/ic_group_add_black_24dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/martel_sans"
+                        android:gravity="center"
+                        android:lineSpacingMultiplier=".8"
+                        android:text="MANAGE ADMINS"
+                        android:textColor="@color/StandardText" />
+                </LinearLayout>
             </android.support.v7.widget.CardView>
 
         </LinearLayout>

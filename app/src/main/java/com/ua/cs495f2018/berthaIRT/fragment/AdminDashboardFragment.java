@@ -151,7 +151,7 @@ public class AdminDashboardFragment extends Fragment {
     }
 
     private void actionAddAdmin(String admin) {
-        new YesNoDialog(getActivity(), "Are you sure? ", "About to add " + admin + " as an Admin?", new Interface.YesNoHandler() {
+        new YesNoDialog(getActivity(), "Are you sure? ", "About to add\n" + admin + "\nas an Admin?", new Interface.YesNoHandler() {
             @Override
             public void onYesClicked() {
                 Client.net.netSend(getContext(), "/group/addadmin", admin, false, x->
@@ -165,7 +165,7 @@ public class AdminDashboardFragment extends Fragment {
     }
 
     private void actionRemoveAdmin(String admin) {
-        new YesNoDialog(getActivity(),"Are you sure?", "About to remove " + admin + " as an Admin?", new Interface.YesNoHandler() {
+        new YesNoDialog(getActivity(),"Are you sure?", "About to remove\n" + admin + "\nas an Admin?", new Interface.YesNoHandler() {
             @Override
             public void onYesClicked() {
                 Client.net.netSend(getContext(), "/group/removeadmin", admin,false, null);

@@ -15,6 +15,7 @@ import com.ua.cs495f2018.berthaIRT.Client;
 import com.ua.cs495f2018.berthaIRT.R;
 import com.ua.cs495f2018.berthaIRT.Report;
 import com.ua.cs495f2018.berthaIRT.Util;
+import com.ua.cs495f2018.berthaIRT.dialog.ImageDialog;
 
 
 public class StudentReportDetailsFragment extends Fragment {
@@ -42,7 +43,7 @@ public class StudentReportDetailsFragment extends Fragment {
 
         //set the media listener
         v.findViewById(R.id.student_reportdetails_button_attachments).setOnClickListener(v1 ->
-            Toast.makeText(getActivity(),"View Media", Toast.LENGTH_SHORT).show() );
+            new ImageDialog(getContext()).show());
 
         updateReportDisplay(Client.activeReport);
         return v;

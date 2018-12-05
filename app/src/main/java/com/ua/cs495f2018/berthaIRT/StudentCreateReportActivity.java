@@ -1,16 +1,21 @@
 package com.ua.cs495f2018.berthaIRT;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.ua.cs495f2018.berthaIRT.dialog.CheckboxDialog;
+import com.ua.cs495f2018.berthaIRT.dialog.YesNoDialog;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +23,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class StudentCreateReportActivity extends AppCompatActivity {
 
@@ -29,6 +35,22 @@ public class StudentCreateReportActivity extends AppCompatActivity {
 
     private long incidentDateStamp = GregorianCalendar.getInstance().getTimeInMillis();
     private long incidentTimeStamp = 0;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                try {
+                    Bitmap b = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                    Client.net.uploadBitmap(StudentCreateReportActivity.this, b, null);
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +66,12 @@ public class StudentCreateReportActivity extends AppCompatActivity {
 
         etLocation = findViewById(R.id.createreport_input_location);
         etDescription = findViewById(R.id.createreport_input_description);
+
+        findViewById(R.id.createreport_button_attachments).setOnClickListener(v-> {
+            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+            i.setType("image/*");
+            startActivityForResult(Intent.createChooser(i, "Select File"), 1);
+        });
 
         //if you hit submit report
         findViewById(R.id.createreport_button_submit).setOnClickListener(v -> actionSubmitReport());

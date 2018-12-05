@@ -28,7 +28,6 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetail
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.UpdateAttributesHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.util.CognitoServiceConstants;
 import com.google.gson.JsonObject;
-import com.ua.cs495f2018.berthaIRT.dialog.InputDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.OkDialog;
 
 import java.util.HashMap;
@@ -61,7 +60,7 @@ public class CognitoNet {//Performs AWS Cognito login.
         signOut();
     }
 
-    public  void signOut(){
+    public void signOut(){
         if (pool.getCurrentUser() != null) pool.getCurrentUser().signOut();
         session = null;
     }
@@ -99,7 +98,6 @@ public class CognitoNet {//Performs AWS Cognito login.
             //Otherwise generate a random password for the student and store it in userfile
             @Override
             public void authenticationChallenge(ChallengeContinuation continuation) {
-                System.out.println(continuation.getChallengeName());
                 //if student is logging in for the first time
                 if (!isAdmin) {
                     String rPassword = Util.generateRandomPassword();

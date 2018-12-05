@@ -74,10 +74,10 @@ public class AdminReportDetailsActivity extends AppCompatActivity {
             //set the active report to the report id in the notification
             Client.activeReport = Client.reportMap.get(Integer.parseInt(extras.getString("id")));
             //if it's coming from a notification with message then launch message
-            //if (Objects.requireNonNull(extras.getString("frag")).equals("messages"))
+            if (extras.getString("frag") != null)
                 makeActive(fragMessages);
-/*            else
-                makeActive(fragDetails);*/
+            else
+                makeActive(fragDetails);
         }
         else
             makeActive(fragDetails);

@@ -262,27 +262,34 @@ public class BerthaNet {
                 }));
     }
 
-    public void uploadBitmap(Context ctx, Bitmap bitmap, Interface.WithStringListener listener){
-        Bitmap b = Bitmap.createBitmap(bitmap);
+    public void uploadEmblem(Context ctx, Bitmap bitmap, Interface.WithVoidListener listener){
+        Bitmap b = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
 
-        if(ctx instanceof AdminMainActivity) {
-            b = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
-            sentBitmap(ctx,"group/emblem",b, ()->listener.onEvent("group/emblem"));
-        }
-        else
-            sentBitmap(ctx,"report/media",b, ()->listener.onEvent("report/media"));
-
-    }
-
-    private void sentBitmap(Context ctx, String path, Bitmap b, Interface.WithVoidListener listener) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         b.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         String hexImg = Util.asHex(bytes.toByteArray());
 
-        netSend(ctx, path, hexImg, true, (r) ->{
+        netSend(ctx, "group/emblem", hexImg, true, (r) ->{
             Toast.makeText(ctx, "Image upload successful.", Toast.LENGTH_SHORT).show();
             if(listener != null)
                 listener.onEvent();
+        });
+    }
+
+    public void uploadReportImage(Context ctx, Report rep, Bitmap bitmap, Interface.WithVoidListener listener){
+        Bitmap b = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        String hexImg = Util.asHex(bytes.toByteArray());
+
+        JsonObject jay = new JsonObject();
+        jay.addProperty("reportID", rep.getReportID());
+        jay.addProperty("image", hexImg);
+
+        netSend(ctx, "report/media", jay.toString(), true, (r) ->{
+            Toast.makeText(ctx, "Image upload successful.", Toast.LENGTH_SHORT).show();
+            listener.onEvent();
         });
     }
 

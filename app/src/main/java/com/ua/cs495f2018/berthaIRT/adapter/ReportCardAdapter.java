@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.ua.cs495f2018.berthaIRT.AdminReportDetailsActivity;
 import com.ua.cs495f2018.berthaIRT.Client;
+import com.ua.cs495f2018.berthaIRT.Interface;
 import com.ua.cs495f2018.berthaIRT.R;
 import com.ua.cs495f2018.berthaIRT.Report;
 import com.ua.cs495f2018.berthaIRT.StudentReportDetailsActivity;
@@ -33,13 +34,15 @@ public class ReportCardAdapter extends RecyclerView.Adapter<ReportCardAdapter.Re
         data = new ArrayList<>();
     }
 
-    public void updateReports(Collection<Report> c){
+    public void updateReports(Collection<Report> c, Interface.WithVoidListener listener){
         if(c == null)
             c = new ArrayList<>();
 
         data.clear();
         data.addAll(c);
         notifyDataSetChanged();
+        if(listener != null)
+            listener.onEvent();
     }
 
     @NonNull
@@ -50,6 +53,13 @@ public class ReportCardAdapter extends RecyclerView.Adapter<ReportCardAdapter.Re
 
     @Override
     public void onBindViewHolder(@NonNull ReportViewHolder holder, int position) {
+
+        holder.tvMetrics.setText(String.format("%s Reports matching criteria", String.valueOf(data.size())));
+        if(position == 0)
+            holder.tvMetrics.setVisibility(View.VISIBLE);
+        else
+            holder.tvMetrics.setVisibility(View.GONE);
+
         Report r = data.get(position);
 
         holder.tvReportID.setText(String.format("%s",r.getReportID()));
@@ -111,6 +121,7 @@ public class ReportCardAdapter extends RecyclerView.Adapter<ReportCardAdapter.Re
         LinearLayout catTainer;
         CardView cardContainer;
         TextView tvReportID, tvSubmitted, tvStatus, tvExtraCats;
+        TextView tvMetrics;
 
         ReportViewHolder(View v) {
             super(v);
@@ -120,6 +131,8 @@ public class ReportCardAdapter extends RecyclerView.Adapter<ReportCardAdapter.Re
             tvStatus = itemView.findViewById(R.id.reportcard_alt_status);
             tvSubmitted = itemView.findViewById(R.id.reportcard_alt_action);
             tvExtraCats = itemView.findViewById(R.id.reportcard_alt_extracats);
+
+            tvMetrics = itemView.findViewById(R.id.reportcard_alt_metrics);
         }
     }
 

@@ -27,6 +27,7 @@ import com.ua.cs495f2018.berthaIRT.Util;
 import com.ua.cs495f2018.berthaIRT.adapter.NotesAdapter;
 import com.ua.cs495f2018.berthaIRT.dialog.AddRemoveDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.CheckboxDialog;
+import com.ua.cs495f2018.berthaIRT.dialog.ImageDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.NotesDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
 
@@ -92,8 +93,14 @@ public class AdminReportDetailsFragment extends Fragment {
 
         //if attachments is hit
         //TODO get attachments from server
-        v.findViewById(R.id.admin_reportdetails_button_attachments).setOnClickListener(v1 ->
-                Toast.makeText(getActivity(), "View Attachments", Toast.LENGTH_SHORT).show() );
+        if(Client.activeReport.getMediaCount() > 0)
+            v.findViewById(R.id.admin_reportdetails_button_attachments).setOnClickListener(v1 ->
+                    new ImageDialog(getContext()).show());
+        else {
+            v.findViewById(R.id.student_reportdetails_button_attachments).setVisibility(View.GONE);
+            v.findViewById(R.id.admin_reportdetails_no_attachments).setVisibility(View.GONE);
+        }
+
 
         //Listener for editing categories. It gets the selected ones first
         v.findViewById(R.id.admin_reportdetails_button_editcategory).setOnClickListener(v1 ->
@@ -166,6 +173,7 @@ public class AdminReportDetailsFragment extends Fragment {
         System.out.println("Log size" + r.getLogs().size());
         tvReportId.setText(String.format("%s",r.getReportID()));
         tvCreateTimestamp.setText(Util.formatTimestamp(r.getCreationDate()));
+        tvLastActionTimestamp.setText(Util.formatTimestamp(r.getLogs().get(r.getLogs().size() - 1).getMessageTimestamp()));
         tvStatus.setText(r.getStatus());
         tvIncidentTimestamp.setText(Util.formatTimestamp(r.getIncidentDate()));
 

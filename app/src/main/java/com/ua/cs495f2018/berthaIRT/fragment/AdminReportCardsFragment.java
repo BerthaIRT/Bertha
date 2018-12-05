@@ -56,14 +56,13 @@ public class AdminReportCardsFragment extends Fragment {
         //todo: this will all have to be redone upon an update to the report
         //create a filter dialog for use later
         filterDialog = new FilterDialog(getContext(), filteredReports-> {
-            adapter.updateReports(filteredReports);
+            adapter.updateReports(filteredReports, this::updateView);
             filterData = filteredReports;
         });
 
         //if you hit filter
         v.findViewById(R.id.admin_reports_button_filter).setOnClickListener(x->actionShowFilters());
 
-        //Client.makeRefreshTask(getContext(), ()-> adapter.updateReports(Client.reportMap.values()));
 
         //if you search
         etSearch.addTextChangedListener(new TextWatcher() {
@@ -80,7 +79,7 @@ public class AdminReportCardsFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(etSearch.getText().toString().isEmpty())
-                    adapter.updateReports(filterData);
+                    adapter.updateReports(filterData, ()-> updateView());
             }
         });
 
@@ -118,11 +117,8 @@ public class AdminReportCardsFragment extends Fragment {
                 }
             }
             //Update The Report Display with User Searched Reports.
-            adapter.updateReports(searchedList);
+            adapter.updateReports(searchedList, this::updateView);
         });
-
-        //Search button push view toggle
-        //ivSearch.setOnClickListener();
 
         return v;
     }
@@ -136,8 +132,17 @@ public class AdminReportCardsFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        if(adapter == null) return;
-        adapter.updateReports(Client.reportMap.values());
-        FirebaseNet.setOnRefreshHandler((r)-> adapter.updateReports(Client.reportMap.values()));
+        if(adapter == null)
+            return;
+        adapter.updateReports(Client.reportMap.values(), this::updateView);
+        FirebaseNet.setOnRefreshHandler((r)->
+                adapter.updateReports(Client.reportMap.values(), this::updateView));
+    }
+
+    private void updateView() {
+        if(adapter.getItemCount() == 0)
+            tvNoReports.setVisibility(View.VISIBLE);
+        else
+            tvNoReports.setVisibility(View.GONE);
     }
 }

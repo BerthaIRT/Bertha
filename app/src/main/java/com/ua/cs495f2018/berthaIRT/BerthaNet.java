@@ -20,6 +20,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.ua.cs495f2018.berthaIRT.dialog.OkDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
@@ -303,15 +304,14 @@ public class BerthaNet {
 
     public void getReportImage(int index, ImageView into) {
         Picasso.get().load(ip + "media/" + Client.userAttributes.get("custom:groupID") + "/" + Client.activeReport.getReportID() + "/" + index + ".png")
-                .placeholder(R.drawable.media_default)
+                .placeholder(R.drawable.emblem_default)
                 .into(into);
     }
 
     public void forgotPassword(Context ctx, String username){
         if(username.equals("")) return;
-        netSend(ctx, "forgotpassword", username, true, (r)->{
-            new OkDialog(ctx, "Password Reset", "A new temporary password has been sent to " + username, null).show();
-        });
+        netSend(ctx, "forgotpassword", username, true, (r)->
+                new OkDialog(ctx, "Password Reset", "A new temporary password has been sent to " + username, null).show());
     }
 
     public void updateInstitutionName(Context ctx, String name, Interface.WithVoidListener callback) {

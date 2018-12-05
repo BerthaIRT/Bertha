@@ -64,8 +64,6 @@
             android:screenOrientation="portrait"/>
         <activity android:name="com.ua.cs495f2018.berthaIRT.LogActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.ua.cs495f2018.berthaIRT.MetricsActivity"
-            android:screenOrientation="portrait"/>
         <activity android:name="com.ua.cs495f2018.berthaIRT.StudentReportDetailsActivity"
             android:screenOrientation="portrait">
             <intent-filter>

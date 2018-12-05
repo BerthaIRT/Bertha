@@ -41,12 +41,12 @@ public class StudentReportCardsFragment extends Fragment {
         super.onResume();
         if(adapter == null)
             return;
-        adapter.updateReports(Client.reportMap.values());
+        adapter.updateReports(Client.reportMap.values(), null);
         if(adapter.getItemCount() == 0)
             tvNoReports.setVisibility(View.VISIBLE);
 
         FirebaseNet.setOnRefreshHandler((r)-> {
-            adapter.updateReports(Client.reportMap.values());
+            adapter.updateReports(Client.reportMap.values(), null);
             if(adapter.getItemCount() == 0)
                 tvNoReports.setVisibility(View.VISIBLE);
         });

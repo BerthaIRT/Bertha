@@ -12,15 +12,17 @@ import com.ua.cs495f2018.berthaIRT.R;
 
 public class ImageDialog extends AlertDialog {
 
-    //private final List<String> data;
     private int index;
 
+
+    private Context ctx;
     private ImageView img;
     private ImageButton leftButton;
     private ImageButton rightButton;
 
     public ImageDialog(Context c) {
         super(c, R.style.DialogTheme);
+        this.ctx = c;
     }
 
     @Override
@@ -32,33 +34,32 @@ public class ImageDialog extends AlertDialog {
         leftButton = findViewById(R.id.imagedialog_button_left);
         rightButton = findViewById(R.id.imagedialog_buttton_right);
 
-        index = 0;
+        index = 1;
 
         Client.net.getReportImage(index, img);
-        setVisibility(index);
+        setArrowVisibility(index);
 
         leftButton.setOnClickListener(x-> {
-            if(index > 0) {
+            if(index > 1) {
                 Client.net.getReportImage(index-1, img);
                 index -= 1;
-                setVisibility(index);
+                setArrowVisibility(index);
             }
         });
 
         rightButton.setOnClickListener(x-> {
             if(index < Client.activeReport.getMediaCount()) {
-                img.setImageResource(index+1);
+                Client.net.getReportImage(index+1, img);
                 index += 1;
-                setVisibility(index);
+                setArrowVisibility(index);
             }
         });
 
-        findViewById(R.id.imagedialog_button_close).setOnClickListener(
-                x-> dismiss());
+        findViewById(R.id.imagedialog_button_close).setOnClickListener(x-> dismiss());
     }
 
-    private void setVisibility(int index) {
-        if(index < 1)
+    private void setArrowVisibility(int index) {
+        if(index < 2)
             leftButton.setVisibility(View.INVISIBLE);
         else
             leftButton.setVisibility(View.VISIBLE);

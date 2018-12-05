@@ -84,18 +84,20 @@
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/admin_reports_rv"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/gradient_vert_background"
-            android:orientation="vertical"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/admin_reports_button_search">
-        </android.support.v7.widget.RecyclerView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/admin_reports_rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/gradient_vert_background"
+        android:orientation="vertical"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/admin_reports_button_search">
+
+    </android.support.v7.widget.RecyclerView>
 
 
     <LinearLayout

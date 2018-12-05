@@ -38,17 +38,6 @@ public class AdminMainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-//                Uri selectedImage = data.getData();
-//                String[] filePathColumn = { MediaStore.Images.Media.DATA };
-//
-//                Cursor cursor = getContentResolver().query(selectedImage,
-//                        filePathColumn, null, null, null);
-//                cursor.moveToFirst();
-//
-//                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//                String picturePath = cursor.getString(columnIndex);
-//                cursor.close();
-
                 try {
                     Bitmap b = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
 
@@ -57,7 +46,7 @@ public class AdminMainActivity extends AppCompatActivity {
                         YesNoDialog warning = new YesNoDialog(this, "Emblem Dimensions", "The image you have uploaded will be distorted to fit a square frame.  For best results, choose square images.", new Interface.YesNoHandler() {
                             @Override
                             public void onYesClicked() {
-                                Client.net.uploadBitmap(AdminMainActivity.this, b, v->
+                                Client.net.uploadEmblem(AdminMainActivity.this, b, ()->
                                         Client.net.getEmblem(findViewById(R.id.dashboard_img_emblem)));
                             }
 
@@ -66,10 +55,11 @@ public class AdminMainActivity extends AppCompatActivity {
                                 return;
                             }
                         });
-                        ((TextView) warning.findViewById(R.id.generaldialog_button_yes)).setText("IGNORE");
-                        ((TextView) warning.findViewById(R.id.generaldialog_button_no)).setText("CANCEL");
+                        warning.show();
+                        ((TextView) warning.findViewById(R.id.generaldialog_alt_yes)).setText("IGNORE");
+                        ((TextView) warning.findViewById(R.id.generaldialog_alt_no)).setText("CANCEL");
                     }
-                    else Client.net.uploadBitmap(AdminMainActivity.this, b, v->
+                    else Client.net.uploadEmblem(AdminMainActivity.this, b, ()->
                             Client.net.getEmblem(findViewById(R.id.dashboard_img_emblem)));
                 }
                 catch (IOException e) {

@@ -42,8 +42,13 @@ public class StudentReportDetailsFragment extends Fragment {
         tvLocation = v.findViewById(R.id.student_reportdetails_alt_location);
 
         //set the media listener
-        v.findViewById(R.id.student_reportdetails_button_attachments).setOnClickListener(v1 ->
-            new ImageDialog(getContext()).show());
+        if(Client.activeReport.getMediaCount() > 0)
+            v.findViewById(R.id.student_reportdetails_button_attachments).setOnClickListener(v1 ->
+                new ImageDialog(getContext()).show());
+        else {
+            v.findViewById(R.id.student_reportdetails_button_attachments).setVisibility(View.GONE);
+            v.findViewById(R.id.student_reportdetails_no_attachments).setVisibility(View.VISIBLE);
+        }
 
         updateReportDisplay(Client.activeReport);
         return v;
@@ -52,7 +57,7 @@ public class StudentReportDetailsFragment extends Fragment {
     private void updateReportDisplay(Report r) {
         tvReportId.setText(String.format("%s",r.getReportID()));
         tvCreateTimestamp.setText(Util.formatTimestamp(r.getCreationDate()));
-        //tvLastActionTimestamp.setText(Util.formatTimestamp(r.logs.get(r.logs.size()).tStamp));
+        tvLastActionTimestamp.setText(Util.formatTimestamp(r.getLogs().get(r.getLogs().size() - 1).getMessageTimestamp()));
         tvStatus.setText(r.getStatus());
         tvIncidentTimestamp.setText(Util.formatTimestamp(r.getIncidentDate()));
 

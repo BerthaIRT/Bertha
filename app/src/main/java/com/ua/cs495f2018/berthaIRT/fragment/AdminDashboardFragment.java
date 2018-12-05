@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.ua.cs495f2018.berthaIRT.AdminLoginActivity;
 import com.ua.cs495f2018.berthaIRT.Client;
 import com.ua.cs495f2018.berthaIRT.Interface;
-import com.ua.cs495f2018.berthaIRT.MetricsActivity;
 import com.ua.cs495f2018.berthaIRT.R;
 import com.ua.cs495f2018.berthaIRT.adapter.AddRemoveAdapter;
 import com.ua.cs495f2018.berthaIRT.dialog.AddRemoveDialog;
@@ -42,9 +41,6 @@ public class AdminDashboardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater flater, ViewGroup tainer, Bundle savedInstanceState){
         view = flater.inflate(R.layout.fragment_admin_dashboard, tainer, false);
 
-        view.findViewById(R.id.dashboard_button_metrics).setOnClickListener(v1 ->
-                startActivity(new Intent(getActivity(), MetricsActivity.class)));
-
         //not a user attribute
 //        view.findViewById(R.id.dashboard_button_editinstitutionname).setOnClickListener(v1 ->
 //                Util.showInputDialog(getContext(),"Your Institution Name", null, Client.currentUserGroupID,"Update", x-> actionUpdateAttribute("institution", x)) );
@@ -54,7 +50,7 @@ public class AdminDashboardFragment extends Fragment {
             i.setType("image/*");
             Objects.requireNonNull(getActivity()).startActivityForResult(Intent.createChooser(i, "Select File"), 1);
         });
-//
+
         //sets the text for registration
         if(Client.userGroupStatus.equals("Closed"))
             ((TextView) view.findViewById(R.id.dashboard_button_registration)).setText(R.string.open_registration);

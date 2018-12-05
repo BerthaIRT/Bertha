@@ -467,6 +467,19 @@
                             android:textAllCaps="true"
                             android:textSize="18sp" />
                     </android.support.v7.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/admin_reportdetails_no_attachments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="10dp"
+                        android:text="There are no attachments"
+                        android:textSize="18sp"
+                        app:layout_constraintTop_toBottomOf="@+id/admin_reportdetails_alt_location"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:visibility="gone" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
 

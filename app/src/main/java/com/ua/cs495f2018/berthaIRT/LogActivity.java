@@ -27,7 +27,6 @@ public class LogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log);
 
         RecyclerView rv = findViewById(R.id.log_recycler_view);
-        rv.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new LogAdapter(logList);
         rv.setAdapter(adapter);
@@ -42,12 +41,12 @@ public class LogActivity extends AppCompatActivity {
     private void populateReportLog(List<Message> l) {
         logList.clear();
 
-        //adds all the reports logs in reverse order
-        Collections.reverse(l);
+/*        //adds all the reports logs in reverse order
+        Collections.reverse(l);*/
         logList.addAll(l);
 
-        //reverse it again
-        Collections.reverse(l);
+/*        //reverse it again
+        Collections.reverse(l);*/
         adapter.notifyDataSetChanged();
 
         //if there is no log then show message

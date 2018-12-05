@@ -34,7 +34,7 @@ public class StudentCreateReportActivity extends AppCompatActivity {
     private EditText etDescription;
     private SeekBar sbThreat;
 
-    private List<Bitmap> pictureList;
+    private List<Bitmap> pictureList = new ArrayList<>();
 
     private long incidentDateStamp = GregorianCalendar.getInstance().getTimeInMillis();
     private long incidentTimeStamp = 0;
@@ -47,6 +47,7 @@ public class StudentCreateReportActivity extends AppCompatActivity {
                 try {
                     Bitmap b = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
                     pictureList.add(b);
+                    ((TextView) findViewById(R.id.createreport_alt_media)).setText("Media Attached!");
                 }
                 catch (IOException e) {
                     e.printStackTrace();
@@ -136,20 +137,23 @@ public class StudentCreateReportActivity extends AppCompatActivity {
             newReport.setLocation(location);
             newReport.setIncidentDate((incidentDateStamp + incidentTimeStamp));
             newReport.setCategories(r);
+            newReport.setMediaCount(pictureList.size());
             Client.activeReport = newReport;
-            Client.net.syncActiveReport(StudentCreateReportActivity.this, ()->{
-                uploadImages(pictureList, ()->{
-                    startActivity(new Intent(this, StudentReportDetailsActivity.class));
-                    finish();
-                });
-            });
+            Client.net.syncActiveReport(StudentCreateReportActivity.this, ()->
+                    uploadImages(pictureList, ()->{
+                        startActivity(new Intent(this, StudentReportDetailsActivity.class));
+                        finish();
+                    })
+            );
         }).show();
     }
 
     public void uploadImages(List<Bitmap> images, Interface.WithVoidListener callback){
         Client.net.uploadReportImage(StudentCreateReportActivity.this, Client.activeReport, images.remove(0), ()->{
-            if(images.size() > 0) uploadImages(images, callback);
-            else callback.onEvent();
+            if(images.size() > 0)
+                uploadImages(images, callback);
+            else
+                callback.onEvent();
         });
 
     }

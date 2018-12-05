@@ -43,12 +43,16 @@ public class AlertCardsFragment extends Fragment {
         adapter.updateAlerts(Client.alertList);
         if(adapter.getItemCount() == 0)
             tvNoAlerts.setVisibility(View.VISIBLE);
+        else
+            tvNoAlerts.setVisibility(View.GONE);
 
         //yeah i know whatever
         FirebaseNet.setOnRefreshHandler((r)->{
             adapter.updateAlerts(Client.alertList);
             if(adapter.getItemCount() == 0)
                 tvNoAlerts.setVisibility(View.VISIBLE);
+            else
+                tvNoAlerts.setVisibility(View.GONE);
         });
     }
 }

@@ -33,7 +33,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
     public void updateMessages(Collection<Message> c){
-        data = new ArrayList<>(c);
+        data.clear();
+        data.addAll(c);
         notifyDataSetChanged();
     }
 

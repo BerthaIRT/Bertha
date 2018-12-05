@@ -17,15 +17,11 @@ import com.ua.cs495f2018.berthaIRT.AdminLoginActivity;
 import com.ua.cs495f2018.berthaIRT.Client;
 import com.ua.cs495f2018.berthaIRT.Interface;
 import com.ua.cs495f2018.berthaIRT.R;
-import com.ua.cs495f2018.berthaIRT.Util;
 import com.ua.cs495f2018.berthaIRT.adapter.AddRemoveAdapter;
 import com.ua.cs495f2018.berthaIRT.dialog.AddRemoveDialog;
-import com.ua.cs495f2018.berthaIRT.dialog.CheckboxDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.InputDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.YesNoDialog;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import static com.ua.cs495f2018.berthaIRT.Client.net;
@@ -43,10 +39,6 @@ public class AdminDashboardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater flater, ViewGroup tainer, Bundle savedInstanceState){
         view = flater.inflate(R.layout.fragment_admin_dashboard, tainer, false);
 
-        //not a user attribute
-//        view.findViewById(R.id.dashboard_button_editinstitutionname).setOnClickListener(v1 ->
-//                Util.showInputDialog(getContext(),"Your Institution Name", null, Client.currentUserGroupID,"Update", x-> actionUpdateAttribute("institution", x)) );
-
         view.findViewById(R.id.dashboard_button_editemblem).setOnClickListener(v1 ->{
             Intent i = new Intent(Intent.ACTION_GET_CONTENT);
             i.setType("image/*");
@@ -62,7 +54,7 @@ public class AdminDashboardFragment extends Fragment {
         //if you edit admin name
         view.findViewById(R.id.dashboard_button_editmyname).setOnClickListener(v1 -> actionEditName());
 
-        view.findViewById(R.id.dashboard_button_resetpassword).setOnClickListener(v1 -> actionResetPassword());
+        //view.findViewById(R.id.dashboard_button_resetpassword).setOnClickListener(v1 -> actionResetPassword());
 
         view.findViewById(R.id.dashboard_button_editinstitutionname).setOnClickListener(v->actionInstitutionName());
 
@@ -97,14 +89,14 @@ public class AdminDashboardFragment extends Fragment {
         ((TextView) Objects.requireNonNull(d.findViewById(R.id.inputdialog_input))).setText(Client.userGroupName);
     }
 
-    private void actionResetPassword() {
+/*    private void actionResetPassword() {
         new YesNoDialog(getActivity(), "Are you sure?", "A temporary code for you to reset your password will be sent to your email and you will be logged out.", new Interface.YesNoHandler() {
             @Override
             public void onYesClicked() { Client.cogNet.forgotPassword(getContext(), Client.userAttributes.get("cognito:username")); }
             @Override
             public void onNoClicked() { }
         }).show();
-    }
+    }*/
 
     private void actionEditName() {
         InputDialog d = new InputDialog(getContext(),"Your Full Name", "", x ->

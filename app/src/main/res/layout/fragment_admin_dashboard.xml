@@ -50,6 +50,8 @@
                 android:id="@+id/dashboard_alt_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:fontFamily="@font/martel_sans_semibold"
@@ -58,8 +60,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/dashboard_img_emblem"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView14"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
             <TextView
@@ -92,7 +93,7 @@
 
             <TextView
                 android:id="@+id/textView16"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
@@ -169,22 +170,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
-
-<!--                            <TextView
-                                android:id="@+id/dashboard_button_metrics"
-                                style="@style/_FlatButton"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/gradient_button_flat"
-                                android:clickable="true"
-                                android:padding="12dp"
-                                android:text="VIEW METRICS"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="2dp"
-                                android:background="@drawable/gradient_div" />-->
 
                             <TextView
                                 android:id="@+id/dashboard_button_editinstitutionname"
@@ -293,7 +278,7 @@
                                 android:text="EDIT MY NAME"
                                 android:textSize="18sp" />
 
-                            <TextView
+<!--                            <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="2dp"
                                 android:background="@drawable/gradient_div" />
@@ -307,7 +292,7 @@
                                 android:clickable="true"
                                 android:padding="12dp"
                                 android:text="RESET MY PASSWORD"
-                                android:textSize="18sp" />
+                                android:textSize="18sp" />-->
 
                             <TextView
                                 android:layout_width="match_parent"

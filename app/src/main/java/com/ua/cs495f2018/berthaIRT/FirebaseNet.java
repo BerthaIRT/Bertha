@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -35,6 +36,7 @@ public class FirebaseNet extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        System.out.println("Message Recieved");
         Map<String, String> data = remoteMessage.getData();
         System.out.println(data);
         String title = data.get("title");

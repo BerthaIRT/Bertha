@@ -55,10 +55,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        System.out.println("onBind");
         Message message = data.get(position);
-
-        Log.v("MessageAdapter", Client.userAttributes.get("username") + ": " + message.getMessageBody() + " vs " + message.getMessageSubject());
 
         if(message.getMessageSubject().equals(Client.userAttributes.get("username"))){
             holder.outContainer.setVisibility(View.VISIBLE);
@@ -83,10 +80,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         Message lastMessage = null;
         try{
             lastMessage = data.get(position-1);
-/*            if(!lastMessage.getMessageSubject().equals(message.getMessageSubject()) || message.getMessageTimestamp() - lastMessage.getMessageTimestamp() > 300000){
-                tvSub.setVisibility(View.GONE);
-                tvTime.setVisibility(View.GONE);
-            }*/
         } catch(IndexOutOfBoundsException ignored){}
 
         if(lastMessage == null || isNewDay(message.getMessageTimestamp(), lastMessage.getMessageTimestamp())){
@@ -95,14 +88,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         }
         else
             holder.dateDiv.setVisibility(View.GONE);
-
-/*        tvSub.setText(message.getMessageSubject());
-        tvBody.setText(message.getMessageBody());
-        tvTime.setText(Util.formatJustTime(message.getMessageTimestamp()));
-
-        //if the message is from a student and the message is coming in
-        if(message.getMessageSubject().startsWith("student"))
-            tvSub.setText(R.string.hidden);*/
     }
 
     @Override
@@ -110,7 +95,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         return data.size();
     }
 
-    public class MessageViewHolder extends RecyclerView.ViewHolder {
+    class MessageViewHolder extends RecyclerView.ViewHolder {
         LinearLayout dateDiv;
         ConstraintLayout inContainer, outContainer;
         TextView tvInTime, tvInSub, tvInBody, tvOutTime, tvOutSub, tvOutBody;

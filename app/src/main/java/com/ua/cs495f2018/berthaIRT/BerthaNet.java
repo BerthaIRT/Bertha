@@ -263,7 +263,7 @@ public class BerthaNet {
                 }));
     }
 
-    public void uploadEmblem(Context ctx, Bitmap bitmap, Interface.WithVoidListener listener){
+    void uploadEmblem(Context ctx, Bitmap bitmap, Interface.WithVoidListener listener){
         Bitmap b = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -277,7 +277,7 @@ public class BerthaNet {
         });
     }
 
-    public void uploadReportImage(Context ctx, Report rep, Bitmap bitmap, Interface.WithVoidListener listener){
+    void uploadReportImage(Context ctx, Report rep, Bitmap bitmap, Interface.WithVoidListener listener){
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         String hexImg = Util.asHex(bytes.toByteArray());
@@ -296,7 +296,7 @@ public class BerthaNet {
         });
     }
 
-    public void getEmblem(String groupID, ImageView into){
+    private void getEmblem(String groupID, ImageView into){
         Picasso.get().load(ip + "emblem/" + groupID + ".png")
                 .placeholder(R.drawable.emblem_default)
                 .into(into);
@@ -313,7 +313,8 @@ public class BerthaNet {
     }
 
     public void forgotPassword(Context ctx, String username){
-        if(username.equals("")) return;
+        if(username.equals(""))
+            return;
         netSend(ctx, "forgotpassword", username, true, (r)->
                 new OkDialog(ctx, "Password Reset", "A new temporary password has been sent to " + username, null).show());
     }

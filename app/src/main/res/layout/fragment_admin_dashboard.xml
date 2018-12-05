@@ -30,6 +30,7 @@
                 android:fadeScrollbars="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/dashboard_alt_name"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/emblem_default" />
 
@@ -49,11 +50,15 @@
                 android:id="@+id/dashboard_alt_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:fontFamily="@font/martel_sans_semibold"
                 android:text="John Doe"
                 android:textColor="#FF000000"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/dashboard_img_emblem"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView14"
                 app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
@@ -73,11 +78,15 @@
                 android:id="@+id/dashboard_alt_institution"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:fontFamily="@font/martel_sans_semibold"
                 android:text="The University of Alabama"
                 android:textColor="#FF000000"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/dashboard_img_emblem"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView15"
                 app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
@@ -88,8 +97,12 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:text="INSTITUTION ACCESS CODE"
                 android:textColor="#88000000"
+                app:layout_constraintEnd_toStartOf="@+id/dashboard_img_emblem"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dashboard_alt_institution" />
 

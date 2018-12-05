@@ -3,6 +3,7 @@ package com.ua.cs495f2018.berthaIRT.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -76,6 +77,21 @@ public class AlertCardAdapter extends RecyclerView.Adapter<AlertCardAdapter.Aler
         holder.tvReportID.setText(String.format("%s", a.getReportID()));
         holder.tvTimeSince.setText(calculateTimeSince(a.getMessageTimestamp()));
         holder.tvStatus.setText(r.getStatus());
+        //set the text color of status appropriately
+        switch (holder.tvStatus.getText().toString()) {
+            case "New":
+                holder.tvStatus.setTextColor(ContextCompat.getColor(ctx, R.color.NewStatus));
+                break;
+            case "Open":
+                holder.tvStatus.setTextColor(ContextCompat.getColor(ctx, R.color.OpenStatus));
+                break;
+            case "Assigned":
+                holder.tvStatus.setTextColor(ContextCompat.getColor(ctx, R.color.AssignedStatus));
+                break;
+            case "Closed":
+                holder.tvStatus.setTextColor(ContextCompat.getColor(ctx, R.color.ClosedStatus));
+                break;
+        }
 
         holder.catTainer.removeAllViews();
         //to handle the categories display

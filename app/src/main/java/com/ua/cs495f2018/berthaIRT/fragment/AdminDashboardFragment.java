@@ -17,8 +17,10 @@ import com.ua.cs495f2018.berthaIRT.AdminLoginActivity;
 import com.ua.cs495f2018.berthaIRT.Client;
 import com.ua.cs495f2018.berthaIRT.Interface;
 import com.ua.cs495f2018.berthaIRT.R;
+import com.ua.cs495f2018.berthaIRT.Util;
 import com.ua.cs495f2018.berthaIRT.adapter.AddRemoveAdapter;
 import com.ua.cs495f2018.berthaIRT.dialog.AddRemoveDialog;
+import com.ua.cs495f2018.berthaIRT.dialog.CheckboxDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.InputDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.YesNoDialog;
 
@@ -138,11 +140,10 @@ public class AdminDashboardFragment extends Fragment {
 
     private void actionAddRemoveAdmin() {
         //Get the admins and display dialog
-        List<String> admins = new ArrayList<>();
         net.lookupGroup(getContext(), Client.userAttributes.get("custom:groupID"), () -> {
-            d = new AddRemoveDialog(getActivity(), Client.userGroupAdmins, this::actionAddAdmin, this::actionRemoveAdmin, null);
-            d.show();
-            ((EditText) Objects.requireNonNull(d.findViewById(R.id.addremove_input))).setHint("Admin Email");
+                d = new AddRemoveDialog(getActivity(), Client.userGroupAdmins, this::actionAddAdmin, this::actionRemoveAdmin, null);
+                d.show();
+                ((EditText) Objects.requireNonNull(d.findViewById(R.id.addremove_input))).setHint("Admin Email");
         });
     }
 

@@ -277,10 +277,8 @@ public class BerthaNet {
     }
 
     public void uploadReportImage(Context ctx, Report rep, Bitmap bitmap, Interface.WithVoidListener listener){
-        Bitmap b = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
-
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        b.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         String hexImg = Util.asHex(bytes.toByteArray());
 
         JsonObject jay = new JsonObject();

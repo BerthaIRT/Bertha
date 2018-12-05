@@ -34,7 +34,7 @@ public class StudentCreateReportActivity extends AppCompatActivity {
     private EditText etDescription;
     private SeekBar sbThreat;
 
-    private List<Bitmap> pictureList;
+    private List<Bitmap> pictureList = new ArrayList<>();
 
     private long incidentDateStamp = GregorianCalendar.getInstance().getTimeInMillis();
     private long incidentTimeStamp = 0;
@@ -138,7 +138,7 @@ public class StudentCreateReportActivity extends AppCompatActivity {
             newReport.setCategories(r);
             Client.activeReport = newReport;
             Client.net.syncActiveReport(StudentCreateReportActivity.this, ()->{
-                uploadImages(pictureList, ()->{
+                uploadImages(()->{
                     startActivity(new Intent(this, StudentReportDetailsActivity.class));
                     finish();
                 });
@@ -146,9 +146,9 @@ public class StudentCreateReportActivity extends AppCompatActivity {
         }).show();
     }
 
-    public void uploadImages(List<Bitmap> images, Interface.WithVoidListener callback){
-        Client.net.uploadReportImage(StudentCreateReportActivity.this, Client.activeReport, images.remove(0), ()->{
-            if(images.size() > 0) uploadImages(images, callback);
+    public void uploadImages(Interface.WithVoidListener callback){
+        Client.net.uploadReportImage(StudentCreateReportActivity.this, Client.activeReport, pictureList.remove(0), ()->{
+            if(pictureList.size() > 0) uploadImages(callback);
             else callback.onEvent();
         });
 

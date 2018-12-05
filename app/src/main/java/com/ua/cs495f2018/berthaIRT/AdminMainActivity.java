@@ -57,7 +57,7 @@ public class AdminMainActivity extends AppCompatActivity {
                         YesNoDialog warning = new YesNoDialog(this, "Emblem Dimensions", "The image you have uploaded will be distorted to fit a square frame.  For best results, choose square images.", new Interface.YesNoHandler() {
                             @Override
                             public void onYesClicked() {
-                                Client.net.uploadBitmap(AdminMainActivity.this, b, v->
+                                Client.net.uploadEmblem(AdminMainActivity.this, b, ()->
                                         Client.net.getEmblem(findViewById(R.id.dashboard_img_emblem)));
                             }
 
@@ -69,7 +69,7 @@ public class AdminMainActivity extends AppCompatActivity {
                         ((TextView) warning.findViewById(R.id.generaldialog_button_yes)).setText("IGNORE");
                         ((TextView) warning.findViewById(R.id.generaldialog_button_no)).setText("CANCEL");
                     }
-                    else Client.net.uploadBitmap(AdminMainActivity.this, b, v->
+                    else Client.net.uploadEmblem(AdminMainActivity.this, b, ()->
                             Client.net.getEmblem(findViewById(R.id.dashboard_img_emblem)));
                 }
                 catch (IOException e) {

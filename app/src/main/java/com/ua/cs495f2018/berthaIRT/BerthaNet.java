@@ -11,6 +11,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -43,8 +44,8 @@ public class BerthaNet {
     public static boolean ENCRYPTION_ENABLED = true;
 
 
-    public static String ip = "http://54.236.113.200/app/";
-    //public static String ip = "http://10.0.0.185:6969/app/";
+    //public static String ip = "http://54.236.113.200/";
+    public static String ip = "http://10.0.0.185:6969/";
     //Utilities for converting objects to server-friendly JSONs
     JsonParser jp;
     private Gson gson;
@@ -95,7 +96,7 @@ public class BerthaNet {
             //wrap the response so it gets decoded
             callback = secureResponseWrapper(callback);
         }
-        addRequest(ctx, sess, path, body, callback);
+        addRequest(ctx, sess, "app/" + path, body, callback);
     }
 
     private void addRequest(Context ctx, final CognitoUserSession tokens, final String path, final String body, Interface.WithStringListener callback){
@@ -104,7 +105,7 @@ public class BerthaNet {
             if(error.getCause() instanceof ConnectException){
                 errorMessage = "Unable to establish a connection!";
             }
-            else errorMessage = error.getMessage();
+            else errorMessage = ((VolleyError) error).getLocalizedMessage();
             new OkDialog(ctx, "Network error", errorMessage, null).show();
         }) {
             @Override
@@ -181,7 +182,8 @@ public class BerthaNet {
                 Client.userGroupStatus = jay.get("groupStatus").getAsString();
                 Client.userGroupAdmins = gson.fromJson(jay.get("admins").getAsString(), List.class);
             }
-            callback.onEvent();
+            if (callback != null)
+                callback.onEvent();
         });
     }
 
@@ -256,19 +258,17 @@ public class BerthaNet {
                 }));
     }
 
-    public Bitmap uploadBitmap(Context ctx, Bitmap bitmap, ImageView display){
+    public void uploadBitmap(Context ctx, Bitmap bitmap, ImageView display){
         Bitmap b = Bitmap.createScaledBitmap(bitmap, 300, 300, false);
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         b.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         String hexImg = Util.asHex(bytes.toByteArray());
 
-        netSend(ctx, "group/uploademblem", hexImg, false, (r) ->{
+        netSend(ctx, "group/emblem", hexImg, true, (r) ->{
             Toast.makeText(ctx, "Emblem upload successful.", Toast.LENGTH_SHORT).show();
+            if(display != null) display.setImageBitmap(b);
         });
-
-        if(display != null) display.setImageBitmap(b);
-        return b;
     }
 
     public void getEmblem(String groupID, ImageView into){
@@ -286,5 +286,9 @@ public class BerthaNet {
         netSend(ctx, "forgotpassword", username, true, (r)->{
             new OkDialog(ctx, "Password Reset", "A new temporary password has been sent to " + username, null).show();
         });
+    }
+
+    public void updateInstitutionName(Context ctx, String name, Interface.WithVoidListener callback) {
+        netSend(ctx, "changename", name, false, (s)->callback.onEvent());
     }
 }

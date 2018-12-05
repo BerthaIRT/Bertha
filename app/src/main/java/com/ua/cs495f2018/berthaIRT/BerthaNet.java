@@ -105,7 +105,6 @@ public class BerthaNet {
             String errorMessage;
             if(error.getCause() instanceof ConnectException)
                 errorMessage = "Unable to establish a connection!";
-            }
             else errorMessage = ((VolleyError) error).getLocalizedMessage();
             new OkDialog(ctx, "Network error", errorMessage, ()->{
                 if(dialog != null)

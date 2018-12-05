@@ -58,6 +58,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         TextView tvTime = holder.tvInTime;
         TextView tvSub = holder.tvInSub;
         TextView tvBody = holder.tvInBody;
+
         Log.v("MessageAdapter", Client.userAttributes.get("username") + " vs " + message.getMessageSubject());
         if(message.getMessageSubject().equals(Client.userAttributes.get("username"))){
              tvTime = holder.tvOutTime;
@@ -71,22 +72,23 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         Message lastMessage = null;
         try{
             lastMessage = data.get(position-1);
-            if(!lastMessage.getMessageSubject().equals(message.getMessageSubject()) || message.getMessageTimestamp() - lastMessage.getMessageTimestamp() < 300000){
+/*            if(!lastMessage.getMessageSubject().equals(message.getMessageSubject()) || message.getMessageTimestamp() - lastMessage.getMessageTimestamp() > 300000){
                 tvSub.setVisibility(View.GONE);
                 tvTime.setVisibility(View.GONE);
-            }
+            }*/
         } catch(IndexOutOfBoundsException ignored){}
         if(lastMessage == null || isNewDay(message.getMessageTimestamp(), lastMessage.getMessageTimestamp())){
             ((TextView) holder.dateDiv.findViewById(R.id.message_alt_datediv)).setText(Util.formatDatestamp(message.getMessageTimestamp()));
             holder.dateDiv.setVisibility(View.VISIBLE);
         }
-        tvTime.setText(Util.formatJustTime(message.getMessageTimestamp()));
+
         tvSub.setText(message.getMessageSubject());
+        tvBody.setText(message.getMessageBody());
+        tvTime.setText(Util.formatJustTime(message.getMessageTimestamp()));
 
         //if the message is from a student and the message is coming in
-        if(message.getMessageSubject().startsWith("Student") && holder.inContainer.getVisibility() == View.VISIBLE)
+        if(message.getMessageSubject().startsWith("student"))
             tvSub.setText(R.string.hidden);
-        tvBody.setText(message.getMessageBody());
     }
 
     @Override

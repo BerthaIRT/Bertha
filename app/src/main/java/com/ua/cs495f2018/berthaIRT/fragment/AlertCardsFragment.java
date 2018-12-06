@@ -28,9 +28,9 @@ public class AlertCardsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater flater, ViewGroup tainer, Bundle savedInstanceState){
         View v = flater.inflate(R.layout.fragment_alertcards, tainer, false);
 
-        rv = v.findViewById(R.id.alertcards_rv);
-        adapter = new AlertCardAdapter(getContext());
         tvNoAlerts = v.findViewById(R.id.alertcards_alt_noalerts);
+        rv = v.findViewById(R.id.alertcards_rv);
+        adapter = new AlertCardAdapter(getContext(), tvNoAlerts);
         rv.setAdapter(adapter);
         return v;
     }
@@ -41,18 +41,9 @@ public class AlertCardsFragment extends Fragment {
         if(adapter == null)
             return;
         adapter.updateAlerts(Client.alertList);
-        if(adapter.getItemCount() == 0)
-            tvNoAlerts.setVisibility(View.VISIBLE);
-        else
-            tvNoAlerts.setVisibility(View.GONE);
-
         //yeah i know whatever
         FirebaseNet.setOnRefreshHandler((r)->{
             adapter.updateAlerts(Client.alertList);
-            if(adapter.getItemCount() == 0)
-                tvNoAlerts.setVisibility(View.VISIBLE);
-            else
-                tvNoAlerts.setVisibility(View.GONE);
         });
     }
 }

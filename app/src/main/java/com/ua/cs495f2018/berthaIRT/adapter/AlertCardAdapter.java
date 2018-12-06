@@ -29,10 +29,12 @@ public class AlertCardAdapter extends RecyclerView.Adapter<AlertCardAdapter.Aler
     private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
     private Context ctx;
     private List<Message> data;
+    private TextView tvNoAlerts;
 
-    public AlertCardAdapter(Context c){
+    public AlertCardAdapter(Context c, TextView tvNoAlerts){
         ctx = c;
         data = new ArrayList<>();
+        this.tvNoAlerts = tvNoAlerts;
     }
 
     public void updateAlerts(List<Message> c){
@@ -42,13 +44,24 @@ public class AlertCardAdapter extends RecyclerView.Adapter<AlertCardAdapter.Aler
         data.clear();
         data.addAll(c);
         notifyDataSetChanged();
+
+        if(getItemCount() == 0)
+            tvNoAlerts.setVisibility(View.VISIBLE);
+        else
+            tvNoAlerts.setVisibility(View.GONE);
     }
 
-    private void removeAlert(int position) {
+    private void removeAlert(Integer position) {
         //removes the alert for that admin
-        Client.net.dismissAlert(ctx, data.get(position).getMessageTimestamp(), ()->{
-            data.remove(position);
-            notifyItemRemoved(position);
+        Client.net.dismissAlert(ctx, position.toString(), (r)->{
+            Integer confirmedPosition = Integer.valueOf(r);
+            data.remove((int) confirmedPosition);
+            notifyItemRemoved(confirmedPosition);
+
+            if(getItemCount() == 0)
+                tvNoAlerts.setVisibility(View.VISIBLE);
+            else
+                tvNoAlerts.setVisibility(View.GONE);
         });
     }
 

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.exceptions.CognitoInternalErrorException;
 import com.google.gson.JsonObject;
 import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
 
@@ -75,15 +77,17 @@ public class Client extends AppCompatActivity {
         System.out.println(displayWidthDPI);
 
         JsonObject studentLogin = Util.readFromUserfile(Client.this);
-
-        //is running test handles if test cases are running
         if(studentLogin != null && !isRunningTest()){
-            performLogin(this , studentLogin.get("username").getAsString(), studentLogin.get("password").getAsString(), x->{
-                if(x.equals("SECURE")){
-                 startActivity(new Intent(this, StudentMainActivity.class));
-                finish();
-                }
-            });
+                performLogin(this, studentLogin.get("username").getAsString(), studentLogin.get("password").getAsString(), x -> {
+                    if (x.equals("SECURE")) {
+                        startActivity(new Intent(this, StudentMainActivity.class));
+                        finish();
+                    }
+                    else{
+                        startActivity(new Intent(this, NewUserActivity.class));
+                        finish();
+                    }
+                });
         }
         else{
             startActivity(new Intent(this, NewUserActivity.class));

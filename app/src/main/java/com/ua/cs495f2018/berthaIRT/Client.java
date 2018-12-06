@@ -14,9 +14,11 @@ import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.crypto.Cipher;
 
@@ -57,6 +59,8 @@ public class Client extends AppCompatActivity {
     public static int displayWidthDPI;
     public static int dpiDensity;
 
+    private static AtomicBoolean isRunningTest;
+
     @SuppressLint("UseSparseArrays")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +77,7 @@ public class Client extends AppCompatActivity {
         System.out.println(displayWidthDPI);
 
         JsonObject studentLogin = Util.readFromUserfile(Client.this);
-        if(studentLogin != null){
+        if(studentLogin != null && !isRunningTest()){
                 performLogin(this, studentLogin.get("username").getAsString(), studentLogin.get("password").getAsString(), x -> {
                     if (x.equals("SECURE")) {
                         startActivity(new Intent(this, StudentMainActivity.class));
@@ -151,4 +155,21 @@ public class Client extends AppCompatActivity {
             }
         });
    }
+
+   //Function to tell if class is being run by espresso test
+    public static synchronized boolean isRunningTest () {
+        if (null == isRunningTest) {
+            boolean istest;
+
+            try {
+                Class.forName ("android.support.test.espresso.Espresso");
+                istest = true;
+            } catch (ClassNotFoundException e) {
+                istest = false;
+            }
+
+            isRunningTest = new AtomicBoolean (istest);
+        }
+        return isRunningTest.get();
+    }
 }

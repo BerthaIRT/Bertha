@@ -55,14 +55,14 @@ public class EditReportTest {
 
     @Before
     public void setup() {
-        ViewInteraction cardView = onView(
-                allOf(withId(R.id.newuser_button_adminlogin),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction cardView = onView(withId(R.id.newuser_button_adminlogin)).check(matches(isDisplayed()));
         cardView.perform(click());
 
         onView(withId(R.id.adminlogin_input_email)).perform(clearText(), typeText("ssinischo@gmail.com"));

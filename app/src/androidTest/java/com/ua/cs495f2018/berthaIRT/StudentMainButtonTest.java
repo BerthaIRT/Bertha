@@ -72,14 +72,7 @@ public class StudentMainButtonTest {
 
     @Test
     public void createNewReportButton() {
-        ViewInteraction appCompatTextView = onView(
-                allOf(withId(R.id.student_main_button_createreport), withText("CREATE NEW REPORT"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.support.v7.widget.CardView")),
-                                        0),
-                                1),
-                        isDisplayed()));
+        ViewInteraction appCompatTextView = onView(withId(R.id.student_main_button_createreport)).check(matches(isDisplayed()));
         appCompatTextView.perform(click());
 
         onView(withId(R.id.createreport_button_submit)).check(matches(isDisplayed()));
@@ -87,14 +80,7 @@ public class StudentMainButtonTest {
 
     @Test
     public void submittedReportButton() {
-        ViewInteraction appCompatTextView = onView(
-                allOf(withId(R.id.student_main_viewhistory), withText("VIEW SUBMITTED REPORTS"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.support.v7.widget.CardView")),
-                                        0),
-                                3),
-                        isDisplayed()));
+        ViewInteraction appCompatTextView = onView(withId(R.id.student_main_viewhistory)).check(matches(isDisplayed()));
         appCompatTextView.perform(click());
 
         onView(withId(R.id.student_reports_rv)).check(matches(isDisplayed()));

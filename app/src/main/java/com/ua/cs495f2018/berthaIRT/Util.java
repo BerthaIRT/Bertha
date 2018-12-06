@@ -48,6 +48,13 @@ public class Util {
         return null;
     }
 
+    public static boolean deleteUserFile(Context ctx) {
+        File myFile = new File(ctx.getFilesDir(), "user.dat");
+        if(myFile.exists())
+            return myFile.delete();
+        return true;
+    }
+
     //Used by BerthaNet to serialize base-64 encoded keys
     static String asHex(byte buf[]) {
         StringBuilder strbuf = new StringBuilder(buf.length * 2);

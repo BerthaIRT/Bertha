@@ -52,12 +52,6 @@ public class RegisterTest {
 
         ViewInteraction appCompatTextView = onView(
                 allOf(withId(R.id.signuptype_button_newgroup), withText("I am registering my institution\nfor BeRThA IRT"),
-                        childAtPosition(
-                                allOf(withId(R.id.cardView13),
-                                        childAtPosition(
-                                                withClassName(is("android.support.constraint.ConstraintLayout")),
-                                                1)),
-                                0),
                         isDisplayed()));
         appCompatTextView.perform(click());
 

@@ -40,51 +40,18 @@ public class SubmitReportTest {
 
     @Test
     public void submitEmptyReport() {
-        ViewInteraction appCompatTextView2 = onView(
-                allOf(withId(R.id.createreport_button_submit), withText("Submit Report"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        4),
-                                0)));
+        ViewInteraction appCompatTextView2 = onView(withId(R.id.createreport_button_submit)).check(matches(isDisplayed()));
         appCompatTextView2.perform(scrollTo(), click());
 
         onView(withId(R.id.createreport_input_description)).check(matches(hasErrorText("You must provide a description.")));
     }
 
-
     @Test
     public void submitNonEmptyReport() {
-        onView(withId(R.id.createreport_input_description)).perform(clearText(), typeText("T"));
+        onView(withId(R.id.createreport_input_description)).perform(clearText(), typeText("Test"));
 
-        ViewInteraction appCompatTextView2 = onView(
-                allOf(withId(R.id.createreport_button_submit), withText("Submit Report"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        4),
-                                0)));
-        appCompatTextView2.perform(scrollTo(), click());
+        onView(withId(R.id.createreport_button_submit)).perform(scrollTo(), click());
 
         onView(withId(R.id.checkboxes_button_confirm)).check(matches(isDisplayed()));
-    }
-
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
     }
 }

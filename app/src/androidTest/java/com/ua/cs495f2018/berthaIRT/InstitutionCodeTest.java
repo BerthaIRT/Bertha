@@ -4,6 +4,7 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -17,9 +18,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.*;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.io.File;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
@@ -36,14 +40,7 @@ public class InstitutionCodeTest {
     public void wrongInstitutionCode() {
         onView(withId(R.id.newuser_input_accesscode)).perform(clearText());
 
-        ViewInteraction cardView = onView(
-                allOf(withId(R.id.newuser_button_join),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.cardView7),
-                                        0),
-                                2),
-                        isDisplayed()));
+        ViewInteraction cardView = onView(withId(R.id.newuser_button_join)).check(matches(isDisplayed()));
         cardView.perform(click());
 
         try {
@@ -58,7 +55,7 @@ public class InstitutionCodeTest {
     @Test
     //This test goes through the steps to enter a correct school code then makes sure no exist
     public void correctInstitutionCode() {
-        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("999999"));
+        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("620912"));
 
         ViewInteraction cardView = onView(
                 allOf(withId(R.id.newuser_button_join),
@@ -85,7 +82,7 @@ public class InstitutionCodeTest {
     @Test
     //This test goes through the steps to enter a correct school code then joins it and make sure the next activity was launched
     public void userJoinInstitution() {
-        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("999999"));
+        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("620912"));
 
         ViewInteraction cardView = onView(
                 allOf(withId(R.id.newuser_button_join),

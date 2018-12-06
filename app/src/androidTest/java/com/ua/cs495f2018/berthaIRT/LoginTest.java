@@ -66,7 +66,7 @@ public class LoginTest {
 
     @Test
     public void correctLogin() {
-        onView(withId(R.id.adminlogin_input_email)).perform(clearText(), typeText("ssinischo@gmail.com"));
+        onView(withId(R.id.adminlogin_input_email)).perform(clearText(), typeText("test@berthairt.org"));
         onView(withId(R.id.adminlogin_input_password)).perform(clearText(), typeText("111111"));
 
         ViewInteraction cardView2 = onView(

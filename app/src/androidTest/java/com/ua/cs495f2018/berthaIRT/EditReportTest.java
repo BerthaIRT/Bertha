@@ -65,7 +65,7 @@ public class EditReportTest {
         ViewInteraction cardView = onView(withId(R.id.newuser_button_adminlogin)).check(matches(isDisplayed()));
         cardView.perform(click());
 
-        onView(withId(R.id.adminlogin_input_email)).perform(clearText(), typeText("ssinischo@gmail.com"));
+        onView(withId(R.id.adminlogin_input_email)).perform(clearText(), typeText("test@berthairt.org"));
         onView(withId(R.id.adminlogin_input_password)).perform(clearText(), typeText("111111"));
 
         ViewInteraction cardView2 = onView(

@@ -39,7 +39,7 @@ public class StudentMainButtonTest {
 
     @Before
     public void init() {
-        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("999999"));
+        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("210263"));
 
         ViewInteraction cardView = onView(
                 allOf(withId(R.id.newuser_button_join),

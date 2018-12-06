@@ -38,13 +38,13 @@ public class InstitutionCodeTest {
     @Test
     //This test puts in a wrong school code and an error message is shown
     public void wrongInstitutionCode() {
-        onView(withId(R.id.newuser_input_accesscode)).perform(clearText());
+        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("000000"));
 
         ViewInteraction cardView = onView(withId(R.id.newuser_button_join)).check(matches(isDisplayed()));
         cardView.perform(click());
 
         try {
-            Thread.sleep(2000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -55,7 +55,7 @@ public class InstitutionCodeTest {
     @Test
     //This test goes through the steps to enter a correct school code then makes sure no exist
     public void correctInstitutionCode() {
-        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("999999"));
+        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("210263"));
 
         ViewInteraction cardView = onView(
                 allOf(withId(R.id.newuser_button_join),
@@ -82,7 +82,7 @@ public class InstitutionCodeTest {
     @Test
     //This test goes through the steps to enter a correct school code then joins it and make sure the next activity was launched
     public void userJoinInstitution() {
-        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("999999"));
+        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("210263"));
 
         ViewInteraction cardView = onView(
                 allOf(withId(R.id.newuser_button_join),

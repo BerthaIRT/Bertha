@@ -78,50 +78,25 @@ public class AdminReportCardsFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(etSearch.getText().toString().isEmpty())
-                    adapter.updateReports(filterData, ()-> updateView());
-                else
-                    adapter.updateReports(Client.reportMap.values(), ()->{});
+                String searchText = etSearch.getText().toString();
+                List<Report> reportList = new ArrayList<>(Client.reportMap.values());
+                List<Report> searchedList = new ArrayList<>();
+                while(reportList.size() > 0){
+                    Report r = reportList.remove(0);
+                    List<String> l = new ArrayList<>(r.getCategories());
+                    l.addAll(r.getTags());
+                    l.add(r.getReportID().toString());
+
+                    for(String str : l)
+                        if(str.contains(searchText)) {
+                            searchedList.add(r);
+                            break;
+                        }
+                }
+                //Update The Report Display with User Searched Reports.
+                adapter.updateReports(searchedList, ()->updateView());
             }
         });
-
-        //Begin Search when Icon is Clicked
-        ivSearch.setOnClickListener(v1 -> {
-            String searchText = etSearch.getText().toString();
-            List<Report> reportList = adapter.getData();
-            List<Report> searchedList = new ArrayList<>();
-            boolean check;
-            for(int i = 0; i < reportList.size(); i++){
-                //reset check
-                check = false;
-                //Search ReportIds
-                if(reportList.get(i).getReportID().toString().contains(searchText)) {
-                    searchedList.add(reportList.get(i));
-                    continue;
-                }
-                //Search Categories
-                for(int j = 0; j < reportList.get(i).getCategories().size(); j++){
-                    if((reportList.get(i).getCategories().get(j).toLowerCase()).contains(searchText.toLowerCase())) {
-                        searchedList.add(reportList.get(i));
-                        check = true;
-                        break;
-                    }
-                }
-                //Check if item was added to list from Categories
-                if(check)
-                    continue;
-                //Search Tags
-                for(int k = 0; k < reportList.get(i).getTags().size(); k++){
-                    if((reportList.get(i).getTags().get(k).toLowerCase()).contains(searchText.toLowerCase())) {
-                        searchedList.add(reportList.get(i));
-                        break;
-                    }
-                }
-            }
-            //Update The Report Display with User Searched Reports.
-            adapter.updateReports(searchedList, this::updateView);
-        });
-
         return v;
     }
 

@@ -75,6 +75,10 @@ public class LogActivity extends AppCompatActivity {
             holder.logText.setText(reportLog.getMessageBody());
             holder.logBy.setText(reportLog.getMessageSubject());
 
+            //set student to hidden
+            if(reportLog.getMessageSubject().startsWith("student"))
+                holder.logBy.setText(R.string.hidden);
+
             //if you click on the log
             holder.cardView.setOnClickListener(v -> {
                 //handle displaying the time and user

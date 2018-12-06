@@ -12,7 +12,7 @@
         android:allowBackup="true"
         android:icon="@drawable/bertha_appicon"
         android:label="Bertha IRT"
-        android:roundIcon="@drawable/bertha_appicon_round"
+        android:roundIcon="@drawable/bertha_appicon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan"

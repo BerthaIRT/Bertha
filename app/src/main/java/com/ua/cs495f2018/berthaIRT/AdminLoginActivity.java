@@ -28,11 +28,11 @@ public class AdminLoginActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.adminlogin_input_email);
         etPassword = findViewById(R.id.adminlogin_input_password);
 
-        String testingEmail = "jakemizzell@gmail.com";
+/*        String testingEmail = "jakemizzell@gmail.com";
         String testingPassword = "111111";
 
         etEmail.setText(testingEmail);
-        etPassword.setText(testingPassword);
+        etPassword.setText(testingPassword);*/
 
         //if you hit login
         findViewById(R.id.adminlogin_button_login).setOnClickListener(x -> actionLogin());

@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -26,10 +29,26 @@ public class NewUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newuser);
 
+        TextView bJoin = findViewById(R.id.newuser_alt_join);
+
         etAccessCode = findViewById(R.id.newuser_input_accesscode);
 
+        etAccessCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(etAccessCode.getText().length() > 5)
+                    bJoin.setEnabled(true);
+                else bJoin.setEnabled(false);
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+
         //if you hit join
-        findViewById(R.id.newuser_button_join).setOnClickListener(v -> actionConfirmJoin());
+        bJoin.setOnClickListener(v -> actionConfirmJoin());
 
         //if you hit admin login
         findViewById(R.id.newuser_button_adminlogin).setOnClickListener(v -> startActivity(new Intent(NewUserActivity.this, AdminLoginActivity.class)));

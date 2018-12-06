@@ -82,7 +82,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/newuser_input_accesscode">
 
                 <TextView
+                    android:id="@+id/newuser_alt_join"
                     style="@style/_DarkButton"
+                    android:enabled="false"
                     android:text="Join" />
 
             </android.support.v7.widget.CardView>

@@ -148,7 +148,7 @@
             app:layout_constraintTop_toBottomOf="@+id/cardView3">
 
             <android.support.v7.widget.CardView
-                android:id="@+id/dashboard_button_editemblem"
+                android:id="@+id/dashboard_button_editinstitutionname"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="4dp"
@@ -193,7 +193,7 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/dashboard_button_editinstitutionname"
+                android:id="@+id/dashboard_button_editemblem"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="4dp"
@@ -362,7 +362,7 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/dashboard_button_addremoveadmin"
+                android:id="@+id/dashboard_button_editmyname"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="4dp"
@@ -406,7 +406,7 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/dashboard_button_editmyname"
+                android:id="@+id/dashboard_button_addremoveadmin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="4dp"

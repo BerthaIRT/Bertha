@@ -399,7 +399,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="30dp"
                         android:layout_marginEnd="8dp"
                         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut arcu at arcu rutrum porttitor. Curabitur bibendum ut erat vel sagittis. Morbi pulvinar tincidunt tellus eget sollicitudin. Nam et quam a libero commodo tincidunt eget sit amet turpis. Vestibulum sed pellentesque velit."
                         app:layout_constraintEnd_toEndOf="parent"
@@ -423,7 +423,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="30dp"
                         android:layout_marginEnd="8dp"
                         android:text="United States"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -553,10 +553,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginLeft="8dp"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="16dp"
                         android:text="TAGS"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView34" />
+                        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView1" />
 
                     <HorizontalScrollView
                         android:id="@+id/screwjimmy"
@@ -596,10 +596,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginLeft="8dp"
-                        android:layout_marginTop="32dp"
+                        android:layout_marginTop="16dp"
                         android:text="Assignees"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView35" />
+                        app:layout_constraintTop_toBottomOf="@+id/screwjimmy" />
 
                     <TextView
                         android:id="@+id/admin_reportdetails_alt_assignedadmins"

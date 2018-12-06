@@ -38,16 +38,15 @@
 
             <ImageView
                 android:id="@+id/admin_search_icon_iv"
-                android:background="@drawable/my_background"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:clickable="true"
                 android:elevation="20dp"
-                android:alpha=".8"
                 android:focusable="true"
                 android:src="@drawable/ic_action_search"
+                android:tint="@color/PrimaryDark"
                 app:layout_constraintBottom_toBottomOf="@+id/admin_reports_input_searchbox"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/admin_reports_input_searchbox" />

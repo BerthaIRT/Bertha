@@ -79,6 +79,10 @@ public class AdminReportCardsFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String searchText = etSearch.getText().toString();
+                if(searchText.length() == 0){
+                    adapter.updateReports(Client.reportMap.values(), ()->{});
+                    return;
+                }
                 List<Report> reportList = new ArrayList<>(Client.reportMap.values());
                 List<Report> searchedList = new ArrayList<>();
                 while(reportList.size() > 0){

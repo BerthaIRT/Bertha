@@ -22,6 +22,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.ua.cs495f2018.berthaIRT.dialog.OkDialog;
 import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
@@ -304,6 +305,7 @@ public class BerthaNet {
     private void getEmblem(String groupID, ImageView into){
         Picasso.get().load(ip + "emblem/" + groupID + ".png")
                 .placeholder(R.drawable.emblem_default)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .into(into);
     }
 

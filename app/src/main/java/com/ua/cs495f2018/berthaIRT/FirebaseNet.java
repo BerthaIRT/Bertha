@@ -72,7 +72,7 @@ public class FirebaseNet extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
                 .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setSmallIcon(R.drawable.bertha_appicon_round)
+                .setSmallIcon(R.drawable.bertha_appicon)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)

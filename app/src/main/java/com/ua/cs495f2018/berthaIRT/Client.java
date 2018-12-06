@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.exceptions.CognitoInternalErrorException;
 import com.google.gson.JsonObject;
 import com.ua.cs495f2018.berthaIRT.dialog.WaitDialog;
 
@@ -72,12 +74,16 @@ public class Client extends AppCompatActivity {
 
         JsonObject studentLogin = Util.readFromUserfile(Client.this);
         if(studentLogin != null){
-            performLogin(this , studentLogin.get("username").getAsString(), studentLogin.get("password").getAsString(), x->{
-                if(x.equals("SECURE")){
-                 startActivity(new Intent(this, StudentMainActivity.class));
-                finish();
-                }
-            });
+                performLogin(this, studentLogin.get("username").getAsString(), studentLogin.get("password").getAsString(), x -> {
+                    if (x.equals("SECURE")) {
+                        startActivity(new Intent(this, StudentMainActivity.class));
+                        finish();
+                    }
+                    else{
+                        startActivity(new Intent(this, NewUserActivity.class));
+                        finish();
+                    }
+                });
         }
         else{
             startActivity(new Intent(this, NewUserActivity.class));

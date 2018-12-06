@@ -139,12 +139,13 @@ public class StudentCreateReportActivity extends AppCompatActivity {
             newReport.setCategories(r);
             newReport.setMediaCount(pictureList.size());
             Client.activeReport = newReport;
-            Client.net.syncActiveReport(StudentCreateReportActivity.this, ()->
-                    uploadImages(pictureList, ()->{
-                        startActivity(new Intent(this, StudentReportDetailsActivity.class));
-                        finish();
-                    })
-            );
+            Client.net.syncActiveReport(StudentCreateReportActivity.this, ()->{
+                    if(pictureList.size() > 0)
+                        uploadImages(pictureList, ()->{
+                            startActivity(new Intent(this, StudentReportDetailsActivity.class));
+                            finish(); }
+                            );
+            });
         }).show();
     }
 

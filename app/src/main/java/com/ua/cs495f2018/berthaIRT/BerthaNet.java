@@ -1,6 +1,7 @@
 package com.ua.cs495f2018.berthaIRT;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -111,6 +112,10 @@ public class BerthaNet {
             new OkDialog(ctx, "Network error", errorMessage, ()->{
                 if(dialog != null)
                     dialog.dismiss();
+                Client.cogNet.signOut();
+                Intent i = new Intent(ctx, NewUserActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                ctx.startActivity(i);
             }).show();
         }) {
             @Override
@@ -239,8 +244,8 @@ public class BerthaNet {
         netSend(ctx, "group/togglestatus", "", false, callback);
     }
 
-    public void dismissAlert(Context ctx, Long messageID, Interface.WithVoidListener callback) {
-        //netSend(ctx, "group/alert/dismiss", messageID.toString(), false, r->callback.onEvent());
+    public void dismissAlert(Context ctx, String messageID, Interface.WithStringListener callback) {
+        netSend(ctx, "group/alerts/dismiss", messageID, false, callback::onEvent);
     }
 
     void createGroup(Context ctx, String email, String institution, Interface.WithVoidListener callback) {

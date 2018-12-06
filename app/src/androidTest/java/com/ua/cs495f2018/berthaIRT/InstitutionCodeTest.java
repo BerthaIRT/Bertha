@@ -55,7 +55,7 @@ public class InstitutionCodeTest {
     @Test
     //This test goes through the steps to enter a correct school code then makes sure no exist
     public void correctInstitutionCode() {
-        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("620912"));
+        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("999999"));
 
         ViewInteraction cardView = onView(
                 allOf(withId(R.id.newuser_button_join),
@@ -82,7 +82,7 @@ public class InstitutionCodeTest {
     @Test
     //This test goes through the steps to enter a correct school code then joins it and make sure the next activity was launched
     public void userJoinInstitution() {
-        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("620912"));
+        onView(withId(R.id.newuser_input_accesscode)).perform(clearText(), typeText("999999"));
 
         ViewInteraction cardView = onView(
                 allOf(withId(R.id.newuser_button_join),

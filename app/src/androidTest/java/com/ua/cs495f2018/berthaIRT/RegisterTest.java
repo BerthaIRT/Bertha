@@ -50,9 +50,7 @@ public class RegisterTest {
                         isDisplayed()));
         cardView2.perform(click());
 
-        ViewInteraction appCompatTextView = onView(
-                allOf(withId(R.id.signuptype_button_newgroup), withText("I am registering my institution\nfor BeRThA IRT"),
-                        isDisplayed()));
+        ViewInteraction appCompatTextView = onView(withId(R.id.signuptype_button_newgroup));
         appCompatTextView.perform(click());
 
         //create random email

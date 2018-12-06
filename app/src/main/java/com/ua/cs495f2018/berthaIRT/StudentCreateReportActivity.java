@@ -145,6 +145,10 @@ public class StudentCreateReportActivity extends AppCompatActivity {
                             startActivity(new Intent(this, StudentReportDetailsActivity.class));
                             finish(); }
                             );
+                    else {
+                        startActivity(new Intent(this, StudentReportDetailsActivity.class));
+                        finish();
+                    }
             });
         }).show();
     }

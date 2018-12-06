@@ -43,14 +43,7 @@ public class LoginTest {
 
     @Before
     public void init() {
-        ViewInteraction cardView = onView(
-                allOf(withId(R.id.newuser_button_adminlogin),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
+        ViewInteraction cardView = onView(withId(R.id.newuser_button_adminlogin)).check(matches(isDisplayed()));
         cardView.perform(click());
     }
     @Test

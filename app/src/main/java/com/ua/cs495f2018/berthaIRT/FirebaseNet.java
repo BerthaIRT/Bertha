@@ -23,6 +23,7 @@ import java.util.Objects;
 
 import static android.support.v4.app.NotificationCompat.DEFAULT_SOUND;
 import static android.support.v4.app.NotificationCompat.DEFAULT_VIBRATE;
+import static android.support.v4.app.NotificationCompat.GROUP_ALERT_ALL;
 
 
 public class FirebaseNet extends FirebaseMessagingService {
@@ -76,6 +77,7 @@ public class FirebaseNet extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)
+                .setGroupSummary(false)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 

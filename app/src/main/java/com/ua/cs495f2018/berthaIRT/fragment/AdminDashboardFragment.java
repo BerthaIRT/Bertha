@@ -48,7 +48,7 @@ public class AdminDashboardFragment extends Fragment {
 
         //sets the text for registration
         if(Client.userGroupStatus.equals("Closed")) {
-            ((TextView) view.findViewById(R.id.dashboard_alt_registration)).setText(R.string.open_registration);
+            ((TextView) view.findViewById(R.id.dashboard_alt_registration)).setText("OPEN REGISTRATION");
             ((ImageView) view.findViewById(R.id.dashboard_img_registration)).setImageResource(R.drawable.ic_lock_open_black_24dp);
         }
 
@@ -87,6 +87,7 @@ public class AdminDashboardFragment extends Fragment {
             Client.net.updateInstitutionName(getContext(), x, ()->{
                         Toast.makeText(getContext(), "Update successful.", Toast.LENGTH_SHORT).show();
                         tvInstitution.setText(x);
+                        Client.userGroupName = tvInstitution.getText().toString();
             }));
         d.show();
         ((TextView) Objects.requireNonNull(d.findViewById(R.id.inputdialog_input))).setText(Client.userGroupName);
@@ -106,6 +107,7 @@ public class AdminDashboardFragment extends Fragment {
             Client.cogNet.updateCognitoAttribute("name", x, ()-> {
                         Toast.makeText(getContext(), "Update successful.", Toast.LENGTH_SHORT).show();
                         tvName.setText(x);
+                        Client.userAttributes.put("name", tvName.getText().toString());
                     }));
         d.show();
         ((TextView) Objects.requireNonNull(d.findViewById(R.id.inputdialog_input))).setText(Client.userAttributes.get("name"));
@@ -115,11 +117,11 @@ public class AdminDashboardFragment extends Fragment {
         Client.net.toggleRegistration(getContext(), (r)->{
             Toast.makeText(getContext(), "Registration set to " + r, Toast.LENGTH_SHORT).show();
             if(r.equals("Closed")){
-                ((TextView) view.findViewById(R.id.dashboard_alt_registration)).setText(R.string.open_registration);
+                ((TextView) view.findViewById(R.id.dashboard_alt_registration)).setText("OPEN REGISTRATION");
                     ((ImageView) view.findViewById(R.id.dashboard_img_registration)).setImageResource(R.drawable.ic_lock_open_black_24dp);
             }
             else{
-                ((TextView) view.findViewById(R.id.dashboard_alt_registration)).setText(R.string.close_registration);
+                ((TextView) view.findViewById(R.id.dashboard_alt_registration)).setText("CLOSE REGISTRATION");
                 ((ImageView) view.findViewById(R.id.dashboard_img_registration)).setImageResource(R.drawable.ic_lock_outline_black_24dp);
             }
             Client.userGroupStatus = r;

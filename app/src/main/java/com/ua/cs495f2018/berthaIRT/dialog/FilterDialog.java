@@ -34,6 +34,7 @@ public class FilterDialog extends AlertDialog{
     private List<String> filterStatus;
     private List<String> filterCategories;
     private List<String> filterTags;
+    private int originalTagNo;
     private List<String> filterAssignedTo;
 
     private List<Report> unfilteredList;
@@ -50,7 +51,14 @@ public class FilterDialog extends AlertDialog{
         filterEndTime = Long.MAX_VALUE;
         filterStatus = new ArrayList<>();
         filterCategories = new ArrayList<>();
+
         filterTags = new ArrayList<>();
+        for(Report r : Client.reportMap.values()){
+            for(String s : r.getTags())
+                if(!filterTags.contains(s))
+                    filterTags.add(s);
+        }
+        originalTagNo = filterTags.size();
         filterAssignedTo = new ArrayList<>();
         filterStatus.add("New");
         filterStatus.add("Open");
@@ -108,8 +116,8 @@ public class FilterDialog extends AlertDialog{
             ((TextView) v.findViewById(R.id.adapter_alt_category)).setText(R.string.all_categories);
             llCategories.addView(v);
         }
-        if(filterTags.size() > 0){
-            for(String cat : filterCategories){
+        if(filterTags.size() != originalTagNo){
+            for(String cat : filterTags){
                 View v = getLayoutInflater().inflate(R.layout.adapter_tag, null, false);
                 ((TextView) v.findViewById(R.id.adapter_alt_tag)).setText(cat);
                 llTags.addView(v);
@@ -179,8 +187,17 @@ public class FilterDialog extends AlertDialog{
                     Arrays.asList(v.getResources().getStringArray(R.array.category_item)), this::updateCategories).show();
         });
 
-        Objects.requireNonNull(ivEditTags).setOnClickListener(v ->
-                new AddRemoveDialog(v.getContext(),filterTags, null, null, this::updateTags).show());
+        Objects.requireNonNull(ivEditTags).setOnClickListener(v ->{
+            filterTags = new ArrayList<>();
+            for(Report r : Client.reportMap.values()){
+                for(String s : r.getTags())
+                    if(!filterTags.contains(s))
+                        filterTags.add(s);
+            }
+            new CheckboxDialog(v.getContext(), null, filterTags, (s)->{
+                filterTags = new ArrayList<>(s);
+            }).show();
+        });
 
         Objects.requireNonNull(ivEditAssignedTo).setOnClickListener(v ->
                     new CheckboxDialog(v.getContext(), Util.getPreChecked(Client.userGroupAdmins, filterAssignedTo),

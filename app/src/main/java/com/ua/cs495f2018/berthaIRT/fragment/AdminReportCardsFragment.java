@@ -80,6 +80,8 @@ public class AdminReportCardsFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(etSearch.getText().toString().isEmpty())
                     adapter.updateReports(filterData, ()-> updateView());
+                else
+                    adapter.updateReports(Client.reportMap.values(), ()->{});
             }
         });
 
